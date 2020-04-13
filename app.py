@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for
+from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from flask_bootstrap import Bootstrap
@@ -23,12 +23,19 @@ def registration():
     if request.method == 'POST' and form.validate_on_submit():
         users = mongo.db.users
         profile = request.form.to_dict()
-        profile["confirm"] = sha256_crypt.hash(profile["confirm"])
-        profile["password"] = sha256_crypt.hash(profile["password"])
-        users.insert_one(profile)
-        return "All done! You're registered"
+        if users.count_documents({"email_address": profile["email_address"]}) > 0:
+            flash("An account has already been registered for this email address")
+            return redirect(url_for('registration'))
+        else:
+            profile["confirm"] = sha256_crypt.hash(profile["confirm"])
+            profile["password"] = sha256_crypt.hash(profile["password"])
+            users.insert_one(profile)
+            return "All done! You're registered"
 
     return render_template('registration.html', form=form)
+
+users = mongo.db.users.count_documents({"email_address": "amalinowska.p@gmail.com"})
+print(users)
 
 
 

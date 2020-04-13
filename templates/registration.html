@@ -4,6 +4,14 @@
 <div class="container">
   <h3>Create your account</h3>
   <hr>
+  {% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  {% endwith %}
   <form action="" method="post" class="form" role="form">
     {{ form.csrf_token() }}
 
