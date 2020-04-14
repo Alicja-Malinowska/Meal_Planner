@@ -10,7 +10,24 @@
 <title>Title</title>
 </head>
 <body>
+<a href="{{ url_for('registration') }}">Register</a>
+<a href="{{ url_for('login') }}">Login</a>
+<a href="{{ url_for('logout') }}">Logout</a>
+<a href="{{ url_for('planner') }}">Planner</a>
 
+<h1>{{current_user.is_authenticated}}</h1>
+{% if current_user.is_authenticated %}
+  Hi {{ current_user.first_name}}!
+{% endif %}
+
+{% with messages = get_flashed_messages() %}
+  {% if messages %}
+    {% for message in messages %}
+    <p>{{ message }}</p>
+    {% endfor %}
+  {% endif %}
+
+  {% endwith %}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
