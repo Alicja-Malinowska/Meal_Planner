@@ -6,6 +6,7 @@ from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from forms import RegistrationForm, LoginForm
 from passlib.hash import sha256_crypt
+from models import User
 
 app = Flask(__name__)
 # REMEMBER TO REMOVE BEFORE DEPLOYMENT
@@ -18,36 +19,6 @@ mongo = PyMongo(app)
 Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
-
-
-class User(UserMixin):
-    def __init__(self, email, id, first_name):
-        self.email = email
-        self.id = id
-        self.first_name = first_name
-
-    def get_id(self):
-        return self.email
-
-    @staticmethod
-    def validate_login(password, hash):
-        return sha256_crypt.verify(password, hash)
-
-
-
-'''@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm(request.form)
-    if request.method == 'POST' and form.validate_on_submit():
-        user = mongo.db.users.find_one(
-            {"email_address": form.email_address.data})
-        if user and User.validate_login(form.password.data, user['password']):
-            user_obj = User(user['email_address'],user['_id'], user['first_name'])
-            login_user(user_obj)
-            print(user_obj)
-            return redirect(url_for('index'))
-        flash("Wrong username or password!", category='error')
-    return render_template('login.html', title='login', form=form)'''
 
 
 @app.route('/login', methods=['GET', 'POST'])
