@@ -1,1 +1,20 @@
 <h1>I am planner</h1>
+{% for day in current_week %}
+<p>{{ day }}</p>
+{% endfor %}
+
+{% for name in days_names %}
+<p>{{ name }}</p>
+{% endfor %}
+
+
+
+<form action="{{url_for('next')}}" method="post">
+    <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
+    <button type="submit">Next</button>
+</form>
+
+<form action="{{url_for('previous')}}" method="post">
+    <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
+    <button type="submit">Previous</button>
+</form>
