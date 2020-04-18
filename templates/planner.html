@@ -1,10 +1,17 @@
-
+{% extends 'index.html' %}
+{% block content %}
 <form action="{{url_for('next')}}" method="post">
     <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
     <button type="submit">Next</button>
 </form>
 
 <a href="{{url_for('planner')}}">Current week</a>
+
+<form action="{{url_for('jump_to')}}" method='get' id='date_form'>
+    <i class="material-icons prefix">today</i>
+    <input id="jump_to" name="jump_to" type="text" class="datepicker">
+    <label for="icon_prefix">Jump to (date) </label>
+</form>
 
 <form action="{{url_for('previous')}}" method="post">
     <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
@@ -50,5 +57,5 @@
         {% endfor %}
     </tr>
 </table>
-
+{% endblock %}
 
