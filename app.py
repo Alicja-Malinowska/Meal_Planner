@@ -46,16 +46,17 @@ WEEK_DAYS = {
 DATE_INST = datetime.date(datetime.MINYEAR, 1, 1)
 TODAY = DATE_INST.today()
 def get_week(start_date):
-    the_week = [start_date]
+    the_week = [(start_date, WEEK_DAYS[str(start_date.weekday())])]
     for i in range(1,7):
-        the_week.append(start_date + datetime.timedelta(days=i))
+        next_day = start_date + datetime.timedelta(days=i)
+        the_week.append((next_day, WEEK_DAYS[str(next_day.weekday())]))
     return the_week
 
-def get_day_names(week):
+'''def get_day_names(week):
     day_names = []
     for day in week:
         day_names.append(WEEK_DAYS[str(day.weekday())])
-    return day_names
+    return day_names'''
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -108,8 +109,7 @@ def registration():
 @login_required
 def planner():
     current_week = get_week(TODAY)
-    days_names = get_day_names(current_week)
-    return render_template('planner.html', current_week=current_week, days_names=days_names, first_week_day=TODAY)
+    return render_template('planner.html', current_week=current_week, first_week_day=TODAY)
 
 '''@app.route('/planner/change-week', methods=['GET', 'POST'])
 def change_week():
@@ -150,9 +150,8 @@ def next():
     date_list = first_week_day.split('-')
     date_obj = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
     current_week = get_week(date_obj + datetime.timedelta(weeks=1))
-    first_week_day = str(current_week[0])
-    days_names = get_day_names(current_week)
-    return render_template('planner.html', current_week=current_week, days_names=days_names, first_week_day=first_week_day)
+    first_week_day = str(current_week[0][0])
+    return render_template('planner.html', current_week=current_week, first_week_day=first_week_day)
 
 @app.route('/planner/previous', methods=['GET', 'POST'])
 def previous():
@@ -160,9 +159,8 @@ def previous():
     date_list = first_week_day.split('-')
     date_obj = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
     current_week = get_week(date_obj - datetime.timedelta(weeks=1))
-    first_week_day = str(current_week[0])
-    days_names = get_day_names(current_week)
-    return render_template('planner.html', current_week=current_week, days_names=days_names, first_week_day=first_week_day)
+    first_week_day = str(current_week[0][0])
+    return render_template('planner.html', current_week=current_week, first_week_day=first_week_day)
 
 
 login_manager.login_view = 'login'

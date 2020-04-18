@@ -1,12 +1,45 @@
 <h1>I am planner</h1>
-{% for day in current_week %}
-<p>{{ day }}</p>
-{% endfor %}
 
-{% for name in days_names %}
-<p>{{ name }}</p>
-{% endfor %}
 
+<table style="width:100%">
+    <tr>
+        <th></th>
+        {% for day in current_week %}
+        <th>
+            {% if day[0].day < 10 and day[0].month < 10%}
+            <p>{{ "0" ~ day[0].day ~ "/" ~ "0" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+            {% elif day[0].month < 10 %}
+            <p>{{ day[0].day ~ "/" ~ "0" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+            {% elif day[0].day < 10 %}
+            <p>{{ "0" ~ day[0].day ~ "/" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+            {% else %}
+            <p>{{ day[0].day ~ "/" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+            {% endif %}
+            <p>{{ day[1] }}</p>
+        </th>
+
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Morning</th>
+        {% for day in current_week %}
+        <td></td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>Afternoon</th>
+        {% for day in current_week %}
+        <td></td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>Evening</th>
+        {% for day in current_week %}
+        <td></td>
+        {% endfor %}
+    </tr>
+</table>
 
 
 <form action="{{url_for('next')}}" method="post">
