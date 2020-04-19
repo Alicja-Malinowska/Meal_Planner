@@ -1,1 +1,61 @@
-<h1>I am planner</h1>
+{% extends 'index.html' %}
+{% block content %}
+<form action="{{url_for('next')}}" method="post">
+    <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
+    <button type="submit">Next</button>
+</form>
+
+<a href="{{url_for('planner')}}">Current week</a>
+
+<form action="{{url_for('jump_to')}}" method='get' id='date_form'>
+    <i class="material-icons prefix">today</i>
+    <input id="jump_to" name="jump_to" type="text" class="datepicker">
+    <label for="icon_prefix">Jump to (date) </label>
+</form>
+
+<form action="{{url_for('previous')}}" method="post">
+    <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
+    <button type="submit">Previous</button>
+</form>
+
+<table style="width:100%;height:80%">
+    <tr>
+        <th></th>
+        {% for day in current_week %}
+        <th>
+            {% if day[0].day < 10 and day[0].month < 10%}
+            <p>{{ "0" ~ day[0].day ~ "/" ~ "0" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+            {% elif day[0].month < 10 %}
+            <p>{{ day[0].day ~ "/" ~ "0" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+            {% elif day[0].day < 10 %}
+            <p>{{ "0" ~ day[0].day ~ "/" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+            {% else %}
+            <p>{{ day[0].day ~ "/" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+            {% endif %}
+            <p>{{ day[1] }}</p>
+        </th>
+
+        {% endfor %}
+    </tr>
+
+    <tr>
+        <th>Morning</th>
+        {% for day in current_week %}
+        <td></td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>Afternoon</th>
+        {% for day in current_week %}
+        <td></td>
+        {% endfor %}
+    </tr>
+    <tr>
+        <th>Evening</th>
+        {% for day in current_week %}
+        <td></td>
+        {% endfor %}
+    </tr>
+</table>
+{% endblock %}
+
