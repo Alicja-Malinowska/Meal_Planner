@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo
 from bson.objectid import ObjectId
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from forms import RegistrationForm, LoginForm
+from forms import RegistrationForm, LoginForm, AddRecipe
 from passlib.hash import sha256_crypt
 from models import User
 import datetime
@@ -111,38 +111,6 @@ def planner():
     current_week = get_week(TODAY)
     return render_template('planner.html', current_week=current_week, first_week_day=TODAY)
 
-'''@app.route('/planner/change-week', methods=['GET', 'POST'])
-def change_week():
-    next_counter = 0 if not request.form.get('counter_next') else int(request.form.get('counter_next'))
-    prev_counter = 0 if not request.form.get('counter_prev') else int(request.form.get('counter_prev'))
-    print(next_counter)
-    print(prev_counter)
-    direction = request.form.get('direction')
-    count_forward = next_counter
-    count_backwards = prev_counter
-    if direction == 'next':
-        count_forward = next_counter + 1 - prev_counter
-    if direction == 'previous':
-        count_backwards = prev_counter + 1 - next_counter
-    time_interval = datetime.timedelta(weeks=count_forward) if direction == 'next' else datetime.timedelta(weeks=count_backwards)
-    current_week = get_week(TODAY + time_interval) if direction == 'next' else get_week(TODAY - time_interval)
-    days_names = get_day_names(current_week)
-    return render_template('planner.html', current_week=current_week, days_names=days_names, count_forward = count_forward, count_backwards = count_backwards)'''
-    
-'''@app.route('/planner/previous', methods=['GET', 'POST'])
-def previous():
-    prev_counter = 0 if not request.form.get('counter_prev')  else int(request.form.get('counter_prev'))
-    count_forward = 1 if request.form.get('counter_next') == '' else int(request.form.get('counter_next')) + 1 - prev_counter
-    time_interval = datetime.timedelta(weeks=count_forward)
-    current_week = get_week(TODAY + time_interval)
-    days_names = get_day_names(current_week)
-    return render_template('planner.html', current_week=current_week, days_names=days_names, count_forward = count_forward)
-    next_counter = 0 if not request.form.get('counter_next') else int(request.form.get('counter_next'))
-    count_backwards = 1 if request.form.get('counter_prev') == '' else int(request.form.get('counter_prev')) + 1 + next_counter
-    time_interval = datetime.timedelta(weeks=count_backwards)
-    current_week = get_week(TODAY - time_interval)
-    days_names = get_day_names(current_week)
-    return render_template('planner.html', current_week=current_week, days_names=days_names, count_backwards = count_backwards)'''
 
 @app.route('/planner/next', methods=['GET', 'POST'])
 def next():
@@ -171,6 +139,16 @@ def jump_to():
     current_week = get_week(first_week_date)
     return render_template('planner.html', current_week=current_week, first_week_day=first_week_date)
 
+@app.route('/recipes/add', methods=['POST', 'GET'])
+def add_recipe():
+    form = AddRecipe()
+    if request.method == 'POST' and form.validate_on_submit():
+        recipes = mongo.db.recipes
+        new_recipe = request.form.to_dict()
+        new_recipe['owner'] = current_user.email
+        recipes.insert_one(new_recipe)
+        return 'Recipe added'
+    return render_template('add-recipe.html', form=form)
 
 login_manager.login_view = 'login'
 
