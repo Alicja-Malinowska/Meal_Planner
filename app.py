@@ -139,6 +139,11 @@ def jump_to():
     current_week = get_week(first_week_date)
     return render_template('planner.html', current_week=current_week, first_week_day=first_week_date)
 
+@app.route('/recipes')
+def recipes():
+    return render_template('recipes.html',
+                           recipes=mongo.db.recipes.find({'owner': current_user.email}))
+
 @app.route('/recipes/add', methods=['POST', 'GET'])
 def add_recipe():
     form = AddRecipe()
@@ -146,9 +151,17 @@ def add_recipe():
         recipes = mongo.db.recipes
         new_recipe = request.form.to_dict()
         new_recipe['owner'] = current_user.email
+        new_recipe['ingredients'] = new_recipe['ingredients'].splitlines()
+        new_recipe['instructions'] = new_recipe['instructions'].splitlines()
         recipes.insert_one(new_recipe)
         return 'Recipe added'
     return render_template('add-recipe.html', form=form)
+
+@app.route('/show_recipe/<recipe_id>')
+def show_recipe(recipe_id):
+    return render_template('selected-recipe.html',
+                           recipe=mongo.db.recipes.find({'_id': ObjectId(recipe_id)}))
+   
 
 login_manager.login_view = 'login'
 
