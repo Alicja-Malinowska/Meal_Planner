@@ -18,3 +18,11 @@ $( function() {
        $('#date_form').submit();
     });
  });
+
+
+// gets the recipe id to the modal
+$('.modal').modal({
+  ready: function(modal, trigger) {
+      modal.find('input[name="recipe_id"]').val(trigger.data('id'))
+  }
+});

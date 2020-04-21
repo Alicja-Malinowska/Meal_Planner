@@ -140,6 +140,7 @@ def jump_to():
     return render_template('planner.html', current_week=current_week, first_week_day=first_week_date)
 
 @app.route('/recipes')
+@login_required
 def recipes():
     return render_template('recipes.html',
                            recipes=mongo.db.recipes.find({'owner': current_user.email}))
@@ -190,6 +191,11 @@ def save_edits(recipe_id):
     })
 
     return redirect(url_for('recipes'))
+
+@app.route('/schedule', methods=['POST'])
+def schedule():
+    recipe_id = request.form.get('recipe_id')
+    return recipe_id
 
 login_manager.login_view = 'login'
 
