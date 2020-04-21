@@ -154,7 +154,8 @@ def add_recipe():
         new_recipe['ingredients'] = new_recipe['ingredients'].splitlines()
         new_recipe['instructions'] = new_recipe['instructions'].splitlines()
         recipes.insert_one(new_recipe)
-        return 'Recipe added'
+        flash('Recipe added!')
+        return redirect(url_for('recipes'))
     return render_template('add-recipe.html', form=form)
 
 @app.route('/show_recipe/<recipe_id>')
@@ -162,6 +163,10 @@ def show_recipe(recipe_id):
     return render_template('selected-recipe.html',
                            recipe=mongo.db.recipes.find({'_id': ObjectId(recipe_id)}))
    
+@app.route('/recipes/delete/<recipe_id>')
+def delete_recipe(recipe_id):
+    mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
+    return redirect(url_for('recipes'))
 
 login_manager.login_view = 'login'
 

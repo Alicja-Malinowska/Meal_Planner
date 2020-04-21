@@ -1,13 +1,25 @@
 {% extends 'index.html' %}
 {% block content %}
 
-<ul>
-{% for recipe in recipes %}
+<a href="{{ url_for('add_recipe')}}">Add new recipe</a>
 
-<li><a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">{{ recipe.name }}</a></li>
-<p>{{ recipe._id }}</p>
-
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for message in messages %}
+<p>{{ message }}</p>
 {% endfor %}
+{% endif %}
+
+{% endwith %}
+
+<ul>
+    {% for recipe in recipes %}
+
+    <li><a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">{{ recipe.name }}</a>
+        <a href="{{url_for('delete_recipe', recipe_id=recipe._id)}}">Delete</a></li>
+
+
+    {% endfor %}
 
 </ul>
 {% endblock %}
