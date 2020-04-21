@@ -133,7 +133,6 @@ def previous():
 @app.route('/planner/jump_to')
 def jump_to():
     selected_date = request.args.get('jump_to')
-    print(selected_date)
     date_list = selected_date.split('-')
     first_week_date = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
     current_week = get_week(first_week_date)
@@ -194,8 +193,12 @@ def save_edits(recipe_id):
 
 @app.route('/schedule', methods=['POST'])
 def schedule():
+    recipes = mongo.db.recipes
     recipe_id = request.form.get('recipe_id')
-    return recipe_id
+    date = request.form.get('schedule_date')
+    daytime = request.form.get('daytime')
+    recipes.update( {'_id': ObjectId(recipe_id)}, {"$set": {"dates": [(date, daytime)]}})
+    return redirect(url_for('recipes'))
 
 login_manager.login_view = 'login'
 
