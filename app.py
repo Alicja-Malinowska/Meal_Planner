@@ -168,6 +168,29 @@ def delete_recipe(recipe_id):
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('recipes'))
 
+
+@app.route('/recipes/edit/<recipe_id>')
+def edit_recipe(recipe_id):
+    form = AddRecipe()
+    the_recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
+    return render_template('edit-recipe.html', the_recipe = the_recipe, form = form)
+
+@app.route('/recipes/save_edits/<recipe_id>', methods=['POST'])
+def save_edits(recipe_id):
+    recipes = mongo.db.recipes
+    recipes.update( {'_id': ObjectId(recipe_id)},
+    {
+        'name':request.form.get('name'),
+        'ingredients':request.form.get('ingredients'),
+        'servings': request.form.get('servings'),
+        'instructions': request.form.get('instructions'),
+        'tags':request.form.get('tags'),
+        'image':request.form.get('image'),
+        'owner': current_user.email
+    })
+
+    return redirect(url_for('recipes'))
+
 login_manager.login_view = 'login'
 
 
