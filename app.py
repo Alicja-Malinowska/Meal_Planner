@@ -52,11 +52,23 @@ def get_week(start_date):
         the_week.append((next_day, WEEK_DAYS[str(next_day.weekday())]))
     return the_week
 
-'''def get_day_names(week):
-    day_names = []
-    for day in week:
-        day_names.append(WEEK_DAYS[str(day.weekday())])
-    return day_names'''
+#   FIGURE OUT HOW TO DEAL WITH SEARCHING IN THE ARRAY OF TUPLES, PERHAPS LOOK FOR A TUPLE (MORNING, AFTERNOON EVENING)
+def get_week_recipes(current_week):
+    recipes = mongo.db.recipes
+    week_dates = []
+    for day_tuple in current_week:
+        day = day_tuple[0]
+        str_day = day.strftime("%Y-%m-%d")
+        week_dates.append(str_day)
+    #scheduled_recipes = recipes.find( { 'dates': { '$in': [week_dates] }, 'owner': current_user.email} )
+    morning_recipes = []
+    afternoon_recipes = []
+    evening_recipes = []
+    for day in week_dates:
+       morning_recipes.append((recipes.find( { 'dates':  [day, 'Morning'], 'owner': current_user.email} ), day))
+       afternoon_recipes.append((recipes.find( { 'dates':  [day, 'Afternoon'], 'owner': current_user.email} ), day))
+       evening_recipes.append((recipes.find( { 'dates':  [day, 'Evening'], 'owner': current_user.email} ), day))
+    return [morning_recipes, afternoon_recipes, evening_recipes]
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -103,13 +115,13 @@ def registration():
     return render_template('registration.html', form=form)
 
 
-    
 
 @app.route('/planner')
 @login_required
 def planner():
     current_week = get_week(TODAY)
-    return render_template('planner.html', current_week=current_week, first_week_day=TODAY)
+    week_recipes = get_week_recipes(current_week)
+    return render_template('planner.html', current_week=current_week, first_week_day=TODAY, morning_recipes=week_recipes[0], afternoon_recipes=week_recipes[1], evening_recipes=week_recipes[2])
 
 
 @app.route('/planner/next', methods=['GET', 'POST'])
@@ -191,13 +203,14 @@ def save_edits(recipe_id):
 
     return redirect(url_for('recipes'))
 
+
 @app.route('/schedule', methods=['POST'])
 def schedule():
     recipes = mongo.db.recipes
     recipe_id = request.form.get('recipe_id')
     date = request.form.get('schedule_date')
     daytime = request.form.get('daytime')
-    recipes.update( {'_id': ObjectId(recipe_id)}, {"$set": {"dates": [(date, daytime)]}})
+    recipes.update( {'_id': ObjectId(recipe_id)}, {"$addToSet": {"dates": (date, daytime)}})
     return redirect(url_for('recipes'))
 
 login_manager.login_view = 'login'
