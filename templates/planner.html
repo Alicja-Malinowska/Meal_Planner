@@ -42,14 +42,10 @@
         <th>Morning</th>
         {% for day in current_week %}
         <td>
-            {% for cursor_date in morning_recipes %}
-                {% for recipe in cursor_date[0] %}
-                {% if cursor_date[1] ==  day[0]|string %}
-            <p>{{recipe.name}}</p>
-            {% endif %}
-            
-                {% endfor %}
-                {%set repeat = cursor_date[0].rewind() %}
+            {% for recipe in week_recipes %}
+                {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Morning" %}
+                    <p>{{ recipe["name"] }}</p>
+                {% endif %}
             {% endfor %}
         </td>
         {% endfor %}
@@ -57,34 +53,30 @@
     <tr>
         <th>Afternoon</th>
         {% for day in current_week %}
-        <td> {% for cursor_date in afternoon_recipes %}
-            {% for recipe in cursor_date[0] %}
-            {% if cursor_date[1] ==  day[0]|string %}
-        <p>{{recipe.name}}</p>
-        {% endif %}
-        
+        <td>
+            {% for recipe in week_recipes %}
+                {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Afternoon" %}
+                    <p>{{ recipe["name"] }}</p>
+                {% endif %}
             {% endfor %}
-            {%set repeat = cursor_date[0].rewind() %}
-        {% endfor %}</td>
+        </td>
         {% endfor %}
     </tr>
     <tr>
         <th>Evening</th>
         {% for day in current_week %}
-        <td> {% for cursor_date in evening_recipes %}
-            {% for recipe in cursor_date[0] %}
-            {% if cursor_date[1] ==  day[0]|string %}
-        <p>{{recipe.name}}</p>
-        {% endif %}
-        
+        <td>
+            {% for recipe in week_recipes %}
+                {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Evening" %}
+                    <p>{{ recipe["name"] }}</p>
+                {% endif %}
             {% endfor %}
-            {%set repeat = cursor_date[0].rewind() %}
-        {% endfor %}</td>
+        </td>
         {% endfor %}
     </tr>
 </table>
 
-
+{#
 {% for cursor in morning_recipes %}
 {% for recipe in cursor[0] %}
 <p>{{recipe.dates[]}}</p>
@@ -108,5 +100,9 @@
 <p>{{cursor[1]}}</p>
 {% endfor %}
 {% endfor %}
+#}
 
+{% for recipe in week_recipes %}
+<p>{{recipe}}</p>
+{% endfor %}
 {% endblock %}
