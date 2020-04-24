@@ -60,7 +60,6 @@ def get_week_recipes(current_week):
         day = day_tuple[0]
         str_day = day.strftime("%Y-%m-%d")
         week_dates.append(str_day)
-    #scheduled_recipes = recipes.find( { 'dates': { '$in': [week_dates] }, 'owner': current_user.email} )
     morning_recipes = []
     afternoon_recipes = []
     evening_recipes = []
@@ -131,7 +130,8 @@ def next():
     date_obj = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
     current_week = get_week(date_obj + datetime.timedelta(weeks=1))
     first_week_day = str(current_week[0][0])
-    return render_template('planner.html', current_week=current_week, first_week_day=first_week_day)
+    week_recipes = get_week_recipes(current_week)
+    return render_template('planner.html', current_week=current_week, first_week_day=first_week_day, morning_recipes=week_recipes[0], afternoon_recipes=week_recipes[1], evening_recipes=week_recipes[2])
 
 @app.route('/planner/previous', methods=['GET', 'POST'])
 def previous():
@@ -140,7 +140,8 @@ def previous():
     date_obj = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
     current_week = get_week(date_obj - datetime.timedelta(weeks=1))
     first_week_day = str(current_week[0][0])
-    return render_template('planner.html', current_week=current_week, first_week_day=first_week_day)
+    week_recipes = get_week_recipes(current_week)
+    return render_template('planner.html', current_week=current_week, first_week_day=first_week_day, morning_recipes=week_recipes[0], afternoon_recipes=week_recipes[1], evening_recipes=week_recipes[2])
 
 @app.route('/planner/jump_to')
 def jump_to():
