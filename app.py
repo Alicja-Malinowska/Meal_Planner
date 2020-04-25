@@ -157,7 +157,8 @@ def jump_to():
     date_list = selected_date.split('-')
     first_week_date = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
     current_week = get_week(first_week_date)
-    return render_template('planner.html', current_week=current_week, first_week_day=first_week_date)
+    week_recipes = get_week_recipes(current_week)
+    return render_template('planner.html', current_week=current_week, first_week_day=first_week_date, week_recipes=week_recipes)
 
 @app.route('/recipes')
 @login_required
