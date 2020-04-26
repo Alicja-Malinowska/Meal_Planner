@@ -12,6 +12,12 @@
 
 {% endwith %}
 
+<form action="{{ url_for('search_name')}}">
+  <input type="text" name="recipe-name" id="recipe-name" placeholder="Enter recipe name">
+  <label for="recipe-name">Search by recipe name</label>
+  <input type="submit">
+</form>
+
 <ul>
     {% for recipe in recipes %}
 

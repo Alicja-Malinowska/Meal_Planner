@@ -234,6 +234,17 @@ def del_from_schedule(recipe_id, date, daytime, first_week_day):
     return render_template('planner.html', current_week=current_week, first_week_day=first_week_date, week_recipes=week_recipes)
 
 
+@app.route('/search_name')
+def search_name():
+    recipes = mongo.db.recipes
+    recipe_name = request.args.get('recipe-name')
+    if recipes.count_documents({ "name": recipe_name }) > 0:
+        search_results = recipes.find({ "name": recipe_name })
+        return render_template('recipes.html', recipes = search_results)
+    else:
+        flash('No results found')
+        return render_template('recipes.html', recipes = [])
+
 login_manager.login_view = 'login'
 
 
