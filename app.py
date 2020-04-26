@@ -223,6 +223,17 @@ def schedule():
     recipes.update( {'_id': ObjectId(recipe_id)}, {"$addToSet": {"dates": (date, daytime)}})
     return redirect(url_for('recipes'))
 
+@app.route('/del_from_schedule/<recipe_id>/<date>/<daytime>/<first_week_day>')
+def del_from_schedule(recipe_id, date, daytime, first_week_day):
+    recipes = mongo.db.recipes
+    recipes.update( {'_id': ObjectId(recipe_id)}, {"$pull": {"dates": (date, daytime)}})
+    date_list = first_week_day.split('-')
+    first_week_date = datetime.date(int(date_list[0]), int(date_list[1]), int(date_list[2]))
+    current_week = get_week(first_week_date)
+    week_recipes = get_week_recipes(current_week)
+    return render_template('planner.html', current_week=current_week, first_week_day=first_week_date, week_recipes=week_recipes)
+
+
 login_manager.login_view = 'login'
 
 
