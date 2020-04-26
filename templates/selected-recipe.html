@@ -1,0 +1,32 @@
+{% extends 'index.html' %}
+{% block content %}
+
+{% for this_recipe in recipe %}
+<h1>{{ this_recipe.name }}</h1>
+
+<h2>Ingredients</h2>
+<ul>
+{% for ingredient in this_recipe.ingredients %}
+    <li>{{ ingredient }}</li>
+    
+{% endfor %}
+</ul>
+<p>Servings: {{ this_recipe.servings }}</p>
+
+<div>
+    <h2>Instructions</h2>
+    <ul>
+        {% for instruction in this_recipe.instructions %}
+
+        <li>{{ instruction }}</li>
+
+        {% endfor %}
+    </ul>
+    
+</div>
+</ul>
+
+<a href="{{url_for('delete_recipe', recipe_id=this_recipe._id)}}">Delete</a>
+<a href="{{url_for('edit_recipe', recipe_id=this_recipe._id)}}">Edit</a>
+{% endfor %}
+{% endblock %}

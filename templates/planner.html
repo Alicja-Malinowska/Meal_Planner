@@ -41,21 +41,74 @@
     <tr>
         <th>Morning</th>
         {% for day in current_week %}
-        <td></td>
+        <td>
+            {% for recipe in week_recipes %}
+                {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Morning" %}
+                    <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
+                    <a href="{{url_for('del_from_schedule', recipe_id=recipe['id'], date=recipe['date'], daytime=recipe['daytime'], first_week_day=first_week_day)}}">x</a>
+                    <p>{{ first_week_day }}</p>
+                {% endif %}
+            {% endfor %}
+        </td>
         {% endfor %}
     </tr>
     <tr>
         <th>Afternoon</th>
         {% for day in current_week %}
-        <td></td>
+        <td>
+            {% for recipe in week_recipes %}
+                {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Afternoon" %}
+                <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
+                <a href="{{url_for('del_from_schedule', recipe_id=recipe['id'], date=recipe['date'], daytime=recipe['daytime'], first_week_day=first_week_day)}}">x</a>
+                <p>{{ first_week_day }}</p>
+                {% endif %}
+            {% endfor %}
+        </td>
         {% endfor %}
     </tr>
     <tr>
         <th>Evening</th>
         {% for day in current_week %}
-        <td></td>
+        <td>
+            {% for recipe in week_recipes %}
+                {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Evening" %}
+                    <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
+                    <a href="{{url_for('del_from_schedule', recipe_id=recipe['id'], date=recipe['date'], daytime=recipe['daytime'], first_week_day=first_week_day)}}">x</a>
+                    <p>{{ first_week_day }}</p>
+                {% endif %}
+            {% endfor %}
+        </td>
         {% endfor %}
     </tr>
 </table>
-{% endblock %}
 
+{#
+{% for cursor in morning_recipes %}
+{% for recipe in cursor[0] %}
+<p>{{recipe.dates[]}}</p>
+<p>Morning</p>
+<p>{{cursor[1]}}</p>
+{% endfor %}
+{% endfor %}
+
+{% for cursor in afternoon_recipes %}
+{% for recipe in cursor[0] %}
+<p>{{recipe.name}}</p>
+<p>Afternoon</p>
+<p>{{cursor[1]}}</p>
+{% endfor %}
+{% endfor %}
+
+{% for cursor in evening_recipes %}
+{% for recipe in cursor[0] %}
+<p>{{recipe.name}}</p>
+<p>Evening</p>
+<p>{{cursor[1]}}</p>
+{% endfor %}
+{% endfor %}
+#}
+
+{% for recipe in week_recipes %}
+<p>{{recipe}}</p>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends "bootstrap/base.html" %}
+{% import "bootstrap/wtf.html" as wtf %}
+{% block content %}
+<form action="{{url_for('save_edits', recipe_id=the_recipe._id)}}" method="post" class="form" role="form" enctype="multipart/form-data">
+    {{ form.csrf_token() }}
+
+    
+
+    <div class="form-group">
+      {{ wtf.form_field(form.name, class='form-control', value = the_recipe.name) }}
+    </div>
+
+    <div class="form-group">
+      <label for="ingredients">Ingredients</label>
+      <textarea id="ingredients" name="ingredients">{{ the_recipe.ingredients }}</textarea>
+    </div>
+
+    <div class="form-group">
+        {{ wtf.form_field(form.servings, class='form-control', value = the_recipe.servings) }}
+      </div>
+
+    <div class="form-group">
+      <label for="instructions">Instructions</label>
+      <textarea id="instructions" name="instructions">{{ the_recipe.instructions }}</textarea>
+    </div>
+
+    <div class="form-group">
+        {{ wtf.form_field(form.tags, class='form-control', value = the_recipe.tags) }}
+      </div>
+
+    <div class="form-group">
+        {{ wtf.form_field(form.image, class='form-control') }}
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+{% endblock %}
