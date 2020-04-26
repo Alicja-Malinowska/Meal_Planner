@@ -257,6 +257,13 @@ def search_name():
         flash('No results found')
         return render_template('recipes.html', recipes = [])
 
+@app.route('/search_tag')
+def search_tag():
+    recipes = mongo.db.recipes
+    selected_tag = request.args.get('tags')
+    search_results = recipes.find({ "tags": selected_tag })
+    return render_template('recipes.html', recipes = search_results)
+
 login_manager.login_view = 'login'
 
 

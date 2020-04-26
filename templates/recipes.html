@@ -18,7 +18,7 @@
   <input type="submit">
 </form>
 
-<form action="">
+<form action="{{ url_for('search_tag')}}">
   <label for="list">Search by tag</label>
   <select id="tags" name="tags">
     <option value="choose" selected disabled>Search by tag</option>
@@ -30,9 +30,10 @@
 
 
   </select>
+  <input type="submit">
 </form>
 
-{{ tags }}
+
 
 
 
