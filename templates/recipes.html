@@ -37,7 +37,7 @@
         <input type="hidden" name="recipe_id" value="">
         <input id="schedule_date" name="schedule_date" type="text" class="datepicker">
         <label for="icon_prefix">Pick date</label>
-        <input type="radio" id="morning" name="daytime" value="Morning">
+        <input type="radio" id="morning" name="daytime" value="Morning" required>
         <label for="morning">Morning</label>
         <input type="radio" id="afternoon" name="daytime" value="Afternoon">
         <label for="afternoon">Afternoon</label>
@@ -45,9 +45,6 @@
         <label for="evening">Evening</label>
         <input type="submit">
     </form>
-  </div>
-  <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
   </div>
 </div>
 {% endblock %}
