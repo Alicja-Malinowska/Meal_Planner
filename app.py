@@ -165,14 +165,12 @@ def jump_to():
 def recipes():
     recipes = mongo.db.recipes
     all_recipes = recipes.find({'owner': current_user.email})
-    all_tags = ""
+    all_tags = []
     for recipe in all_recipes:
         tags = recipe["tags"]
         all_tags += tags
-    all_tags = all_tags.replace(" ", "").strip(";")
     all_recipes.rewind()
-    tag_list = all_tags.split(";")
-    tag_set = sorted(set(tag_list))
+    tag_set = sorted(set(all_tags))
     return render_template('recipes.html', recipes=all_recipes, tags=tag_set)
 
 
@@ -183,8 +181,9 @@ def add_recipe():
         recipes = mongo.db.recipes
         new_recipe = request.form.to_dict()
         new_recipe['owner'] = current_user.email
-        new_recipe['ingredients'] = new_recipe['ingredients'].splitlines()
-        new_recipe['instructions'] = new_recipe['instructions'].splitlines()
+        new_recipe['ingredients'] = new_recipe['ingredients'].splitlines(True)
+        new_recipe['instructions'] = new_recipe['instructions'].splitlines(True)
+        new_recipe['tags'] = new_recipe['tags'].replace(" ", "").strip(";").split(";")
         recipes.insert_one(new_recipe)
         flash('Recipe added!')
         return redirect(url_for('recipes'))
@@ -210,13 +209,16 @@ def edit_recipe(recipe_id):
 @app.route('/recipes/save_edits/<recipe_id>', methods=['POST'])
 def save_edits(recipe_id):
     recipes = mongo.db.recipes
+    ingredients = request.form.get('ingredients').splitlines(True)
+    instructions = request.form.get('instructions').splitlines(True)
+    tags = request.form.get('tags').replace(" ", "").strip(";").split(";")
     recipes.update( {'_id': ObjectId(recipe_id)},
     {
         'name':request.form.get('name'),
-        'ingredients':request.form.get('ingredients'),
+        'ingredients':ingredients,
         'servings': request.form.get('servings'),
-        'instructions': request.form.get('instructions'),
-        'tags':request.form.get('tags'),
+        'instructions': instructions,
+        'tags':tags,
         'image':request.form.get('image'),
         'owner': current_user.email
     })
