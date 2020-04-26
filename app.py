@@ -160,6 +160,18 @@ def jump_to():
     week_recipes = get_week_recipes(current_week)
     return render_template('planner.html', current_week=current_week, first_week_day=first_week_date, week_recipes=week_recipes)
 
+'''@app.route('/recipes')
+@login_required
+def recipes():
+    recipes = mongo.db.recipes
+    all_recipes = recipes.find({'owner': current_user.email})
+    all_tags = ""
+    for recipe in all_recipes:
+        all_tags += recipe["tags"]
+    tag_list = all_tags.split(";")
+    tag_set = sorted(set(tag_list))
+    return render_template('recipes.html', recipes=recipes.find({'owner': current_user.email}), tags=tag_set)'''
+
 @app.route('/recipes')
 @login_required
 def recipes():
