@@ -44,7 +44,7 @@
         <td>
             {% for recipe in week_recipes %}
                 {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Morning" %}
-                    <p>{{ recipe["name"] }}</p>
+                    <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
                 {% endif %}
             {% endfor %}
         </td>
@@ -56,7 +56,7 @@
         <td>
             {% for recipe in week_recipes %}
                 {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Afternoon" %}
-                    <p>{{ recipe["name"] }}</p>
+                <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
                 {% endif %}
             {% endfor %}
         </td>
@@ -68,7 +68,7 @@
         <td>
             {% for recipe in week_recipes %}
                 {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Evening" %}
-                    <p>{{ recipe["name"] }}</p>
+                    <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
                 {% endif %}
             {% endfor %}
         </td>
