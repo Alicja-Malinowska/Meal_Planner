@@ -33,3 +33,4 @@ $('.modal').modal({
 $('select').material_select();
 document.querySelectorAll('.select-wrapper').forEach(t => t.addEventListener('click', e=>e.stopPropagation()))
 
+$(".button-collapse").sideNav();
