@@ -240,7 +240,7 @@ def schedule():
     date = request.form.get('schedule_date')
     daytime = request.form.get('daytime')
     recipes.update( {'_id': ObjectId(recipe_id)}, {"$addToSet": {"dates": (date, daytime)}})
-    return redirect(url_for('recipes'))
+    return redirect(request.referrer)
 
 @app.route('/del_from_schedule/<recipe_id>/<date>/<daytime>/<first_week_day>')
 def del_from_schedule(recipe_id, date, daytime, first_week_day):
@@ -264,7 +264,7 @@ def search_name():
         return render_template('recipes.html', recipes = search_results, tags = tags)
     else:
         flash('No results found')
-        return render_template('recipes.html', recipes = [])
+        return render_template('recipes.html', recipes = [], tags = tags)
 
 @app.route('/search_tag')
 def search_tag():
