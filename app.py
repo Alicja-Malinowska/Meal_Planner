@@ -211,6 +211,7 @@ def edit_recipe(recipe_id):
 @app.route('/recipes/save_edits/<recipe_id>', methods=['POST'])
 def save_edits(recipe_id):
     recipes = mongo.db.recipes
+    name = request.form.get('name').strip()
     ingredients = request.form.get('ingredients').splitlines(True)
     instructions = request.form.get('instructions').splitlines(True)
     tags = request.form.get('tags').replace(" ", "").strip(";").split(";")
@@ -251,9 +252,9 @@ def del_from_schedule(recipe_id, date, daytime, first_week_day):
 @app.route('/search_name')
 def search_name():
     recipes = mongo.db.recipes
-    recipe_name = request.args.get('recipe-name')
-    if recipes.count_documents({ "name": recipe_name }) > 0:
-        search_results = recipes.find({ "name": recipe_name })
+    recipe_name = request.args.get('recipe-name').strip()
+    if recipes.count_documents({ "name": { '$regex' : recipe_name, '$options': 'i'}}) > 0:
+        search_results = recipes.find({ "name": { '$regex' : recipe_name, '$options': 'i'}})
         return render_template('recipes.html', recipes = search_results)
     else:
         flash('No results found')
