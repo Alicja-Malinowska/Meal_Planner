@@ -9,6 +9,7 @@ from passlib.hash import sha256_crypt
 from models import User
 import datetime
 
+#TODO make tags appear also in after search performed; escape input in name search, consider edge cases (spaces, letter case etc)
 '''date = datetime.date(datetime.MINYEAR, 1, 1)
 today = date.today()
 a_week = datetime.timedelta(days=1,weeks=1000)
@@ -180,6 +181,7 @@ def add_recipe():
     if request.method == 'POST' and form.validate_on_submit():
         recipes = mongo.db.recipes
         new_recipe = request.form.to_dict()
+        new_recipe['name'] = new_recipe['name'].strip()
         new_recipe['owner'] = current_user.email
         new_recipe['ingredients'] = new_recipe['ingredients'].splitlines(True)
         new_recipe['instructions'] = new_recipe['instructions'].splitlines(True)
