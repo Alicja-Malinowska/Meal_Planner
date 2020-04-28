@@ -78,6 +78,15 @@ def get_week_recipes(current_week):
         week_recipes_data += recipe_info
     return week_recipes_data
 
+def get_tags(all_recipes):
+    all_tags = []
+    for recipe in all_recipes:
+        tags = recipe["tags"]
+        all_tags += tags
+    all_recipes.rewind()
+    tag_set = sorted(set(all_tags))
+    return tag_set
+
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
@@ -166,13 +175,8 @@ def jump_to():
 def recipes():
     recipes = mongo.db.recipes
     all_recipes = recipes.find({'owner': current_user.email})
-    all_tags = []
-    for recipe in all_recipes:
-        tags = recipe["tags"]
-        all_tags += tags
-    all_recipes.rewind()
-    tag_set = sorted(set(all_tags))
-    return render_template('recipes.html', recipes=all_recipes, tags=tag_set)
+    tags = get_tags(all_recipes)
+    return render_template('recipes.html', recipes=all_recipes, tags=tags)
 
 
 @app.route('/recipes/add', methods=['POST', 'GET'])
@@ -252,10 +256,12 @@ def del_from_schedule(recipe_id, date, daytime, first_week_day):
 @app.route('/search_name')
 def search_name():
     recipes = mongo.db.recipes
+    all_recipes = recipes.find({'owner': current_user.email})
+    tags = get_tags(all_recipes)
     recipe_name = request.args.get('recipe-name').strip()
-    if recipes.count_documents({ "name": { '$regex' : recipe_name, '$options': 'i'}}) > 0:
-        search_results = recipes.find({ "name": { '$regex' : recipe_name, '$options': 'i'}})
-        return render_template('recipes.html', recipes = search_results)
+    if recipes.count_documents({ "name": { '$regex' : recipe_name, '$options': 'i'}, 'owner': current_user.email}) > 0:
+        search_results = recipes.find({ "name": { '$regex' : recipe_name, '$options': 'i'}, 'owner': current_user.email})
+        return render_template('recipes.html', recipes = search_results, tags = tags)
     else:
         flash('No results found')
         return render_template('recipes.html', recipes = [])
@@ -263,9 +269,11 @@ def search_name():
 @app.route('/search_tag')
 def search_tag():
     recipes = mongo.db.recipes
+    all_recipes = recipes.find({'owner': current_user.email})
+    tags = get_tags(all_recipes)
     selected_tag = request.args.get('tags')
-    search_results = recipes.find({ "tags": selected_tag })
-    return render_template('recipes.html', recipes = search_results)
+    search_results = recipes.find({ "tags": selected_tag , 'owner': current_user.email})
+    return render_template('recipes.html', recipes = search_results, tags = tags)
 
 login_manager.login_view = 'login'
 
