@@ -24,7 +24,11 @@
     </ul>
     
 </div>
-</ul>
+
+<h3>Tags</h3>
+{% for tag in this_recipe.tags %}
+<a href="{{ url_for('search_tag', tag=tag)}}">{{tag ~ ";"}}</a>
+{% endfor %}
 
 <a href="{{url_for('delete_recipe', recipe_id=this_recipe._id)}}">Delete</a>
 <a href="{{url_for('edit_recipe', recipe_id=this_recipe._id)}}">Edit</a>

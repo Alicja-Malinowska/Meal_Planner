@@ -271,9 +271,11 @@ def search_tag():
     recipes = mongo.db.recipes
     all_recipes = recipes.find({'owner': current_user.email})
     tags = get_tags(all_recipes)
-    selected_tag = request.args.get('tags')
+    selected_tag = request.args.get('tag')
     search_results = recipes.find({ "tags": selected_tag , 'owner': current_user.email})
     return render_template('recipes.html', recipes = search_results, tags = tags)
+
+
 
 login_manager.login_view = 'login'
 
