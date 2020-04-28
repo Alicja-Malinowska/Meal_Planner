@@ -13,6 +13,9 @@ $('.datepicker').on('mousedown',function(event){
     event.preventDefault();
 })
 
+// by setting readonly to false 'required' on the html element works
+$(".datepicker").prop('readonly', false);
+
 $( function() {
     $('#jump_to').change(function(){
        $('#date_form').submit();
@@ -29,3 +32,4 @@ $('.modal').modal({
 
 $('select').material_select();
 document.querySelectorAll('.select-wrapper').forEach(t => t.addEventListener('click', e=>e.stopPropagation()))
+

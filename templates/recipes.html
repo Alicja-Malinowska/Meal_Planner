@@ -60,7 +60,7 @@
     <form action="{{url_for('schedule')}}" method='post' name='date_form' id='date_form'>
       <i class="material-icons prefix">today</i>
       <input type="hidden" name="recipe_id" value="">
-      <input id="schedule_date" name="schedule_date" type="text" class="datepicker">
+      <input id="schedule_date" name="schedule_date" type="text" class="datepicker" required>
       <label for="icon_prefix">Pick date</label>
       <input type="radio" id="morning" name="daytime" value="Morning" required>
       <label for="morning">Morning</label>
