@@ -206,6 +206,8 @@ def add_recipe():
         new_recipe = request.form.to_dict()
         image = request.files[form.image.name]
         filename = secure_filename(image.filename)
+        if not filename:
+            filename = 'default.png'
         destination = "".join([target, filename])
         image.save(destination)
         new_recipe['name'] = new_recipe['name'].strip()
