@@ -9,6 +9,7 @@ from forms import RegistrationForm, LoginForm, AddRecipe
 from passlib.hash import sha256_crypt
 from models import User
 import datetime
+from werkzeug.exceptions import RequestEntityTooLarge
 
 #TODO make tags appear also in after search performed; escape input in name search, consider edge cases (spaces, letter case etc)
 '''date = datetime.date(datetime.MINYEAR, 1, 1)
@@ -30,6 +31,8 @@ app.secret_key = b'K/\x81\xc6\xa0R%k[mSm\xfe\xc6\x8a\xa7'
 # REMEMBER TO REMOVE REPLACE BEFORE DEPLOYMENT
 MONGODB_URI = os.getenv("MONGO_URI").replace('"', '')
 app.config["MONGO_URI"] = MONGODB_URI
+
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 
 mongo = PyMongo(app)
 Bootstrap(app)
@@ -203,8 +206,12 @@ def add_recipe():
             os.mkdir(target)     # create folder if not exits
     if request.method == 'POST' and form.validate_on_submit():
         recipes = mongo.db.recipes
-        new_recipe = request.form.to_dict()
-        image = request.files[form.image.name]
+        try:
+            new_recipe = request.form.to_dict()
+        
+            image = request.files[form.image.name]
+        except:
+            return 'too big! whoa!'# TODO CHECK IF THIS WILL WORK ONCE DEPLOYED, APPARENTLY DOESN'T WORK ON PRODUCTION SERVER
         filename = secure_filename(image.filename)
         if filename:
             destination = "".join([target, filename])
@@ -222,6 +229,7 @@ def add_recipe():
         return redirect(url_for('recipes'))
         
     return render_template('add-recipe.html', form=form)
+
 
 @app.route('/show_recipe/<recipe_id>')
 @login_required
