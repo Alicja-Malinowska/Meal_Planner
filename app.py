@@ -1,6 +1,7 @@
 import os
 from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_pymongo import PyMongo
+from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
@@ -8,6 +9,7 @@ from forms import RegistrationForm, LoginForm, AddRecipe
 from passlib.hash import sha256_crypt
 from models import User
 import datetime
+from werkzeug.exceptions import RequestEntityTooLarge
 
 #TODO make tags appear also in after search performed; escape input in name search, consider edge cases (spaces, letter case etc)
 '''date = datetime.date(datetime.MINYEAR, 1, 1)
@@ -29,10 +31,14 @@ MONGODB_URI = os.getenv("MONGO_URI")
 app.secret_key = os.getenv("SECRET_KEY")
 app.config["MONGO_URI"] = MONGODB_URI
 
+app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
+
 mongo = PyMongo(app)
 Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
+APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
 WEEK_DAYS = {
     '0': 'Monday',
@@ -173,23 +179,56 @@ def recipes():
     tags = get_tags(all_recipes)
     return render_template('recipes.html', recipes=all_recipes, tags=tags)
 
+'''@app.route('/recipes/add/image-upload')
+@login_required
+def image_upload():
+    image_form = ImageUplaod()
+    target = os.path.join(APP_ROOT, 'recipe-images/')  #folder path
+    if not os.path.isdir(target):
+            os.mkdir(target)     # create folder if not exits
+    if request.method == 'POST' and form.validate_on_submit():
+        recipes = mongo.db.recipes
+        image = request.form.to_dict()
+        filename = secure_filename(image.filename)
+        destination = "/".join([target, filename])
+        upload.save(destination)
+        recipes.insert({'image': filename}) 
+        return "Image Upload Successfully"'''
+
 
 @app.route('/recipes/add', methods=['POST', 'GET'])
 @login_required
 def add_recipe():
     form = AddRecipe()
+    target = os.path.join(APP_ROOT, 'static/images/recipe-images/')  #folder path
+    if not os.path.isdir(target):
+            os.mkdir(target)     # create folder if not exits
     if request.method == 'POST' and form.validate_on_submit():
         recipes = mongo.db.recipes
-        new_recipe = request.form.to_dict()
+        try:
+            new_recipe = request.form.to_dict()
+        
+            image = request.files[form.image.name]
+        except:
+            return 'too big! whoa!'# TODO CHECK IF THIS WILL WORK ONCE DEPLOYED, APPARENTLY DOESN'T WORK ON PRODUCTION SERVER
+        filename = secure_filename(image.filename)
+        if filename:
+            destination = "".join([target, filename])
+            image.save(destination)
+        else: 
+            filename = 'default.png'
         new_recipe['name'] = new_recipe['name'].strip()
         new_recipe['owner'] = current_user.email
         new_recipe['ingredients'] = new_recipe['ingredients'].splitlines(True)
         new_recipe['instructions'] = new_recipe['instructions'].splitlines(True)
         new_recipe['tags'] = new_recipe['tags'].replace(" ", "").strip(";").split(";")
+        new_recipe['image'] = filename
         recipes.insert_one(new_recipe)
         flash('Recipe added!')
         return redirect(url_for('recipes'))
+        
     return render_template('add-recipe.html', form=form)
+
 
 @app.route('/show_recipe/<recipe_id>')
 @login_required

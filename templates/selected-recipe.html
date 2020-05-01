@@ -3,7 +3,7 @@
 
 {% for this_recipe in recipe %}
 <h1>{{ this_recipe.name }}</h1>
-
+<img src="{{ url_for('static', filename = 'images/recipe-images/' + this_recipe.image)}}" alt="recipe image">
 <h2>Ingredients</h2>
 <ul>
 {% for ingredient in this_recipe.ingredients %}
