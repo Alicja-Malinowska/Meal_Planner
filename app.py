@@ -206,10 +206,11 @@ def add_recipe():
         new_recipe = request.form.to_dict()
         image = request.files[form.image.name]
         filename = secure_filename(image.filename)
-        if not filename:
+        if filename:
+            destination = "".join([target, filename])
+            image.save(destination)
+        else: 
             filename = 'default.png'
-        destination = "".join([target, filename])
-        image.save(destination)
         new_recipe['name'] = new_recipe['name'].strip()
         new_recipe['owner'] = current_user.email
         new_recipe['ingredients'] = new_recipe['ingredients'].splitlines(True)
