@@ -229,7 +229,11 @@ def add_recipe():
         
     return render_template('add-recipe.html', form=form)
 
-
+@app.errorhandler(413)
+@app.errorhandler(RequestEntityTooLarge)
+def app_handle_413(e):
+    return 'File Too Large', 413
+    
 @app.route('/show_recipe/<recipe_id>')
 @login_required
 def show_recipe(recipe_id):
