@@ -81,34 +81,4 @@
         {% endfor %}
     </tr>
 </table>
-
-{#
-{% for cursor in morning_recipes %}
-{% for recipe in cursor[0] %}
-<p>{{recipe.dates[]}}</p>
-<p>Morning</p>
-<p>{{cursor[1]}}</p>
-{% endfor %}
-{% endfor %}
-
-{% for cursor in afternoon_recipes %}
-{% for recipe in cursor[0] %}
-<p>{{recipe.name}}</p>
-<p>Afternoon</p>
-<p>{{cursor[1]}}</p>
-{% endfor %}
-{% endfor %}
-
-{% for cursor in evening_recipes %}
-{% for recipe in cursor[0] %}
-<p>{{recipe.name}}</p>
-<p>Evening</p>
-<p>{{cursor[1]}}</p>
-{% endfor %}
-{% endfor %}
-#}
-
-{% for recipe in week_recipes %}
-<p>{{recipe}}</p>
-{% endfor %}
 {% endblock %}
