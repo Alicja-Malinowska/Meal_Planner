@@ -25,8 +25,8 @@ for week in weeks:
 
 app = Flask(__name__)
 
-# REMEMBER TO REMOVE REPLACE BEFORE DEPLOYMENT
-#MONGODB_URI = os.getenv("MONGO_URI").replace('"', '')
+MONGODB_URI = os.getenv("MONGO_URI")
+
 app.config["MONGO_URI"] = MONGODB_URI
 
 mongo = PyMongo(app)
