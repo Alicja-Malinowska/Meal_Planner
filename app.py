@@ -26,7 +26,7 @@ for week in weeks:
 app = Flask(__name__)
 
 MONGODB_URI = os.getenv("MONGO_URI")
-
+app.secret_key = os.getenv("SECRET_KEY")
 app.config["MONGO_URI"] = MONGODB_URI
 
 mongo = PyMongo(app)
