@@ -61,13 +61,6 @@ def get_week_recipes(current_week):
         day = day_tuple[0]
         str_day = day.strftime("%Y-%m-%d")
         week_dates.append(str_day)
-    '''morning_recipes = []
-    afternoon_recipes = []
-    evening_recipes = []
-    for day in week_dates:
-       morning_recipes.append((recipes.find( { 'dates':  [day, 'Morning'], 'owner': current_user.email} ), day))
-       afternoon_recipes.append((recipes.find( { 'dates':  [day, 'Afternoon'], 'owner': current_user.email} ), day))
-       evening_recipes.append((recipes.find( { 'dates':  [day, 'Evening'], 'owner': current_user.email} ), day))'''
     week_recipes = recipes.find({'dates':{'$elemMatch':{'$elemMatch':{'$in':week_dates}}}, 'owner': current_user.email})
     week_recipes_data = []
     for recipe in week_recipes:
@@ -111,7 +104,7 @@ def logout():
 
 @app.route('/')
 def index():
-    return render_template('index.html')
+    return render_template('layout/index.html')
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -142,6 +135,7 @@ def planner():
 
 
 @app.route('/planner/next', methods=['GET', 'POST'])
+@login_required
 def next():
     first_week_day = request.form.get('first_week_day')
     date_list = first_week_day.split('-')
@@ -152,6 +146,7 @@ def next():
     return render_template('planner.html', current_week=current_week, first_week_day=first_week_day, week_recipes=week_recipes)#morning_recipes=week_recipes[0], afternoon_recipes=week_recipes[1], evening_recipes=week_recipes[2])
 
 @app.route('/planner/previous', methods=['GET', 'POST'])
+@login_required
 def previous():
     first_week_day = request.form.get('first_week_day')
     date_list = first_week_day.split('-')
@@ -162,6 +157,7 @@ def previous():
     return render_template('planner.html', current_week=current_week, first_week_day=first_week_day, week_recipes=week_recipes)#morning_recipes=week_recipes[0], afternoon_recipes=week_recipes[1], evening_recipes=week_recipes[2])
 
 @app.route('/planner/jump_to')
+@login_required
 def jump_to():
     selected_date = request.args.get('jump_to')
     date_list = selected_date.split('-')
@@ -180,6 +176,7 @@ def recipes():
 
 
 @app.route('/recipes/add', methods=['POST', 'GET'])
+@login_required
 def add_recipe():
     form = AddRecipe()
     if request.method == 'POST' and form.validate_on_submit():
@@ -196,23 +193,27 @@ def add_recipe():
     return render_template('add-recipe.html', form=form)
 
 @app.route('/show_recipe/<recipe_id>')
+@login_required
 def show_recipe(recipe_id):
     return render_template('selected-recipe.html',
-                           recipe=mongo.db.recipes.find({'_id': ObjectId(recipe_id)}))
+                           recipe=mongo.db.recipes.find({'_id': ObjectId(recipe_id), 'owner': current_user.email}))
    
 @app.route('/recipes/delete/<recipe_id>')
+@login_required
 def delete_recipe(recipe_id):
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('recipes'))
 
 
 @app.route('/recipes/edit/<recipe_id>')
+@login_required
 def edit_recipe(recipe_id):
     form = AddRecipe()
     the_recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
     return render_template('edit-recipe.html', the_recipe = the_recipe, form = form)
 
 @app.route('/recipes/save_edits/<recipe_id>', methods=['POST'])
+@login_required
 def save_edits(recipe_id):
     recipes = mongo.db.recipes
     name = request.form.get('name').strip()
@@ -234,6 +235,7 @@ def save_edits(recipe_id):
 
 
 @app.route('/schedule', methods=['POST'])
+@login_required
 def schedule():
     recipes = mongo.db.recipes
     recipe_id = request.form.get('recipe_id')
@@ -243,6 +245,7 @@ def schedule():
     return redirect(request.referrer)
 
 @app.route('/del_from_schedule/<recipe_id>/<date>/<daytime>/<first_week_day>')
+@login_required
 def del_from_schedule(recipe_id, date, daytime, first_week_day):
     recipes = mongo.db.recipes
     recipes.update( {'_id': ObjectId(recipe_id)}, {"$pull": {"dates": (date, daytime)}})
@@ -254,6 +257,7 @@ def del_from_schedule(recipe_id, date, daytime, first_week_day):
 
 
 @app.route('/search_name')
+@login_required
 def search_name():
     recipes = mongo.db.recipes
     all_recipes = recipes.find({'owner': current_user.email})
@@ -267,6 +271,7 @@ def search_name():
         return render_template('recipes.html', recipes = [], tags = tags)
 
 @app.route('/search_tag')
+@login_required
 def search_tag():
     recipes = mongo.db.recipes
     all_recipes = recipes.find({'owner': current_user.email})
