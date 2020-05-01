@@ -1,4 +1,4 @@
-{% extends 'index.html' %}
+{% extends 'layout/index.html' %}
 {% block content %}
 <form action="{{url_for('next')}}" method="post">
     <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
