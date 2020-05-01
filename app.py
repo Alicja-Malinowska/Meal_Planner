@@ -24,10 +24,9 @@ for week in weeks:
 
 
 app = Flask(__name__)
-# REMEMBER TO REMOVE BEFORE DEPLOYMENT
-app.secret_key = b'K/\x81\xc6\xa0R%k[mSm\xfe\xc6\x8a\xa7'
+
 # REMEMBER TO REMOVE REPLACE BEFORE DEPLOYMENT
-MONGODB_URI = os.getenv("MONGO_URI").replace('"', '')
+#MONGODB_URI = os.getenv("MONGO_URI").replace('"', '')
 app.config["MONGO_URI"] = MONGODB_URI
 
 mongo = PyMongo(app)
