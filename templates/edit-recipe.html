@@ -1,6 +1,10 @@
 {% extends "bootstrap/base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
 {% block content %}
+
+{% for ingredient in the_recipe.ingredients %}
+        {{ ingredient }}
+        {% endfor %}
 <form action="{{url_for('save_edits', recipe_id=the_recipe._id)}}" method="post" class="form" role="form" enctype="multipart/form-data">
     {{ form.csrf_token() }}
 
@@ -12,7 +16,7 @@
 
     <div class="form-group">
       <label for="ingredients">Ingredients</label>
-      <textarea id="ingredients" name="ingredients">{{ the_recipe.ingredients }}</textarea>
+      <textarea id="ingredients" name="ingredients">{% for ingredient in the_recipe.ingredients %}{{ ingredient }}{% endfor %}</textarea>
     </div>
 
     <div class="form-group">
@@ -21,11 +25,13 @@
 
     <div class="form-group">
       <label for="instructions">Instructions</label>
-      <textarea id="instructions" name="instructions">{{ the_recipe.instructions }}</textarea>
+      <textarea id="instructions" name="instructions">{% for instruction in the_recipe.instructions %}{{ instruction }}{% endfor %}</textarea>
     </div>
 
     <div class="form-group">
-        {{ wtf.form_field(form.tags, class='form-control', value = the_recipe.tags) }}
+      <label for="tags">Tags</label>
+      <input type="text" id="tags" name="tags" value="{% for tag in the_recipe.tags %}
+      {{ tag }};{% endfor %}">
       </div>
 
     <div class="form-group">
