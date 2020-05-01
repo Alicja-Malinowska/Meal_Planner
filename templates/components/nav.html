@@ -1,0 +1,26 @@
+<nav>
+    <div class="nav-wrapper">
+      <a href="#!" class="brand-logo">Logo</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul class="right hide-on-med-and-down">
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('registration') }}">Register</a></li>
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('planner') }}">Planner</a></li>
+        <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="{{ url_for('registration') }}">Register</a></li>
+        {% if current_user.is_authenticated %}
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        {% else %}
+        <li><a href="{{ url_for('login') }}">Login</a></li>
+        {% endif %}
+        <li><a href="{{ url_for('planner') }}">Planner</a></li>
+        <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
+      </ul>
+    </div>
+  </nav>
