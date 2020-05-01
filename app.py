@@ -209,7 +209,7 @@ def add_recipe():
             new_recipe = request.form.to_dict()
         
             image = request.files[form.image.name]
-        except:
+        except RequestEntityTooLarge as e::
             return 'too big! whoa!'# TODO CHECK IF THIS WILL WORK ONCE DEPLOYED, APPARENTLY DOESN'T WORK ON PRODUCTION SERVER
         filename = secure_filename(image.filename)
         if filename:
@@ -230,10 +230,9 @@ def add_recipe():
     return render_template('add-recipe.html', form=form)
 
 @app.errorhandler(413)
-@app.errorhandler(RequestEntityTooLarge)
-def app_handle_413(e):
-    return 'File Too Large', 413
-    
+def page_not_found(e):
+    return "Your error page for 413 status code", 413
+
 @app.route('/show_recipe/<recipe_id>')
 @login_required
 def show_recipe(recipe_id):
