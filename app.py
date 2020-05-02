@@ -9,20 +9,8 @@ from forms import RegistrationForm, LoginForm, AddRecipe
 from passlib.hash import sha256_crypt
 from models import User
 import datetime
-from werkzeug.wsgi import LimitedStream
+from random import randint
 
-#TODO make tags appear also in after search performed; escape input in name search, consider edge cases (spaces, letter case etc)
-'''date = datetime.date(datetime.MINYEAR, 1, 1)
-today = date.today()
-a_week = datetime.timedelta(days=1,weeks=1000)
-next = today - a_week
-print(next.weekday())'''
-
-
-'''my_calendar = calendar.Calendar(firstweekday=0)
-weeks = my_calendar.monthdatescalendar(2020,4)
-for week in weeks:
-    print(week)'''
 
 
 app = Flask(__name__)
@@ -58,7 +46,7 @@ def get_week(start_date):
         the_week.append((next_day, WEEK_DAYS[str(next_day.weekday())]))
     return the_week
 
-#   FIGURE OUT HOW TO DEAL WITH SEARCHING IN THE ARRAY OF TUPLES, PERHAPS LOOK FOR A TUPLE (MORNING, AFTERNOON EVENING)
+
 def get_week_recipes(current_week):
     recipes = mongo.db.recipes
     week_dates = []
@@ -179,21 +167,6 @@ def recipes():
     tags = get_tags(all_recipes)
     return render_template('recipes.html', recipes=all_recipes, tags=tags)
 
-'''@app.route('/recipes/add/image-upload')
-@login_required
-def image_upload():
-    image_form = ImageUplaod()
-    target = os.path.join(APP_ROOT, 'recipe-images/')  #folder path
-    if not os.path.isdir(target):
-            os.mkdir(target)     # create folder if not exits
-    if request.method == 'POST' and form.validate_on_submit():
-        recipes = mongo.db.recipes
-        image = request.form.to_dict()
-        filename = secure_filename(image.filename)
-        destination = "/".join([target, filename])
-        upload.save(destination)
-        recipes.insert({'image': filename}) 
-        return "Image Upload Successfully"'''
 
 
 @app.route('/recipes/add', methods=['POST', 'GET'])
@@ -207,7 +180,16 @@ def add_recipe():
         recipes = mongo.db.recipes
         new_recipe = request.form.to_dict()
         image = request.files[form.image.name]
-        filename = secure_filename(image.filename)
+        name_repeat = recipes.count_documents({ "image": image.filename}) # check if there is a file with this name
+        if  name_repeat > 0 or image.filename == "default.png":
+            filename = secure_filename(str(randint(0,1000)) + image.filename) # if yes add a random number to it
+            while True: #this is to make sure that the same random number was not already assigned to the image name (should be rare)
+                if recipes.count_documents({ "image": filename}) > 0:
+                    filename = secure_filename(str(randint(0,1000)) + image.filename)
+                else:
+                    break
+        else:
+            filename = secure_filename(image.filename)
         if filename:
             destination = "".join([target, filename])
             image.save(destination)
