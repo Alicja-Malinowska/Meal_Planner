@@ -9,7 +9,7 @@ from forms import RegistrationForm, LoginForm, AddRecipe
 from passlib.hash import sha256_crypt
 from models import User
 import datetime
-from werkzeug.exceptions import RequestEntityTooLarge
+from werkzeug.wsgi import LimitedStream
 
 #TODO make tags appear also in after search performed; escape input in name search, consider edge cases (spaces, letter case etc)
 '''date = datetime.date(datetime.MINYEAR, 1, 1)
@@ -27,16 +27,16 @@ for week in weeks:
 
 app = Flask(__name__)
 
-MONGODB_URI = os.getenv("MONGO_URI")
-app.secret_key = os.getenv("SECRET_KEY")
+MONGODB_URI = os.getenv("MONGO_URI").replace('"', '')
+app.secret_key = b'K/\x81\xc6\xa0R%k[mSm\xfe\xc6\x8a\xa7'
 app.config["MONGO_URI"] = MONGODB_URI
 
-app.config['MAX_CONTENT_LENGTH'] = 5 * 1024 * 1024
 
 mongo = PyMongo(app)
 Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
+
 
 APP_ROOT = os.path.dirname(os.path.abspath(__file__))
 
@@ -205,12 +205,8 @@ def add_recipe():
             os.mkdir(target)     # create folder if not exits
     if request.method == 'POST' and form.validate_on_submit():
         recipes = mongo.db.recipes
-        try:
-            new_recipe = request.form.to_dict()
-        
-            image = request.files[form.image.name]
-        except RequestEntityTooLarge as e:
-            return 'too big! whoa!'# TODO CHECK IF THIS WILL WORK ONCE DEPLOYED, APPARENTLY DOESN'T WORK ON PRODUCTION SERVER
+        new_recipe = request.form.to_dict()
+        image = request.files[form.image.name]
         filename = secure_filename(image.filename)
         if filename:
             destination = "".join([target, filename])
@@ -225,13 +221,9 @@ def add_recipe():
         new_recipe['image'] = filename
         recipes.insert_one(new_recipe)
         flash('Recipe added!')
-        return redirect(url_for('recipes'))
-        
+        return redirect(url_for('recipes'))  
     return render_template('add-recipe.html', form=form)
 
-@app.errorhandler(413)
-def page_not_found(e):
-    return "Your error page for 413 status code", 413
 
 @app.route('/show_recipe/<recipe_id>')
 @login_required
