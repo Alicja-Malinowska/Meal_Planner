@@ -1,9 +1,9 @@
 from wtforms import SubmitField, BooleanField, StringField, PasswordField, IntegerField, TextAreaField, validators
-from flask_wtf import Form
+from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
 
 
-class RegistrationForm(Form):
+class RegistrationForm(FlaskForm):
     first_name = StringField('First Name',
                              [validators.DataRequired()])
     last_name = StringField('Last Name',
@@ -19,14 +19,14 @@ class RegistrationForm(Form):
     submit = SubmitField('Submit')
 
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     email_address = StringField('Email Address', [validators.DataRequired(),
                                                   validators.Email(), validators.Length(min=6, max=35)])
     password = PasswordField('New Password', [
         validators.DataRequired(), ])
     submit = SubmitField('Submit')
 
-class AddRecipe(Form):
+class AddRecipe(FlaskForm):
     name = StringField('Recipe Name', [validators.DataRequired()])
     ingredients = TextAreaField('Ingredients')
     servings = StringField('Servings')
