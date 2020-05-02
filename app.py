@@ -9,7 +9,7 @@ from forms import RegistrationForm, LoginForm, AddRecipe
 from passlib.hash import sha256_crypt
 from models import User
 import datetime
-from random import randint
+import uuid 
 
 
 
@@ -180,17 +180,10 @@ def add_recipe():
         recipes = mongo.db.recipes
         new_recipe = request.form.to_dict()
         image = request.files[form.image.name]
-        name_repeat = recipes.count_documents({ "image": image.filename}) # check if there is a file with this name
-        if  name_repeat > 0 or image.filename == "default.png":
-            filename = secure_filename(str(randint(0,1000)) + image.filename) # if yes add a random number to it
-            while True: #this is to make sure that the same random number was not already assigned to the image name (should be rare)
-                if recipes.count_documents({ "image": filename}) > 0:
-                    filename = secure_filename(str(randint(0,1000)) + image.filename)
-                else:
-                    break
-        else:
-            filename = secure_filename(image.filename)
-        if filename:
+        
+        if image.filename:
+            name, file_extension = os.path.splitext(image.filename)
+            filename = secure_filename(str(uuid.uuid1()) + file_extension)
             destination = "".join([target, filename])
             image.save(destination)
         else: 
