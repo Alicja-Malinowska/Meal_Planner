@@ -12,7 +12,6 @@ import datetime
 import uuid 
 
 
-
 app = Flask(__name__)
 
 MONGODB_URI = os.getenv("MONGO_URI").replace('"', '')
@@ -223,23 +222,33 @@ def edit_recipe(recipe_id):
 @app.route('/recipes/save_edits/<recipe_id>', methods=['POST'])
 @login_required
 def save_edits(recipe_id):
-    recipes = mongo.db.recipes
-    name = request.form.get('name').strip()
-    ingredients = request.form.get('ingredients').splitlines(True)
-    instructions = request.form.get('instructions').splitlines(True)
-    tags = request.form.get('tags').replace(" ", "").strip(";").split(";")
-    recipes.update( {'_id': ObjectId(recipe_id)},
-    {
-        'name':request.form.get('name'),
-        'ingredients':ingredients,
-        'servings': request.form.get('servings'),
-        'instructions': instructions,
-        'tags':tags,
-        'image':request.form.get('image'),
-        'owner': current_user.email
-    })
+    form = AddRecipe()
+    if form.validate_on_submit():
+        recipes = mongo.db.recipes
+        name = request.form.get('name').strip()
+        ingredients = request.form.get('ingredients').splitlines(True)
+        instructions = request.form.get('instructions').splitlines(True)
+        tags = request.form.get('tags').replace(" ", "").strip(";").split(";")
+        image = request.files[form.image.name]
+        if image:
+            name, file_extension = os.path.splitext(image.filename)
+            filename = secure_filename(str(uuid.uuid1()) + file_extension)
+            destination = "".join([target, filename])
+            image.save(destination)
+        else: 
+            filename = recipes.find_one({'_id': ObjectId(recipe_id)})['image']
+        recipes.update( {'_id': ObjectId(recipe_id)},
+        {
+            'name':name,
+            'ingredients':ingredients,
+            'servings': request.form.get('servings'),
+            'instructions': instructions,
+            'tags':tags,
+            'image':filename,
+            'owner': current_user.email
+        })
 
-    return redirect(url_for('recipes'))
+        return redirect(url_for('recipes'))
 
 
 @app.route('/schedule', methods=['POST'])
