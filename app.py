@@ -81,7 +81,7 @@ def login():
             login_user(user_obj)
             print(current_user.is_authenticated)
             flash("Logged in successfully!", category='success')
-            return redirect(request.args.get("next") or url_for("index"))
+            return redirect(url_for("home"))
         flash("Wrong username or password!", category='error')
     return render_template('login.html', title='login', form=form)
 
@@ -89,12 +89,12 @@ def login():
 @app.route("/logout")
 def logout():
     logout_user()
-    return redirect(url_for('index'))
+    return redirect(url_for('home'))
 
 
 @app.route('/')
-def index():
-    return render_template('layout/index.html')
+def home():
+    return render_template('home.html')
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -111,7 +111,7 @@ def registration():
             profile["password"] = sha256_crypt.hash(profile["password"])
             users.insert_one(profile)
             flash("All done! You're registered and you can log in now!")
-            return render_template('layout/index.html')
+            return render_template('home.html')
 
     return render_template('registration.html', form=form)
 
