@@ -1,22 +1,22 @@
 {% extends 'layout/index.html' %}
 {% block content %}
 
-{% for this_recipe in recipe %}
-<h1>{{ this_recipe.name }}</h1>
-<img src="{{ url_for('static', filename = 'images/recipe-images/' + this_recipe.image)}}" alt="recipe image">
+{% for recipe in this_recipe %}
+<h1>{{ recipe.name }}</h1>
+<img src="{{ url_for('static', filename = 'images/recipe-images/' + recipe.image)}}" alt="recipe image">
 <h2>Ingredients</h2>
 <ul>
-{% for ingredient in this_recipe.ingredients %}
+{% for ingredient in recipe.ingredients %}
     <li>{{ ingredient }}</li>
     
 {% endfor %}
 </ul>
-<p>Servings: {{ this_recipe.servings }}</p>
+<p>Servings: {{ recipe.servings }}</p>
 
 <div>
     <h2>Instructions</h2>
     <ul>
-        {% for instruction in this_recipe.instructions %}
+        {% for instruction in recipe.instructions %}
 
         <li>{{ instruction }}</li>
 
@@ -26,34 +26,14 @@
 </div>
 
 <h3>Tags</h3>
-{% for tag in this_recipe.tags %}
+{% for tag in recipe.tags %}
 <a href="{{ url_for('search_tag', tag=tag)}}">{{tag ~ ";"}}</a>
 {% endfor %}
 
-<a href="{{url_for('delete_recipe', recipe_id=this_recipe._id)}}">Delete</a>
-<a href="{{url_for('edit_recipe', recipe_id=this_recipe._id)}}">Edit</a>
-<a class="waves-effect waves-light btn modal-trigger" href="#modal1" data-id={{ this_recipe._id }}>Add to planner</a></li>
+{% include 'components/recipe_actions.html'%} 
 {% endfor %}
 
 
-<!-- Modal Structure -->
-<div id="modal1" class="modal">
-    <div class="modal-content">
-      <h4>When would you like to cook this?</h4>
-      <form action="{{url_for('schedule')}}" method='post' name='date_form' id='date_form'>
-        <i class="material-icons prefix">today</i>
-        <input type="hidden" name="recipe_id" value="">
-        <input id="schedule_date" name="schedule_date" type="text" class="datepicker" required>
-        <label for="icon_prefix">Pick date</label>
-        <input type="radio" id="morning" name="daytime" value="Morning" required>
-        <label for="morning">Morning</label>
-        <input type="radio" id="afternoon" name="daytime" value="Afternoon">
-        <label for="afternoon">Afternoon</label>
-        <input type="radio" id="evening" name="daytime" value="Evening">
-        <label for="evening">Evening</label>
-        <input type="submit">
-      </form>
-    </div>
-  </div>
+{% include 'components/modal.html'%} 
 
 {% endblock %}

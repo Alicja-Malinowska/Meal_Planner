@@ -3,14 +3,7 @@
 
 <a href="{{ url_for('add_recipe')}}">Add new recipe</a>
 
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for message in messages %}
-<p>{{ message }}</p>
-{% endfor %}
-{% endif %}
-
-{% endwith %}
+{% include 'components/flash.html'%} 
 
 <form action="{{ url_for('search_name')}}">
   <input type="text" name="recipe-name" id="recipe-name" placeholder="Enter recipe name">
@@ -41,35 +34,14 @@
   {% for recipe in recipes %}
 
   <li><a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">{{ recipe.name }}</a>
-    <a href="{{url_for('delete_recipe', recipe_id=recipe._id)}}">Delete</a>
-    <a href="{{url_for('edit_recipe', recipe_id=recipe._id)}}">Edit</a>
-    <!-- Modal Trigger -->
-    <a class="waves-effect waves-light btn modal-trigger" href="#modal1" data-id={{ recipe._id }}>Add to planner</a></li>
+    {% include 'components/recipe_actions.html'%} 
 
 
   {% endfor %}
 
 </ul>
 
+{% include 'components/modal.html'%} 
 
 
-<!-- Modal Structure -->
-<div id="modal1" class="modal">
-  <div class="modal-content">
-    <h4>When would you like to cook this?</h4>
-    <form action="{{url_for('schedule')}}" method='post' name='date_form' id='date_form'>
-      <i class="material-icons prefix">today</i>
-      <input type="hidden" name="recipe_id" value="">
-      <input id="schedule_date" name="schedule_date" type="text" class="datepicker" required>
-      <label for="icon_prefix">Pick date</label>
-      <input type="radio" id="morning" name="daytime" value="Morning" required>
-      <label for="morning">Morning</label>
-      <input type="radio" id="afternoon" name="daytime" value="Afternoon">
-      <label for="afternoon">Afternoon</label>
-      <input type="radio" id="evening" name="daytime" value="Evening">
-      <label for="evening">Evening</label>
-      <input type="submit">
-    </form>
-  </div>
-</div>
 {% endblock %}

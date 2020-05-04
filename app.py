@@ -201,7 +201,7 @@ def add_recipe():
 @login_required
 def show_recipe(recipe_id):
     return render_template('selected-recipe.html',
-                           recipe=mongo.db.recipes.find({'_id': ObjectId(recipe_id), 'owner': current_user.email}))
+                           this_recipe=mongo.db.recipes.find({'_id': ObjectId(recipe_id), 'owner': current_user.email}))
    
 @app.route('/recipes/delete/<recipe_id>')
 @login_required
