@@ -189,7 +189,7 @@ def add_recipe():
         new_recipe['owner'] = current_user.email
         new_recipe['ingredients'] = new_recipe['ingredients'].splitlines(True)
         new_recipe['instructions'] = new_recipe['instructions'].splitlines(True)
-        new_recipe['tags'] = new_recipe['tags'].replace(" ", "").strip(";").split(";")
+        new_recipe['tags'] = new_recipe['tags'].lower().replace(" ", "").strip(";").split(";")
         new_recipe['image'] = filename
         recipes.insert_one(new_recipe)
         flash('Recipe added!')
@@ -226,7 +226,7 @@ def save_edits(recipe_id):
         name = request.form.get('name').strip()
         ingredients = request.form.get('ingredients').splitlines(True)
         instructions = request.form.get('instructions').splitlines(True)
-        tags = request.form.get('tags').replace(" ", "").strip(";").split(";")
+        tags = request.form.get('tags').lower().replace(" ", "").strip(";").split(";")
         image = request.files[form.image.name]
         if image:
             name, file_extension = os.path.splitext(image.filename)
