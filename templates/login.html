@@ -3,8 +3,8 @@
 {% block content %}
 <div class="container">
   <h3>Log into your account</h3>
-  <hr>
-
+  {% include 'components/flash.html'%} 
+  
 
   <form action="" method="post" class="form" role="form">
     {{ form.csrf_token() }}

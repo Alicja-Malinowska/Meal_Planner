@@ -1,9 +1,10 @@
 {% extends "layout/index.html" %}
 {% block content %}
 
+{% include 'components/flash.html'%} 
 {% if current_user.is_authenticated %}
   Hi {{ current_user.first_name}}!
-  {% include 'components/flash.html'%} 
+  
 {% else %}
    This app is awesome!
 {% endif %}
