@@ -3,7 +3,6 @@ from flask import Flask, render_template, redirect, request, url_for, flash
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
-from flask_bootstrap import Bootstrap
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
 from forms import RegistrationForm, LoginForm, AddRecipe
 from passlib.hash import sha256_crypt
@@ -20,7 +19,6 @@ app.config["MONGO_URI"] = MONGODB_URI
 
 
 mongo = PyMongo(app)
-Bootstrap(app)
 login_manager = LoginManager()
 login_manager.init_app(app)
 
