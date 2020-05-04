@@ -15,19 +15,13 @@
 {% block content %}
 
 
-<h1>{{current_user.is_authenticated}}</h1>
+
 {% if current_user.is_authenticated %}
   Hi {{ current_user.first_name}}!
 {% endif %}
 
-{% with messages = get_flashed_messages() %}
-  {% if messages %}
-    {% for message in messages %}
-    <p>{{ message }}</p>
-    {% endfor %}
-  {% endif %}
+{% include 'components/flash.html'%} 
 
-  {% endwith %}
 
 {% endblock %}
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

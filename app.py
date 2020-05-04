@@ -110,7 +110,8 @@ def registration():
             profile["confirm"] = sha256_crypt.hash(profile["confirm"])
             profile["password"] = sha256_crypt.hash(profile["password"])
             users.insert_one(profile)
-            return "All done! You're registered"
+            flash("All done! You're registered and you can log in now!")
+            return render_template('layout/index.html')
 
     return render_template('registration.html', form=form)
 
