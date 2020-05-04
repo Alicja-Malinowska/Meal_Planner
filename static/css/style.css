@@ -1,3 +1,11 @@
 .btn {
     background-color: #0e8847;
 }
+
+.errors {
+    color: #b71c1c;
+}
+
+.flash {
+    color: #F50057;
+}
