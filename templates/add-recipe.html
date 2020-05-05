@@ -1,35 +1,61 @@
 {% extends "layout/index.html" %}
 {% block content %}
-<form action="" method="post" class="form" role="form" enctype="multipart/form-data">
+<div class="container">
+  <form action="" method="post" class="col s12" role="form" enctype="multipart/form-data">
     {{ form.csrf_token() }}
 
+
+    <div class="row">
+      <div class="input-field col s12 m6">
+        <i class="material-icons prefix">star</i>
+        {{ form.name (class="validate", placeholder='Name') }}
+      </div>
     
-
-    <div class="form-group">
-      {{ form.name (class='form-control', placeholder='Name') }}
-    </div>
-
-    <div class="form-group">
-      {{ form.ingredients (class='form-control', placeholder='Ingredients List') }}
-    </div>
-
-    <div class="form-group">
-        {{ form.servings (class='form-control', placeholder='Servings') }}
+    
+      <div class="input-field col s12 m6">
+        <i class="material-icons prefix">restaurant_menu</i>
+        {{ form.servings (class="validate", placeholder='Servings') }}
       </div>
-
-    <div class="form-group">
-        {{ form.instructions(class='form-control', placeholder='Instructions') }}
     </div>
 
-    <div class="form-group">
-        {{ form.tags(class='form-control', placeholder='Tags') }}
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">list</i>
+        {{ form.ingredients (class="materialize-textarea", placeholder='Ingredients List') }}
       </div>
-
-    <div class="form-group">
-        {{ form.image(class='form-control') }}
     </div>
-
-    <button type="submit" class="btn btn-primary">Submit</button>
+    
+    <div class="row">
+      <div class="input-field col s12">
+        <i class="material-icons prefix">import_contacts</i>
+        {{ form.instructions(class="materialize-textarea", placeholder='Instructions') }}
+      </div>
+    </div>
+    <div class="row">
+      <div class="input-field col s12 m8">
+        <i class="material-icons prefix">loyalty</i>
+        {{ form.tags(class="validate", placeholder='Tags') }}
+      </div>
+    
+      <div class="input-field file-field col s12 m4">
+        <div class="btn">
+          <i class="material-icons left">image</i>
+          <span>File</span>
+          {{ form.image}}
+        </div>
+       
+        <div class="file-path-wrapper">
+          <input class="file-path validate" type="text">
+        </div>
+      </div>
+      <div class="col s12 m4 offset-m8">
+        {% if form.image.errors %}
+        <ul class="errors">{% for error in form.image.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+    {% endif %}
+      </div>
+    </div>
+    
+    <button type="submit" class="waves-effect waves-light btn">Add</button>
   </form>
-
+</div>
 {% endblock %}
