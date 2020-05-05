@@ -12,3 +12,15 @@
 .flash {
     color: #F50057;
 }
+
+.material-icons {
+    color: #d81b60;
+}
+
+.input-field .prefix.active {
+    color: #f06292;
+}
+
+.button-icon {
+    color: #ffffff;
+}
