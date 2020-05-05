@@ -1,7 +1,7 @@
 from wtforms import SubmitField, BooleanField, StringField, PasswordField, IntegerField, TextAreaField, validators
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
-import re
+
 
 
 class RegistrationForm(FlaskForm):
@@ -30,7 +30,7 @@ class LoginForm(FlaskForm):
 class AddRecipe(FlaskForm):
 
     def semicolon_check(form, field):
-        if not ';' in field.data:
+        if len(field.data) > 0 and not ';' in field.data:
             raise validators.ValidationError("Make sure that your tags are separated with semicolons!")
 
     name = StringField('Recipe Name', [validators.DataRequired()])
