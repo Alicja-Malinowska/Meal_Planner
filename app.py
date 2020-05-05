@@ -77,12 +77,10 @@ def login():
         user = mongo.db.users.find_one({"email_address": form.email_address.data})
         if user and User.validate_login(form.password.data, user['password']):
             user_obj = User(user['email_address'], user['_id'], user['first_name'])
-            print(current_user.is_authenticated)
             login_user(user_obj)
-            print(current_user.is_authenticated)
-            flash("Logged in successfully!", category='success')
+            flash("Logged in successfully!", 'success')
             return redirect(url_for("home"))
-        flash("Wrong username or password!", category='error')
+        flash("Wrong username or password!", 'errors')
     return render_template('login.html', title='login', form=form)
 
 
@@ -104,13 +102,13 @@ def registration():
         users = mongo.db.users
         profile = request.form.to_dict()
         if users.count_documents({"email_address": profile["email_address"]}) > 0:
-            flash("An account has already been registered for this email address")
+            flash("An account has already been registered for this email address", "errors")
             return redirect(url_for('registration'))
         else:
             profile["confirm"] = sha256_crypt.hash(profile["confirm"])
             profile["password"] = sha256_crypt.hash(profile["password"])
             users.insert_one(profile)
-            flash("All done! You're registered and you can log in now!")
+            flash("All done! You're registered and you can log in now!", "success")
             return render_template('home.html')
 
     return render_template('registration.html', form=form)
@@ -193,7 +191,7 @@ def add_recipe():
         new_recipe['tags'] = new_recipe['tags'].lower().replace(" ", "").strip(";").split(";")
         new_recipe['image'] = filename
         recipes.insert_one(new_recipe)
-        flash('Recipe added!')
+        flash('Recipe added!', 'success')
         return redirect(url_for('recipes'))  
     return render_template('add-recipe.html', form=form)
 
@@ -283,7 +281,7 @@ def search_name():
         search_results = recipes.find({ "name": { '$regex' : recipe_name, '$options': 'i'}, 'owner': current_user.email})
         return render_template('recipes.html', recipes = search_results, tags = tags)
     else:
-        flash('No results found')
+        flash('No results found', "errors")
         return render_template('recipes.html', recipes = [], tags = tags)
 
 @app.route('/search_tag')

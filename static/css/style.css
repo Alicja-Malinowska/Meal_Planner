@@ -6,12 +6,14 @@
     color: #b71c1c;
 }
 
+.success {
+    color: #22a95d;
+}
+
 .notes {
     margin-top: 0;
 }
-.flash {
-    color: #F50057;
-}
+
 
 .material-icons {
     color: #d81b60;
