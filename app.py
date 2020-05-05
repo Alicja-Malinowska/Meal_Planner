@@ -209,14 +209,40 @@ def delete_recipe(recipe_id):
     return redirect(url_for('recipes'))
 
 
-@app.route('/recipes/edit/<recipe_id>')
+@app.route('/recipes/edit/<recipe_id>', methods=['GET','POST'])
 @login_required
 def edit_recipe(recipe_id):
     form = AddRecipe()
     the_recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
+    if request.method == 'POST' and form.validate_on_submit():
+        recipes = mongo.db.recipes
+        name = request.form.get('name').strip()
+        ingredients = request.form.get('ingredients').splitlines(True)
+        instructions = request.form.get('instructions').splitlines(True)
+        tags = request.form.get('tags').lower().replace(" ", "").strip(";").split(";")
+        image = request.files[form.image.name]
+        if image:
+            name, file_extension = os.path.splitext(image.filename)
+            filename = secure_filename(str(uuid.uuid1()) + file_extension)
+            destination = "".join([target, filename])
+            image.save(destination)
+        else: 
+            filename = recipes.find_one({'_id': ObjectId(recipe_id)})['image']
+        recipes.update( {'_id': ObjectId(recipe_id)},
+        {
+            'name':name,
+            'ingredients':ingredients,
+            'servings': request.form.get('servings'),
+            'instructions': instructions,
+            'tags':tags,
+            'image':filename,
+            'owner': current_user.email
+        })
+
+        return redirect(url_for('recipes'))
     return render_template('edit-recipe.html', the_recipe = the_recipe, form = form)
 
-@app.route('/recipes/save_edits/<recipe_id>', methods=['POST'])
+'''@app.route('/recipes/save_edits/<recipe_id>', methods=['POST'])
 @login_required
 def save_edits(recipe_id):
     form = AddRecipe()
@@ -246,7 +272,7 @@ def save_edits(recipe_id):
         })
 
         return redirect(url_for('recipes'))
-
+    return render_template('edit-recipe.html', form=form)'''
 
 @app.route('/schedule', methods=['POST'])
 @login_required
