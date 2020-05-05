@@ -10,7 +10,7 @@ class RegistrationForm(FlaskForm):
     last_name = StringField('Last Name',
                             [validators.DataRequired()])
     email_address = StringField('Email Address', [validators.DataRequired(),
-                                                  validators.Email(), validators.Length(min=6, max=35)])
+                                                  validators.Email(), validators.Length(min=6, max=35, message="It looks like this is too long to be a valid email address!")])
     password = PasswordField('New Password', [
         validators.DataRequired(),
         validators.EqualTo('confirm',
@@ -22,7 +22,7 @@ class RegistrationForm(FlaskForm):
 
 class LoginForm(FlaskForm):
     email_address = StringField('Email Address', [validators.DataRequired(),
-                                                  validators.Email(), validators.Length(min=6, max=35)])
+                                                  validators.Email()])
     password = PasswordField('New Password', [
         validators.DataRequired(), ])
     submit = SubmitField('Submit')
