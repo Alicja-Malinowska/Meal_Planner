@@ -1,6 +1,7 @@
 {% extends "layout/index.html" %}
 {% block content %}
 <div class="container">
+  <h3>Add a new recipe!</h3>
   <form action="" method="post" class="col s12" role="form" enctype="multipart/form-data">
     {{ form.csrf_token() }}
 
@@ -35,6 +36,12 @@
       <div class="input-field col s12 m8">
         <i class="material-icons prefix">loyalty</i>
         {{ form.tags(class="validate", placeholder='Tags') }}
+        {% if form.tags.errors %}
+        <ul class="errors notes">{% for error in form.tags.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        {% else %}
+        <p class="errors notes"><strong>Note:</strong> make sure to separate your tags with semicolons<strong>(;)</strong></p>
+    {% endif %}
+        
       </div>
     
       <div class="input-field file-field col s12 m4">
@@ -47,12 +54,11 @@
         <div class="file-path-wrapper">
           <input class="file-path validate" type="text">
         </div>
-      </div>
-      <div class="col s12 m4 offset-m8">
         {% if form.image.errors %}
-        <ul class="errors">{% for error in form.image.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+        <ul class="errors notes">{% for error in form.image.errors %}<li>{{ error }}</li>{% endfor %}</ul>
     {% endif %}
       </div>
+      
     </div>
     
     <button type="submit" class="waves-effect waves-light btn">Add</button>

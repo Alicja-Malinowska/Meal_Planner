@@ -1,6 +1,7 @@
 from wtforms import SubmitField, BooleanField, StringField, PasswordField, IntegerField, TextAreaField, validators
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
+import re
 
 
 class RegistrationForm(FlaskForm):
@@ -27,11 +28,16 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Submit')
 
 class AddRecipe(FlaskForm):
+
+    def semicolon_check(form, field):
+        if not ';' in field.data:
+            raise validators.ValidationError("Make sure that your tags are separated with semicolons!")
+
     name = StringField('Recipe Name', [validators.DataRequired()])
     ingredients = TextAreaField('Ingredients')
     servings = StringField('Servings')
     instructions = TextAreaField('Instructions')
-    tags = StringField('Tags')
+    tags = StringField('Tags', [semicolon_check])
     image = FileField('Image', validators=[
         FileAllowed(['jpg', 'png'], 'Images only!')
     ])
