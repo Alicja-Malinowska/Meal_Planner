@@ -33,6 +33,9 @@ tbody th {
     padding:0;
 }
 
+.card-panel {
+    padding: 1rem;
+}
 .btn {
     background-color: #0e8847;
 }
