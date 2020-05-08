@@ -1,6 +1,6 @@
 <nav class="pink darken-4">
     <div class="nav-wrapper">
-      <a href="{{ url_for('home') }}" class="brand-logo">Logo</a>
+      <a href="{{ url_for('home') }}" class="brand-logo"><i class="material-icons">restaurant</i>MealPlanner</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
       <ul class="right hide-on-med-and-down">
         {% if current_user.is_authenticated %}
