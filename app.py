@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, redirect, request, url_for, flash
+from flask import Flask, render_template, redirect, request, url_for, flash, abort
 from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
@@ -9,6 +9,7 @@ from passlib.hash import sha256_crypt
 from models import User
 import datetime
 import uuid 
+from urllib.parse import urlparse, urljoin
 
 
 app = Flask(__name__)
@@ -36,6 +37,14 @@ WEEK_DAYS = {
 }
 DATE_INST = datetime.date(datetime.MINYEAR, 1, 1)
 TODAY = DATE_INST.today()
+
+#this snippet is taken from stack overflow as the link in the offical Flask documentation doesn't work
+def is_safe_url(target):
+    ref_url = urlparse(request.host_url)
+    test_url = urlparse(urljoin(request.host_url, target))
+    return test_url.scheme in ('http', 'https') and \
+           ref_url.netloc == test_url.netloc
+
 def get_week(start_date):
     the_week = [(start_date, WEEK_DAYS[str(start_date.weekday())])]
     for i in range(1,7):
@@ -79,7 +88,10 @@ def login():
             user_obj = User(user['email_address'], user['_id'], user['first_name'])
             login_user(user_obj)
             flash("Logged in successfully!", 'success')
-            return redirect(url_for("home"))
+            next = request.args.get('next')
+            if not is_safe_url(next):
+                return abort(400)
+            return redirect(next or url_for('home'))
         flash("Wrong username or password!", 'errors')
     return render_template('login.html', title='login', form=form)
 
