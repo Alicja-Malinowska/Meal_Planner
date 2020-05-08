@@ -1,79 +1,141 @@
 {% extends 'layout/index.html' %}
 {% block content %}
-<div class="container">
-    <div class="row">
-        <div class="col s3">
+<div class="container" id="planner-nav">
+    <div class="row valign-wrapper">
+        <div class="col s2">
             <form action="{{url_for('previous')}}" method="post">
                 <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
-                <button type="submit" class="waves-effect waves-light btn">Previous</button>
+                <button type="submit" class="btn-floating waves-effect waves-light btn"><i class="material-icons">arrow_back</i></button>
             </form>
 
         </div>
-        <div class="col s3">
-            <a href="{{url_for('planner')}}" class="waves-effect waves-light btn">Current week</a>
+        <div class="col s3" id="first-day">
+            {% set day = current_week[0]%}
+            {% include 'components/date_format.html'%}
         </div>
-        <div class="col s3">
-            <form action="{{url_for('jump_to')}}" method='get' id='date_form'>
-                <i class="material-icons prefix">today</i>
-                <input id="jump_to" name="jump_to" type="text" class="datepicker">
-                <label for="jump_to">Jump to (date) </label>
-            </form>
+         <span id="hyphen">-</span>
+        <div class="col s3" id="last-day">
+            {% set day = current_week[-1]%}
+            {% include 'components/date_format.html'%}
         </div>
-        <div class="col s3">
+        <div class="col s2" id="next-week">
             <form action="{{url_for('next')}}" method="post">
                 <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
-                <button type="submit" class="waves-effect waves-light btn">Next</button>
+                <button type="submit" class="btn-floating waves-effect waves-light btn"><i class="material-icons">arrow_forward</i></button>
+            </form>
+        </div>
+    </div>
+    <div class="row valign-wrapper" id="current-custom-date">
+        <div class="col s6">
+            <a href="{{url_for('planner')}}" class="waves-effect waves-light btn" id="current-week-button">Current week</a>
+        </div>
+        <div class="col s4" id="date-label">
+            <p>Custom date:</p>
+        </div>
+        <div class="col s2" id="date-pick">
+            <form action="{{url_for('jump_to')}}" method='get' id='date_form'>
+                <input id="jump_to" name="jump_to" type="text" class="datepicker">
             </form>
         </div>
     </div>
 </div>
 
-<table style="width:100%;height:80%">
-    <tr>
-        <th></th>
-        {% for day in current_week %}
-        <th>
-            {% if day[0].day < 10 and day[0].month < 10%}
-            <p>{{ "0" ~ day[0].day ~ "/" ~ "0" ~ day[0].month ~ "/" ~ day[0].year }}</p>
-            {% elif day[0].month < 10 %}
-            <p>{{ day[0].day ~ "/" ~ "0" ~ day[0].month ~ "/" ~ day[0].year }}</p>
-            {% elif day[0].day < 10 %}
-            <p>{{ "0" ~ day[0].day ~ "/" ~ day[0].month ~ "/" ~ day[0].year }}</p>
-            {% else %}
-            <p>{{ day[0].day ~ "/" ~ day[0].month ~ "/" ~ day[0].year }}</p>
-            {% endif %}
-            <p>{{ day[1] }}</p>
-        </th>
+<div class="hide-on-med-and-down">
+    <table>
+        <tr>
+            <th></th>
+            {% for day in current_week %}
+            <th>
+                {% include 'components/date_format.html'%}
+                <p class="center-align">{{ day[1] }}</p>
+            </th>
 
-        {% endfor %}
-    </tr>
+            {% endfor %}
+        </tr>
 
-    <tr>
-        <th>Morning</th>
-        {% set time = "Morning" %}
-        {% for day in current_week %}
-        <td>
-            {% include 'components/table_cell.html'%}  
-        </td>
-        {% endfor %}
-    </tr>
-    <tr>
-        <th>Afternoon</th>
-        {% set time = "Afternoon" %}
-        {% for day in current_week %}
-        <td>
-            {% include 'components/table_cell.html'%}  
-        </td>
-        {% endfor %}
-    </tr>
-    <tr>
-        <th>Evening</th>
-        {% set time = "Evening" %}
-        {% for day in current_week %}
-        <td>
-            {% include 'components/table_cell.html'%}  
-        </td>
-        {% endfor %}
-    </tr>
-</table>
+        <tr>
+            <th>Morning</th>
+            {% set time = "Morning" %}
+            {% for day in current_week %}
+            <td>
+                {% include 'components/table_cell.html'%}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Afternoon</th>
+            {% set time = "Afternoon" %}
+            {% for day in current_week %}
+            <td>
+                {% include 'components/table_cell.html'%}
+            </td>
+            {% endfor %}
+        </tr>
+        <tr>
+            <th>Evening</th>
+            {% set time = "Evening" %}
+            {% for day in current_week %}
+            <td>
+                {% include 'components/table_cell.html'%}
+            </td>
+            {% endfor %}
+        </tr>
+    </table>
+</div>
+
+
+<div class="hide-on-large-only">
+    <div class="container">
+        <div class="row">
+            <div class="col s12">
+                {% for day in current_week %}
+                <div class="day-header center-align">
+                {% include 'components/date_format.html'%}
+                <p class="center-align">{{ day[1] }}</p>
+            </div>
+                <div class="row card-panel morning">
+                    <div class="col s3">
+                        <p>Morning</p>
+                    </div>
+                    <div class="col s9">
+                        {% set time = "Morning" %}
+                        
+
+                        {% include 'components/table_cell.html'%}
+
+                        
+                    </div>
+                </div>
+                <div class="row card-panel afternoon">
+                    <div class="col s3">
+                        <p>Afternoon</p>
+                    </div>
+                    <div class="col s9">
+                        {% set time = "Afternoon" %}
+                        
+
+                        {% include 'components/table_cell.html'%}
+
+                        
+                    </div>
+                </div>
+                <div class="row card-panel evening">
+                    <div class="col s3">
+                        <p>Evening</p>
+                    </div>
+                    <div class="col s9">
+                        {% set time = "Evening" %}
+                        
+
+                        {% include 'components/table_cell.html'%}
+
+                        
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock %}

@@ -1,0 +1,9 @@
+{% if day[0].day < 10 and day[0].month < 10%}
+<p class="center-align">{{ "0" ~ day[0].day ~ "/" ~ "0" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+{% elif day[0].month < 10 %}
+<p class="center-align">{{ day[0].day ~ "/" ~ "0" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+{% elif day[0].day < 10 %}
+<p class="center-align">{{ "0" ~ day[0].day ~ "/" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+{% else %}
+<p class="center-align">{{ day[0].day ~ "/" ~ day[0].month ~ "/" ~ day[0].year }}</p>
+{% endif %}

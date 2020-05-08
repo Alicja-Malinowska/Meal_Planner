@@ -26,3 +26,73 @@
 .button-icon {
     color: #ffffff;
 }
+
+.morning {
+    background-color: #fce4ec;
+}
+
+.afternoon {
+    background-color: #f8bbd0;
+}
+
+.evening {
+    background-color: #f48fb1;
+}
+
+.day-header>p {
+    display: inline;
+    font-weight: 900;
+    font-size: 1.25rem;
+}
+
+#next-week, #date-label {
+    text-align: right;
+}
+
+#date-label {
+    padding-right: 0;
+}
+
+#date-pick {
+    padding-left: 0;
+}
+
+#current-week-button {
+    text-transform: capitalize;
+}
+
+#planner-nav {
+    margin-top: 1vh;
+}
+
+#first-day>p {
+    text-align: right;
+}
+#last-day>p {
+    text-align: left;
+}
+#last-day {
+    margin-left: 0;
+    padding-left:0;
+}
+#first-day {
+    padding-right: 0;
+}
+#first-day, #last-day {
+    font-style: italic;
+    font-weight: 900;
+
+}
+
+#hyphen {
+    padding: 0 1rem;
+}
+
+@media only screen and (min-width: 993px) {
+
+    #current-custom-date {
+        margin-left: 7vw;
+        margin-right: 7vw;
+    }
+
+}

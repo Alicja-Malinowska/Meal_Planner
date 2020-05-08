@@ -1,7 +1,10 @@
+<div class="scheduled-recipes">
 {% for recipe in week_recipes %}
 {% if recipe["date"] == day[0]|string and recipe["daytime"] == time %}
+<div class="scheduled-recipe-line">
 <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
-<a
-    href="{{url_for('del_from_schedule', recipe_id=recipe['id'], date=recipe['date'], daytime=recipe['daytime'], first_week_day=first_week_day)}}">x</a>
+<a href="{{url_for('del_from_schedule', recipe_id=recipe['id'], date=recipe['date'], daytime=recipe['daytime'], first_week_day=first_week_day)}}">x</a>
+</div>
 {% endif %}
 {% endfor %}
+</div>
