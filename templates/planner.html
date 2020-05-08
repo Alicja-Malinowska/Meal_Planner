@@ -1,22 +1,32 @@
 {% extends 'layout/index.html' %}
 {% block content %}
-<form action="{{url_for('next')}}" method="post">
-    <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
-    <button type="submit">Next</button>
-</form>
+<div class="container">
+    <div class="row">
+        <div class="col s3">
+            <form action="{{url_for('previous')}}" method="post">
+                <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
+                <button type="submit" class="waves-effect waves-light btn">Previous</button>
+            </form>
 
-<a href="{{url_for('planner')}}">Current week</a>
-
-<form action="{{url_for('jump_to')}}" method='get' id='date_form'>
-    <i class="material-icons prefix">today</i>
-    <input id="jump_to" name="jump_to" type="text" class="datepicker">
-    <label for="icon_prefix">Jump to (date) </label>
-</form>
-
-<form action="{{url_for('previous')}}" method="post">
-    <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
-    <button type="submit">Previous</button>
-</form>
+        </div>
+        <div class="col s3">
+            <a href="{{url_for('planner')}}" class="waves-effect waves-light btn">Current week</a>
+        </div>
+        <div class="col s3">
+            <form action="{{url_for('jump_to')}}" method='get' id='date_form'>
+                <i class="material-icons prefix">today</i>
+                <input id="jump_to" name="jump_to" type="text" class="datepicker">
+                <label for="jump_to">Jump to (date) </label>
+            </form>
+        </div>
+        <div class="col s3">
+            <form action="{{url_for('next')}}" method="post">
+                <input type="hidden" name="first_week_day" value="{{ first_week_day }}">
+                <button type="submit" class="waves-effect waves-light btn">Next</button>
+            </form>
+        </div>
+    </div>
+</div>
 
 <table style="width:100%;height:80%">
     <tr>
@@ -40,40 +50,28 @@
 
     <tr>
         <th>Morning</th>
+        {% set time = "Morning" %}
         {% for day in current_week %}
         <td>
-            {% for recipe in week_recipes %}
-                {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Morning" %}
-                    <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
-                    <a href="{{url_for('del_from_schedule', recipe_id=recipe['id'], date=recipe['date'], daytime=recipe['daytime'], first_week_day=first_week_day)}}">x</a>
-                {% endif %}
-            {% endfor %}
+            {% include 'components/table_cell.html'%}  
         </td>
         {% endfor %}
     </tr>
     <tr>
         <th>Afternoon</th>
+        {% set time = "Afternoon" %}
         {% for day in current_week %}
         <td>
-            {% for recipe in week_recipes %}
-                {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Afternoon" %}
-                <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
-                <a href="{{url_for('del_from_schedule', recipe_id=recipe['id'], date=recipe['date'], daytime=recipe['daytime'], first_week_day=first_week_day)}}">x</a>
-                {% endif %}
-            {% endfor %}
+            {% include 'components/table_cell.html'%}  
         </td>
         {% endfor %}
     </tr>
     <tr>
         <th>Evening</th>
+        {% set time = "Evening" %}
         {% for day in current_week %}
         <td>
-            {% for recipe in week_recipes %}
-                {% if recipe["date"] == day[0]|string and recipe["daytime"] == "Evening" %}
-                    <a href="{{url_for('show_recipe', recipe_id=recipe['id'])}}">{{ recipe["name"] }}</a>
-                    <a href="{{url_for('del_from_schedule', recipe_id=recipe['id'], date=recipe['date'], daytime=recipe['daytime'], first_week_day=first_week_day)}}">x</a>
-                {% endif %}
-            {% endfor %}
+            {% include 'components/table_cell.html'%}  
         </td>
         {% endfor %}
     </tr>

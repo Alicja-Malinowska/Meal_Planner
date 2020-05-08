@@ -214,6 +214,7 @@ def delete_recipe(recipe_id):
 def edit_recipe(recipe_id):
     form = AddRecipe()
     the_recipe = mongo.db.recipes.find_one({'_id': ObjectId(recipe_id)})
+    target = os.path.join(APP_ROOT, 'static/images/recipe-images/')
     if request.method == 'POST' and form.validate_on_submit():
         recipes = mongo.db.recipes
         name = request.form.get('name').strip()
