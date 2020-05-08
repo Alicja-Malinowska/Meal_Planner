@@ -249,7 +249,8 @@ def edit_recipe(recipe_id):
             'instructions': instructions,
             'tags':tags,
             'image':filename,
-            'owner': current_user.email
+            'owner': current_user.email,
+            'dates': the_recipe["dates"]
         })
 
         return redirect(url_for('recipes'))
