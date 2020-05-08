@@ -235,7 +235,7 @@ def edit_recipe(recipe_id):
         tags = request.form.get('tags').lower().replace(" ", "").strip(";").split(";")
         image = request.files[form.image.name]
         if image:
-            name, file_extension = os.path.splitext(image.filename)
+            file_name, file_extension = os.path.splitext(image.filename)
             filename = secure_filename(str(uuid.uuid1()) + file_extension)
             destination = "".join([target, filename])
             image.save(destination)
