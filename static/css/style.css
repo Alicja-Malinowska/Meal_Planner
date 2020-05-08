@@ -1,3 +1,38 @@
+table {
+    width: 90%;
+    margin: auto;
+    height: 60vh;
+    table-layout: fixed;
+}
+
+td {
+    border: solid .5px #d0d0d0;
+}
+
+th {
+    background-color: #f06292;
+    color: #ffffff;
+    text-align: center;
+}
+
+thead th {
+    border-right: solid .5px #d0d0d0;
+}
+
+tbody th {
+    border-bottom: solid .5px #d0d0d0;
+}
+
+.chip {
+    background-color: #ffffff;
+    display: block;
+    font-size: 1.25rem;
+}
+
+.chip>.s1 {
+    padding:0;
+}
+
 .btn {
     background-color: #0e8847;
 }

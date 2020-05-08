@@ -41,7 +41,8 @@
 </div>
 
 <div class="hide-on-med-and-down">
-    <table>
+    <table class="centered">
+        <thead>
         <tr>
             <th></th>
             {% for day in current_week %}
@@ -52,12 +53,14 @@
 
             {% endfor %}
         </tr>
+    </thead>
 
+    <tbody>
         <tr>
             <th>Morning</th>
             {% set time = "Morning" %}
             {% for day in current_week %}
-            <td>
+            <td class="morning">
                 {% include 'components/table_cell.html'%}
             </td>
             {% endfor %}
@@ -66,7 +69,7 @@
             <th>Afternoon</th>
             {% set time = "Afternoon" %}
             {% for day in current_week %}
-            <td>
+            <td class="afternoon">
                 {% include 'components/table_cell.html'%}
             </td>
             {% endfor %}
@@ -75,11 +78,12 @@
             <th>Evening</th>
             {% set time = "Evening" %}
             {% for day in current_week %}
-            <td>
+            <td class="evening">
                 {% include 'components/table_cell.html'%}
             </td>
             {% endfor %}
         </tr>
+    </tbody>
     </table>
 </div>
 
