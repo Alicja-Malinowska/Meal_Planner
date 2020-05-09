@@ -1,20 +1,32 @@
 {% extends 'layout/index.html' %}
 {% block content %}
 
-<a href="{{ url_for('add_recipe')}}">Add new recipe</a>
+<div class="container">
+<h1 class="center-align">Your recipes</h1>
 
 {% include 'components/flash.html'%} 
-
+<div class="row">
+  <div class="col s12 center-align">
+<a href="{{ url_for('add_recipe')}}" class="waves-effect waves-light btn ">Add new recipe</a>
+</div>
+</div>
+<div class="row" id="search">
+<div class="col s12 l6 center-align">
 <form action="{{ url_for('search_name')}}">
+  <div class="input-field col s7">
   <input type="text" name="recipe-name" id="recipe-name" placeholder="Enter recipe name">
   <label for="recipe-name">Search by recipe name</label>
-  <input type="submit">
+</div>
+<div class="col s5">
+  <input type="submit" value="Search" class="waves-effect waves-light btn">
+</div>
 </form>
-
+</div>
+<div class="col s12 l6 center-align">
 <form action="{{ url_for('search_tag')}}">
-  <label for="list">Search by tag</label>
+  <div class="input-field col s7">
   <select id="tag" name="tag">
-    <option value="choose" selected disabled>Search by tag</option>
+    <option value="choose" selected disabled>Choose a tag</option>
     {% for tag in tags %}
     
     <option value="{{ tag }}">{{ tag }}</option>
@@ -23,17 +35,26 @@
 
 
   </select>
-  <input type="submit">
+  <label>Search by tag</label>
+</div>
+<div class="col s5">
+  <input type="submit" value="Search" class="waves-effect waves-light btn">
+</div>
 </form>
+</div>
+</div>
 
 
 
 
 
-<ul>
+
+<ul class="collection">
   {% for recipe in recipes %}
 
-  <li><a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">{{ recipe.name }}</a>
+  <li class="collection-item avatar">
+    <img src="{{ url_for('static', filename = 'images/recipe-images/' + recipe.image)}}" alt="recipe image" class="circle responsive-img">
+    <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">{{ recipe.name }}</a>
     {% include 'components/recipe_actions.html'%} 
 
 
@@ -42,6 +63,6 @@
 </ul>
 
 {% include 'components/modal.html'%} 
-
+</div>
 
 {% endblock %}

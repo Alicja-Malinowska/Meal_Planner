@@ -100,10 +100,17 @@ tbody th {
     padding-left: 0;
 }
 
-#current-week-button {
+#current-week-button, #search .btn {
     text-transform: capitalize;
 }
 
+#search .btn {
+    padding:0;
+}
+
+#search .s5 {
+    margin-top: 14px;
+}
 #planner-nav {
     margin-top: 1vh;
 }
@@ -131,11 +138,18 @@ tbody th {
     padding: 0 1rem;
 }
 
+.card.horizontal .card-image img {
+
+    max-width: 50%;
+}
 @media only screen and (min-width: 993px) {
 
     #current-custom-date {
         margin-left: 7vw;
         margin-right: 7vw;
     }
+
+    .collection {
+        margin: .5rem 10rem 1rem 10rem;
 
 }
