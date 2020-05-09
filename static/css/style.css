@@ -142,6 +142,20 @@ tbody th {
 
     max-width: 50%;
 }
+
+.actions {
+    float: right;
+}
+
+#recipe-title {
+    font-size: 1.2rem;
+    font-style: italic;
+}
+
+.collection .collection-item {
+    background-color: #fce4ec;
+}
+
 @media only screen and (min-width: 993px) {
 
     #current-custom-date {
@@ -151,5 +165,6 @@ tbody th {
 
     .collection {
         margin: .5rem 10rem 1rem 10rem;
+    }
 
 }
