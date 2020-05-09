@@ -1,0 +1,12 @@
+<div id="modal2" class="modal">
+    <div class="modal-content">
+      <h4>Delete this recipe</h4>
+      <h5>Are you sure?</h5>
+      <h5>This recipe will be permanently deteled.</h5>
+      <form action="{{url_for('delete_recipe')}}" method='post' name='confirmation-form' id='confirmation_form'>
+        <i class="material-icons prefix">today</i>
+        <input type="hidden" name="recipe_id" value="">
+        <input type="submit" value="Confirm" class="waves-effect waves-light btn">
+      </form>
+    </div>
+  </div>

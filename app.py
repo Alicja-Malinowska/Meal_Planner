@@ -214,9 +214,10 @@ def show_recipe(recipe_id):
     return render_template('selected-recipe.html',
                            this_recipe=mongo.db.recipes.find({'_id': ObjectId(recipe_id), 'owner': current_user.email}))
    
-@app.route('/recipes/delete/<recipe_id>')
+@app.route('/recipes/delete', methods=['POST'])
 @login_required
-def delete_recipe(recipe_id):
+def delete_recipe():
+    recipe_id = request.form.get('recipe_id')
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
     return redirect(url_for('recipes'))
 
