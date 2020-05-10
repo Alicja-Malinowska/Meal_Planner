@@ -45,11 +45,13 @@
 </div>
 
 {% if searched %}
-<h5>Search results for {{searched}}: {{tag}}{{recipe_name }}</h5>
+<h5 class="center-align">Search results for {{searched}}: <span class="truncate">{{ tag }}{{ recipe_name }}</span></h5>
 {% endif %}
 
 
 {% include 'components/flash.html'%} 
+
+
 <ul class="collection">
   {% for recipe in recipes %}
 
@@ -62,7 +64,11 @@
   {% endfor %}
 
 </ul>
-
+{% if searched %}
+<div class="center-align">
+<a href="{{ url_for('recipes')}}" class="waves-effect waves-light btn">Back to all recipes</a>
+</div>
+{% endif %}
 {% include 'components/modal.html'%} 
 {% include 'components/del-confirm-modal.html'%}
 </div>
