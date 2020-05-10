@@ -107,9 +107,12 @@ def home():
     recipes = mongo.db.recipes
     today = TODAY.strftime("%Y-%m-%d")
     today_recipes = []
+    message = ""
     if current_user.is_authenticated:
         today_recipes = recipes.find({'dates':{'$elemMatch':{'$elemMatch':{'$in':[today]}}}, 'owner': current_user.email})
-    return render_template('home.html', today_recipes=today_recipes)
+        if recipes.count_documents({'dates':{'$elemMatch':{'$elemMatch':{'$in':[today]}}}, 'owner': current_user.email}) == 0:
+            message = "You have nothing scheduled today."
+    return render_template('home.html', today_recipes=today_recipes, message=message)
 
 
 @app.route('/registration', methods=['GET', 'POST'])
