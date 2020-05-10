@@ -12,6 +12,7 @@ nav .brand-logo {
     margin: auto;
     height: 60vh;
     table-layout: fixed;
+    margin-bottom: 1.5rem;
 }
 
 td {
@@ -151,10 +152,6 @@ tbody th {
     padding: 0 1rem;
 }
 
-.card.horizontal .card-image img {
-
-    max-width: 50%;
-}
 
 .actions {
     float: right;
@@ -188,7 +185,28 @@ tbody th {
     margin-top: 1rem;
 }
 
+#add-instruction {
+    margin: 0;
+}
 
+.home-card {
+    height: 300px;
+}
+
+.home-card .card-image {
+    height: 70%;
+    background-color: #f8bbd0;
+}
+.home-card .card-content {
+    height: 30%
+}
+
+.home-card .card-image img {
+    height: 100%;
+    margin: auto;
+    max-width: 100%;
+    width: auto;
+}
 
 @media only screen and (min-width: 993px) {
 
