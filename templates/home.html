@@ -3,10 +3,36 @@
 <div class="container">
   {% include 'components/flash.html'%}
   {% if current_user.is_authenticated %}
-  <h5>Hi {{ current_user.first_name}}!</h5>
-  <h1>Today recipes</h1>
-  <h5>Here is what you're cooking today:</h5>
-  <p>{{message}}</p>
+  <div class="row">
+  <h5 class="center-align">Hi {{ current_user.first_name}}!</h5>
+</div>
+<div class="row">
+  <h1 class="center-align card" id="home-header">Today recipes</h1>
+</div>
+<div class="row">
+  <h5 class="center-align">Here is what you're cooking today:</h5>
+</div>
+  {% if message %}
+  <div class="row center-align">
+  <p  id="message">{{message}}</p>
+</div>
+  <p class="center-align">Here are some things you might want to do:<p>
+
+<div class="row">
+<ul class="center-align home-actions">
+  <li>
+    <p class="valign-wrapper"><i class="material-icons">star</i><a href="{{ url_for('recipes')}}">See all your recipes</a></p>
+  </li>
+  <li>
+    <p class="valign-wrapper"><i class="material-icons">assignment</i><a href="{{ url_for('planner') }}">See what you have scheduled for other days</a></p>
+  </li>
+ <li>
+    <p class="valign-wrapper"><i class="material-icons">add_box</i><a href="{{ url_for('add_recipe')}}">Add a brand new recipe!</a></p>
+  </li>
+  
+</ul>
+</div>
+  {% endif %}
   <div class="row">
   {% for recipe in today_recipes %}
     <div class="col s12 m6 l4">

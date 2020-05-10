@@ -142,7 +142,7 @@ tbody th {
 }
 
 #first-day,
-#last-day {
+#last-day, #message {
     font-style: italic;
     font-weight: 900;
 
@@ -208,6 +208,16 @@ tbody th {
     width: auto;
 }
 
+#home-header {
+    background-color: #c2185b;
+    color: #ffffff;
+}
+
+.home-actions {
+    display: table;
+    margin: 0 auto;
+  }
+
 @media only screen and (min-width: 993px) {
 
     h1 {
@@ -222,5 +232,9 @@ tbody th {
     .collection {
         margin: .5rem 10rem 1rem 10rem;
     }
+
+    .home-actions {
+        font-size: 1.7rem;
+      }
 
 }
