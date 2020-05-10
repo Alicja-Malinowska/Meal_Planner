@@ -219,6 +219,7 @@ def show_recipe(recipe_id):
 def delete_recipe():
     recipe_id = request.form.get('recipe_id')
     mongo.db.recipes.remove({'_id': ObjectId(recipe_id)})
+    flash('Recipe deleted!', 'success')
     return redirect(url_for('recipes'))
 
 
@@ -253,7 +254,7 @@ def edit_recipe(recipe_id):
             'owner': current_user.email,
             'dates': the_recipe["dates"]
         })
-
+        flash('Changes saved!', 'success')
         return redirect(url_for('recipes'))
     return render_template('edit-recipe.html', the_recipe = the_recipe, form = form)
 
