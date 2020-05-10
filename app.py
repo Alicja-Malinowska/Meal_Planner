@@ -104,7 +104,12 @@ def logout():
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    recipes = mongo.db.recipes
+    today = TODAY.strftime("%Y-%m-%d")
+    today_recipes = []
+    if current_user.is_authenticated:
+        today_recipes = recipes.find({'dates':{'$elemMatch':{'$elemMatch':{'$in':[today]}}}, 'owner': current_user.email})
+    return render_template('home.html', today_recipes=today_recipes)
 
 
 @app.route('/registration', methods=['GET', 'POST'])
@@ -132,7 +137,7 @@ def registration():
 def planner():
     current_week = get_week(TODAY)
     week_recipes = get_week_recipes(current_week)
-    return render_template('planner.html', current_week=current_week, first_week_day=TODAY, week_recipes=week_recipes)#morning_recipes=week_recipes[0], afternoon_recipes=week_recipes[1], evening_recipes=week_recipes[2])
+    return render_template('planner.html', current_week=current_week, first_week_day=TODAY, week_recipes=week_recipes)
 
 
 @app.route('/planner/next', methods=['GET', 'POST'])
@@ -258,37 +263,6 @@ def edit_recipe(recipe_id):
         return redirect(url_for('recipes'))
     return render_template('edit-recipe.html', the_recipe = the_recipe, form = form)
 
-'''@app.route('/recipes/save_edits/<recipe_id>', methods=['POST'])
-@login_required
-def save_edits(recipe_id):
-    form = AddRecipe()
-    if form.validate_on_submit():
-        recipes = mongo.db.recipes
-        name = request.form.get('name').strip()
-        ingredients = request.form.get('ingredients').splitlines(True)
-        instructions = request.form.get('instructions').splitlines(True)
-        tags = request.form.get('tags').lower().replace(" ", "").strip(";").split(";")
-        image = request.files[form.image.name]
-        if image:
-            name, file_extension = os.path.splitext(image.filename)
-            filename = secure_filename(str(uuid.uuid1()) + file_extension)
-            destination = "".join([target, filename])
-            image.save(destination)
-        else: 
-            filename = recipes.find_one({'_id': ObjectId(recipe_id)})['image']
-        recipes.update( {'_id': ObjectId(recipe_id)},
-        {
-            'name':name,
-            'ingredients':ingredients,
-            'servings': request.form.get('servings'),
-            'instructions': instructions,
-            'tags':tags,
-            'image':filename,
-            'owner': current_user.email
-        })
-
-        return redirect(url_for('recipes'))
-    return render_template('edit-recipe.html', form=form)'''
 
 @app.route('/schedule', methods=['POST'])
 @login_required

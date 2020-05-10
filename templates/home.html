@@ -1,14 +1,16 @@
 {% extends "layout/index.html" %}
 {% block content %}
-
+<div class="container">
 {% include 'components/flash.html'%} 
 {% if current_user.is_authenticated %}
-  Hi {{ current_user.first_name}}!
-  
+  <h5>Hi {{ current_user.first_name}}!</h5>
+  {% for recipe in today_recipes %}
+  <p>{{recipe.name}}</p>
+  {% endfor %}
 {% else %}
    This app is awesome!
 {% endif %}
-
+</div>
 
 
 {% endblock %}
