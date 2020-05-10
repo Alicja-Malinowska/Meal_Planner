@@ -36,7 +36,7 @@ tbody th {
 .scheduled-recipes>.chip {
     background-color: #ffffff;
     display: block;
-    font-size: 1.25rem;
+    font-size: 1.1rem;
 }
 
 .chip>.s1 {
@@ -237,4 +237,7 @@ tbody th {
         font-size: 1.7rem;
       }
 
+    .scheduled-recipes>.chip {
+        font-size: .7rem;
+    }
 }
