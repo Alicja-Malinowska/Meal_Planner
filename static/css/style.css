@@ -7,7 +7,7 @@ nav .brand-logo {
     padding: 0 10px;
 }
 
-table {
+#planner {
     width: 90%;
     margin: auto;
     height: 60vh;
@@ -176,6 +176,10 @@ tbody th {
 .recipe-header {
     background-color: #d81b60;
     color: #ffffff;
+}
+
+#modal1 {
+    transform: none !important;
 }
 
 
