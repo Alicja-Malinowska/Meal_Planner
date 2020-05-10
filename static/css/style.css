@@ -182,6 +182,12 @@ tbody th {
     transform: none !important;
 }
 
+.del-btn {
+    width: 74px;
+    box-sizing: content-box;
+    margin-top: 1rem;
+}
+
 
 
 @media only screen and (min-width: 993px) {
