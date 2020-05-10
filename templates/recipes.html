@@ -28,9 +28,9 @@
   <select id="tag" name="tag">
     <option value="choose" selected disabled>Choose a tag</option>
     {% for tag in tags %}
-    
+    {% if not tag=="" %}
     <option value="{{ tag }}">{{ tag }}</option>
-    
+    {% endif %}
     {% endfor %}
 
 
