@@ -8,13 +8,24 @@
         <input type="hidden" name="recipe_id" value="">
         <input id="schedule_date" name="schedule_date" type="text" class="datepicker" required>
         <label for="icon_prefix">Pick date</label>
+        <div class="row">
+        <div class="col s12 l4">
         <input type="radio" id="morning" name="daytime" value="Morning" required>
         <label for="morning">Morning</label>
+      </div>
+      <div class="col s12 l4">
         <input type="radio" id="afternoon" name="daytime" value="Afternoon">
         <label for="afternoon">Afternoon</label>
+      </div>
+      <div class="col s12 l4">
         <input type="radio" id="evening" name="daytime" value="Evening">
         <label for="evening">Evening</label>
-        <input type="submit">
+      </div>
+    </div>
+    <div class="center-align">
+        <input type="submit" value="Schedule" class="waves-effect waves-light btn">
+      </div>
+     
       </form>
     </div>
   </div>
