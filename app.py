@@ -318,12 +318,13 @@ def search_name():
     all_recipes = recipes.find({'owner': current_user.email})
     tags = get_tags(all_recipes)
     recipe_name = request.args.get('recipe-name').strip()
+    searched = 'name'
     if recipes.count_documents({ "name": { '$regex' : recipe_name, '$options': 'i'}, 'owner': current_user.email}) > 0:
         search_results = recipes.find({ "name": { '$regex' : recipe_name, '$options': 'i'}, 'owner': current_user.email})
-        return render_template('recipes.html', recipes = search_results, tags = tags)
+        return render_template('recipes.html', recipes = search_results, tags = tags, searched = searched, recipe_name = recipe_name)
     else:
         flash('No results found', "errors")
-        return render_template('recipes.html', recipes = [], tags = tags)
+        return render_template('recipes.html', recipes = [], tags = tags, searched = searched, recipe_name = recipe_name)
 
 @app.route('/search_tag')
 @login_required
@@ -332,8 +333,9 @@ def search_tag():
     all_recipes = recipes.find({'owner': current_user.email})
     tags = get_tags(all_recipes)
     selected_tag = request.args.get('tag')
+    searched = 'tag'
     search_results = recipes.find({ "tags": selected_tag , 'owner': current_user.email})
-    return render_template('recipes.html', recipes = search_results, tags = tags)
+    return render_template('recipes.html', recipes = search_results, tags = tags, searched = searched, tag=selected_tag)
 
 
 

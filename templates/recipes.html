@@ -44,8 +44,9 @@
 </div>
 </div>
 
-
-
+{% if searched %}
+<h5>Search results for {{searched}}: {{tag}}{{recipe_name }}</h5>
+{% endif %}
 
 
 {% include 'components/flash.html'%} 
