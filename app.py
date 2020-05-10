@@ -315,7 +315,9 @@ def search_tag():
     search_results = recipes.find({ "tags": selected_tag , 'owner': current_user.email})
     return render_template('recipes.html', recipes = search_results, tags = tags, searched = searched, tag=selected_tag)
 
-
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 login_manager.login_view = 'login'
 
