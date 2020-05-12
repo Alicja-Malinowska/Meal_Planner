@@ -277,6 +277,7 @@ def schedule():
     date = request.form.get('schedule_date')
     daytime = request.form.get('daytime')
     recipes.update( {'_id': ObjectId(recipe_id)}, {"$addToSet": {"dates": (date, daytime)}})
+    flash('Recipe added to the planner!', 'success')
     return redirect(request.referrer)
 
 @app.route('/del_from_schedule/<recipe_id>/<date>/<daytime>/<first_week_day>')
