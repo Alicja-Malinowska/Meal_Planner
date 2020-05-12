@@ -2,9 +2,8 @@ from passlib.hash import sha256_crypt
 from flask_login import UserMixin
 
 class User(UserMixin):
-    def __init__(self, email, id, first_name):
+    def __init__(self, email, first_name):
         self.email = email
-        self.id = id
         self.first_name = first_name
 
     def get_id(self):

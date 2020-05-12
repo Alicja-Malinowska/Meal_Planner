@@ -85,7 +85,7 @@ def login():
     if request.method == 'POST' and form.validate_on_submit():
         user = mongo.db.users.find_one({"email_address": form.email_address.data})
         if user and User.validate_login(form.password.data, user['password']):
-            user_obj = User(user['email_address'], user['_id'], user['first_name'])
+            user_obj = User(user['email_address'], user['first_name'])
             login_user(user_obj)
             flash("Logged in successfully!", 'success')
             next = request.args.get('next')
@@ -128,6 +128,8 @@ def registration():
             profile["confirm"] = sha256_crypt.hash(profile["confirm"])
             profile["password"] = sha256_crypt.hash(profile["password"])
             users.insert_one(profile)
+            user_obj = User(profile['email_address'], profile['first_name'])
+            login_user(user_obj)
             flash("All done! You're registered and you can log in now!", "success")
             return render_template('home.html')
 
@@ -327,7 +329,7 @@ def load_user(email):
     user = mongo.db.users.find_one({"email_address": email})
     if not user:
         return None
-    return User(user['email_address'], user['_id'], user['first_name'])
+    return User(user['email_address'], user['first_name'])
 
 
 app.run(host=os.getenv("IP", "0.0.0.0"),
