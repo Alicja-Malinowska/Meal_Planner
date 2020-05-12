@@ -23,8 +23,8 @@
 </form>
 </div>
 <div class="col s12 l6 center-align">
-<form action="{{ url_for('search_tag')}}">
-  <div class="input-field col s7">
+<form action="{{ url_for('search_tag')}}" id="tag-search">
+  <div class="input-field col s10">
   <select id="tag" name="tag">
     <option value="" selected disabled>Choose a tag</option>
     {% for tag in tags %}
@@ -36,9 +36,6 @@
 
   </select>
   <label>Search by tag</label>
-</div>
-<div class="col s5">
-  <button type="submit" class="waves-effect waves-light btn">Search</button>
 </div>
 </form>
 </div>

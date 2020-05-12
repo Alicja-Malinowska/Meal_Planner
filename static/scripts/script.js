@@ -22,6 +22,11 @@ $( function() {
     });
  });
 
+ $( function() {
+  $('#tag').change(function(){
+     $('#tag-search').submit();
+  });
+});
 
 // gets the recipe id to the modal
 $('.modal').modal({
