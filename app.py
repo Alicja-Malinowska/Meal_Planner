@@ -130,7 +130,7 @@ def registration():
             users.insert_one(profile)
             user_obj = User(profile['email_address'], profile['first_name'])
             login_user(user_obj)
-            flash("All done! You're registered and you can log in now!", "success")
+            flash("All done! You're registered!", "success")
             return render_template('home.html')
 
     return render_template('registration.html', form=form)
