@@ -3,6 +3,8 @@
 
 MealPlanner is a web application that allows a user to save their own recipes and add them to a calendar in order to plan their meals. Each user has their own account where they can add, edit and delete their recipes and schedule them in the planner. The app can be used on any device, e.g. mobile, tablet, laptop. 
 
+**A test account has been created with some recipes added and scheduled. It can be accessed by using the email address: test@gmail.com, and the password: test.**
+
 
 #### External user’s goal:
 
@@ -57,41 +59,145 @@ The page navigation is designed to be intuitive and enable a user to perform req
 
 ### Wireframes/mockups
 
-These are the mockups for the homepage:
+These are the mockups for some pages:
 
-![mobile home](https://github.com/Alicja-Malinowska/Milestone1/blob/master/mockups/mobile-home-page.png)
-![tablet home](https://github.com/Alicja-Malinowska/Milestone1/blob/master/mockups/tablet-home.png)
-![desktop home](https://github.com/Alicja-Malinowska/Milestone1/blob/master/mockups/desktop-home.png)
+![planner](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/mockups/planner.png)
+![recipes](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/mockups/recipes.png)
+![recipe view](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/mockups/recipe-view.png)
 
-All the wireframes can be found in the [mockups folder](https://github.com/Alicja-Malinowska/Milestone1/tree/master/mockups).
+All the wireframes can be found in the [mockups folder](https://github.com/Alicja-Malinowska/Meal_Planner/tree/master/mockups).
 
 
 ## Features
 
-All the features were added to enhance the UX and make using the website easy to use.
+All the features were added to enhance the UX and make the website easy to use and intuitive to move around. 
  
 ### Existing Features
-*	Fixed navigation bar – allows a user to navigate through the website quickly without the necessity to go back to the top of the page
-* Logo - when clicked on takes a user tot he top of the page (this is a common practice so a user will expect to be able to to this)
-*	Flag buttons – allow a user to switch between Polish and English language
-*	Link to the reviews on the first page – allows a user to immediately be able to go to Google page and see the reviews (this opens in a new tab)
-*	Booking button on the first page – allows a user to immediately get in touch by filling out a contact form that comes up in the form of a modal, which keeps the user in the same location on the page rather than taking them right to the bottom of the page where the contact section is.
-*	An arrow button at the bottom of the landing view (and in the What to Expect section) – informs a user that there is more content in the section and takes them to it when clicked
-*	Book now/More buttons on each service card – give every user an easy way to get in touch/quickly get to the section that describes the test, while being focussed only on the content that is of interest
-*	A phone number as a link/button – this allows users (mobile users in particular) to easily dial the number by just clicking/touching
-*	Download icons – allow a user to download documents templates (depending on the language version the titles of the files are in English or Polish)
-*	Pricing categories with expandable details – allows a user to easily find information about prices without being overloaded with the description text and find out more details about the section that is of interest by clicking and expanding it
-*	An email address as a link/button – allows a user to immediately send an email by just clicking/touching it (this will open a new email window) – no need to copy and paste the address
-*	An embedded Google map – shows the location of the centre and allows a user to look for directions directly from the website
-*	A contact form – gives a user a third option (aside from calling or emailing) to get in touch. When submitted correctly it displays a success message.
-*	A Facebook icon button – send a user to the company’s FB page where they can see news/announcements
-* The landing page is English - this is because the page is created for educational purposes and most of the people using it (assessor, mentor, reviewing peers) are English speakers. In reality, the landing page would be in Polish as most of the users of the page would be Polish speakers.
+
+* Fixed navbar
+
+  This element appears on all the pages. It contains a clickable logo that takes user to the homepage, and links to the remaining pages, as well as Register and Login links when there is no logged in user, and a Logout link instead of them, if a user is logged in. The navbar is expanded on large devices and on smaller ones it is collapsed. When tha hamburger menu is clicked a side bar is triggered and the menu links are available for a user to click. When a user clicks a link the sidebar hides automatically. 
+
+* Pages with 'login required'
+
+  Most of the pages require a user to be logged in before they can access them. This is necessary because of the nature of the application - every user should be able to add their own content without it being shared wth others and without seeing content that does not belong to them. When an anonymous user tries to access a page where login is required, they are automatically redirected to the login page, and after successful login they are redirected to the page they tried to access.   
+
+#### Home page - no login
+
+* Screenshots of home page, recipe page and planner page
+
+  The screenshots are there to show an anonymous user what app looks like and what they can expect from it, before they make a decision to register and use the app. This is done to enhance user experience and give the user as much information as possible. Even though the app is free, the user spends their time to fill out registration form, so tbefore they decide to invest this time, they should know what goals they can achieve using the app and this feature provides just that.
+
+* 'Register' and 'Login' links
+
+  The links are situated immediately below the images. They are there so that registering or logging in is an easier decision for the user to make. Although those links can also be found on the navbar, it is more natural for the user to go from top of the page to bottom, and therefore, a user, after seeing the screenshots, sees the links immediately. Otherwise, they would have to look for the links, which might discourage them from proceeding with login, or, particullarly, registration. 
+
+#### Register and Login forms
+
+* Link to sign in in register form and link to register in sign in form
+
+  This is provided in case a user already has an account and by mistake clickd 'register' on the navbar or wanted to register but clicked 'sign in' instead. Thanks to this the user does not have to go back up to the navbar, but can click 'sign in' or 'register' link immediately after they realised that this is not where they need to be. 
+
+* Field validation
+
+  This is achieved with backend validation provided by [WTForms](https://wtforms.readthedocs.io/en/stable/). All fields are required. There are extra validators for email address to make sure it is valid, e.g length restriction. There is also a validator checking if the password and confirmed password are the same in the registration form. If the form does not validate, suitable messages are displayed to inform the user what went wrong and how to fix this.
+
+* Password hashing
+
+  When a user registers their data is stored in the database. However, before the data is sent to the database the password is hashed for security reasons, using sha256. When password is validated, its hashed versions are compared.
+
+* Automatic login
+
+  After successful registration a user is automatically logged in so that they do not need to go to the login page and perfom unnecessary action, and they can access the login-only pages immediately. 
+
+#### Home page - logged in user
+
+* Today recipes
+
+  Recipes scheduled for the day are displayed as cards with the recipe image and its name that is a link to the recipe page. This allows a user to quickly see what they have planned for the day without having to go the planner. They can also access the recipes directly from the home page without going to the recipes page or links in the planner. 
+
+* Additional actions when nothing is scheduled
+
+  If a user has nothing scheduled for the day, a message is displayed that this is the case. Aditionally, there are some actions suggested in a form of links to planner, recipes and add recipe form. This view is what every new user will see, as they will not have anything schedule after they registered, and therefore the suggested actions are particularly important for them, as they give them some guidance how to move around the app before they get familiar with it. 
+
+#### Planner
+
+* Week view
+
+  Planner offers a view of the week (7 consecutive days) starting with the current day. Each day is divided into morning, afternoon and evening for easier planning different meals. On desktop view this is presented in the form of table, where columns are days of the week and rows are daytimes. In the mobile view, this is presented as schedule, where each day is displayed separately in full width. 
+
+* Scheduled recipes
+  
+  The recipes that were scheduled appear in the planner under specific date and daytime in a form of a link that leads to the recipe page. There is also a delete button next to each recipe displayed in the planner, that removes it from the planner. 
+
+* Next and Previous arrows
+
+  These are located at the top of the page and allow a user to move to tne previous and following weeks views. 
+
+* 'Current week' button
+
+  When the button is clicked, the calendar view returns to the current week view.
+
+* 'Custom date' field
+
+  When clicked, a datepicker is triggered and a user can choose any date within 15-year period (this is datepicker setting and can be changed for longer/shorter period). When the date is chosen, the planner view changes to the week starting with the chosen date. 
+
+* Link to Recipes
+
+  This is placed on top of the planner to inform user where they can schedule their recipes so that they appear in the planner. 
+
+#### Recipes page
+
+* Add new recipe button
+
+  When the button is clicked, a user is taken to a page that contains a form that enables adding a new recipe.
+
+* Search by name
+
+  This allows user to search for a recipe by name. The search is case insensitive and returns all the recipes that include searched string. 
+
+* Search by tag
+
+  A drop down that contains all the tags that the user used in their recipes. The search returns all the recipes that include the chosen tag. 
+
+* 'Back to all recipes' button
+
+  This button is only visible when a search was performed and is situated below the search results. When clicked, it takes the user back to the view with all the recipes, without any filters. 
+
+* Recipes collection
+
+  This is a list of recipes displayed on the page. Each item has a circle-shaped recipe image and a name of the recipe, which is a link to the recipe page. Each item also has three action buttons that allow schedule the recipe, edit the recipe and delete the recipe. 
+
+* 'Add to planner' button
+
+  When clicked, a modal is triggered. Within the modal, a user chooses a date using datepicker and one of the three options of daytime. Both are required. The success message is flashed when the recipe is added. 
+
+* 'Edit' button
+
+  When clicked, takes a user to edit form page.
+
+* 'Delete' button
+
+  Triggers a modal that informs that the recipe will be permanently deleted and asks for confirmation. User can either confirm, which will result in deletion of the recipe or close, which will not result in any action other than modal being dismissed. If user chooses to delete and confirm, a confirmatory message is flashed. 
+
+#### Add recipe page and Edit recipe page
+
+* Field validation
+
+  Similarly to registation and login forms, this form was also created using WTForms and has backend validation. The only required field is the recipe name, the rest is optional. When file is being uploaded, a check is performed to see if the files has jpg or png format. If not, the validation fails and the recipe is not added. There is also a custom validator written for the tags field that checks if there is at least one semicolon included in the string if the field is not empty. The tags are required to be separated by semicolons, and there is a note in the form that informs a user about it. If a user tries to submit tags without a least one semicolon, an error message appears so that they can quickly learn how to insert the tags. 
+
+
+* Image upload
+
+  When a user uploads an image of recipe, if it's a valid file format, the file is renamed using uuid to ensure that there are no two files with the same name file name. This is important, as the filename is saved in the database and is used to display the image. The file itself is saved on the app server, in the images folder. 
 
 
 ### Features Left to Implement
 
-* Add a blog page where updates or new articles can be published (this will enhance SEO)
-* Add a feature that detects user's set language (EN or PL) and displays the page in this language (if not PL, shows in EN)
+* User account actions
+
+  For this project to be fully functional registration/login feature was essential. However, there were no requirements for this for this project, as this is out of the scope of the module. Therefore, the registration-login system is fairly simple in the application. A user creates an account and can login using the given credentials. The features that could be further implemented are: possibility to update password, edit profile and delete profile. 
+
 
 ## Technologies Used
 
@@ -163,6 +269,15 @@ In this section, you need to convince the assessor that you have conducted enoug
 * It was pointed out to me that in the 'Why Us' subsection of Home the last icon reaches outside its container. This was not the case on my devices but after investigating using Chrom Dev Tools I noticed it happens when the height of the device is smaller. The bug was caused by setting the height to 100vh. Changing it to min-height: 100vh solved the problem. 
 * Some reviewers noticed that the navigation bar on mobile mode wouldn't collapse when an item was selected. This wasn't the best user experience as they would have to touch the hamburger menu button again to be able to fully see the site. This was fixed using JavaScript code.
 * It was suggested that I should compress my images for better performance which I did using [this tool](https://tinyjpg.com/).
+
+### Known bugs/limitations
+
+* Image upload
+
+  Image upload is an ectra feature in this project, as it is beyond the scope of the module. However, adding images enhances user experience and therefore is fairly important functionality in this application. Ideally, the images would be saved externally, using another server, however for the scope of this project the solution of saving them in a folder within the project itself seemed sufficient. The biggest issue is that there is no size limit when uploading the image, which can cause an overload and break the app. To fix this, I tried to use Flask's MAX_CONTENT_LENGTH builtin configuration value, however this causd another issue. Whenevr a file was above the set limit, the application would crash and the connection was reset, and should return 403 error. However, writing an 403 error handler didn't work and the app would crash anyway. This seems to be a [known issue](https://github.com/pallets/flask/issues/2188?fbclid=IwAR3yls9p6gEIZcY-cF-RzQm4xmIYQ3OrvloA7asQYrdDRmWgPSMHkM2CTyg) and it is said that when deployed, that should no longer be a problem. However, after deploying it to Heroku, the issue persisted. The issue might occur because of the way modern browsers interact with Werkzeug WGSI. In search of solution for this problem I found [this code snipped](https://www.cocept.io/blog/development/flask-file-upload-connection-reset/?fbclid=IwAR1SSM7KVOc12CqCUpsKq4LwKkeLLDhBBG_p2yYwU5k5JPLPqI69uOV3xyA), however it also did not solve the problem. As this seems to be a quite complex issue, I decided not to investigate further, due to time constraints and not having enough experience with such issues. 
+
+  Another issue is that saved images are not deleted when the recipe is deleted or the image is changed while editing the recipe. As mentioned before, image upload is beyond scope of the project, and therefore I decided to focus on the core functionalities more. However, it is worth noticing that this would become a problem if the project would scale up and would be user by many people. 
+
 
 ## Deployment
 This project was developed using the [Visual Studio Code IDE](https://code.visualstudio.com/), committed to Git and pushed to GitHub. 
