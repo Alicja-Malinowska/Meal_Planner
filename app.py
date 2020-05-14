@@ -123,7 +123,7 @@ def registration():
         profile = request.form.to_dict()
         if users.count_documents({"email_address": profile["email_address"]}) > 0:
             flash("An account has already been registered for this email address", "errors")
-            return redirect(url_for('registration'))
+            return render_template('registration.html', form=form)
         else:
             profile["confirm"] = sha256_crypt.hash(profile["confirm"])
             profile["password"] = sha256_crypt.hash(profile["password"])
@@ -131,7 +131,7 @@ def registration():
             user_obj = User(profile['email_address'], profile['first_name'])
             login_user(user_obj)
             flash("All done! You're registered!", "success")
-            return render_template('home.html')
+            return redirect(url_for('home'))
 
     return render_template('registration.html', form=form)
 
