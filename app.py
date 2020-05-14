@@ -221,8 +221,12 @@ def add_recipe():
 @app.route('/show_recipe/<recipe_id>')
 @login_required
 def show_recipe(recipe_id):
-    return render_template('selected-recipe.html',
-                           this_recipe=mongo.db.recipes.find({'_id': ObjectId(recipe_id), 'owner': current_user.email}))
+    recipes = mongo.db.recipes
+    if ObjectId.is_valid(recipe_id) and recipes.count_documents({'_id': ObjectId(recipe_id), 'owner': current_user.email}) > 0:
+        recipe = recipes.find({'_id': ObjectId(recipe_id), 'owner': current_user.email})
+    else:
+        return abort(404)
+    return render_template('selected-recipe.html',this_recipe=recipe)
    
 @app.route('/recipes/delete', methods=['POST'])
 @login_required
