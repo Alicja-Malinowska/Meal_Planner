@@ -15,7 +15,7 @@ from urllib.parse import urlparse, urljoin
 app = Flask(__name__)
 
 MONGODB_URI = os.getenv("MONGO_URI").replace('"', '')
-app.secret_key = SECRET_KEY
+app.secret_key = os.getenv("SECRET_KEY")
 app.config["MONGO_URI"] = MONGODB_URI
 
 
