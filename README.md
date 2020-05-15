@@ -429,13 +429,13 @@ There are two collections created for the project: user and recipes.
 
    - If a file is not uploaded, a filename is saved as default.png so that a default image would be added when the recipe is displayed 
 
-##### Browser support
+#### Browser support
 
 * The website was tested and works properly on: Chrome v77, Chrome v77 on Android, Opera v63, Firefox and Edge
 * There was an issue on IE11 - all the elements that used JavaScript or jQuery did not work (e.g. modal would not be triggered, drop down didn't show options, collapsed navbar would not show etc.). In the console there was a syntax error in one of the functions. It used arrow functions so I changed it to regular functions, however another error came up: "Object doesn't support property or method 'forEach'". I googled it and found a solution on [GitHub](https://github.com/miguelcobain/ember-paper/issues/1058), where people were reporting issues. I used a polyfill that adds forEach to the node list and the issue was resolved. The application works properly on IE11 now.
 * There is a small issue on Safari - the date picker in the modal need to be scrolled because in appeard to be in the modal not on top of it, like it is in other browsers. This problem occured in Chrome while developing but was solverd by setting 'transform: none !important;' for the modal. However, this doesn't seem to have effect in Safari. Unfortunately, I did not have possibility to investigate further as I do not own a device with Safari on it. The issue does not prevent a user to fully utilise the app, but it creats a slightly worse user experience of scheduling a recipe. 
 
-##### Responsive design
+#### Responsive design
 
 * The website was tested using Google Chrome Developer Tools to check how it looks like in case of different width and height by choosing 'Responsive' option and resizing the window. Using Chrom Dev Tools, it was also tested how the website looks on: Galaxy S5, Pixel 2, Pixel 2XL, iPhone 5/6/7/8/X, iPad and iPad Pro. In all these views the website is responsive and shows content properly.
 * The website was also tested on the following devices: Samsung Galaxy A3, Asus laptop 15", Dell laptop 13.3", a 24" monitor. On all of this devices the website is responsive and shows content properly. 
