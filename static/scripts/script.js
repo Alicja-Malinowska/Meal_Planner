@@ -25,18 +25,17 @@ $('.datepicker').on('mousedown', function (event) {
 $(".datepicker").prop('readonly', false);
 
 // submit the form as soon as date was selected
-$(function () {
-  $('#jump_to').change(function () {
-    $('#date_form').submit();
-  });
+
+$('#jump_to').change(function () {
+  $('#date_form').submit();
 });
 
-// submit the form as soon as tag
-$(function () {
-  $('#tag').change(function () {
-    $('#tag-search').submit();
-  });
+
+// submit the form as soon as tag is selected 
+$('#tag').change(function () {
+  $('#tag-search').submit();
 });
+
 
 // gets the recipe id to the modal
 $('.modal').modal({
