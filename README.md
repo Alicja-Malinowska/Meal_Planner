@@ -158,7 +158,7 @@ All the features were added to enhance the UX and make the website easy to use a
 
 * Search by tag
 
-  A drop down that contains all the tags that the user used in their recipes. The search returns all the recipes that include the chosen tag. 
+  A drop down that contains all the tags, alphabetically ordered, that the user used in their recipes. The search returns all the recipes that include the chosen tag. 
 
 * 'Back to all recipes' button
 
@@ -184,7 +184,7 @@ All the features were added to enhance the UX and make the website easy to use a
 
 * Field validation
 
-  Similarly to registation and login forms, this form was also created using WTForms and has backend validation. The only required field is the recipe name, the rest is optional. When file is being uploaded, a check is performed to see if the files has jpg or png format. If not, the validation fails and the recipe is not added. There is also a custom validator written for the tags field that checks if there is at least one semicolon included in the string if the field is not empty. The tags are required to be separated by semicolons, and there is a note in the form that informs a user about it. If a user tries to submit tags without a least one semicolon, an error message appears so that they can quickly learn how to insert the tags. 
+  Similarly to registation and login forms, this form was also created using WTForms and has backend validation. The only required field is the recipe name, the rest is optional. There is an addtional validator for name - only letters and spaces are allowed. The reason for this is that a regex search is used to search for recipes name, and if a user would some regex specifi characters (e.g '*') this would cause the app to crash. User is informed about it in placeholder and an errors message is displayed when they try to submit a recipe with a name that has other characters. When file is being uploaded, a check is performed to see if the files has jpg or png format. If not, the validation fails and the recipe is not added. There is also a custom validator written for the tags field that checks if there is at least one semicolon included in the string if the field is not empty. The tags are required to be separated by semicolons, and there is a note in the form that informs a user about it. If a user tries to submit tags without a least one semicolon, an error message appears so that they can quickly learn how to insert the tags. 
 
 
 * Image upload
@@ -198,23 +198,71 @@ All the features were added to enhance the UX and make the website easy to use a
 
   For this project to be fully functional registration/login feature was essential. However, there were no requirements for this for this project, as this is out of the scope of the module. Therefore, the registration-login system is fairly simple in the application. A user creates an account and can login using the given credentials. The features that could be further implemented are: possibility to update password, edit profile and delete profile. 
 
+* Adding recipes directly from planner
+
+  Right now recipes are added to the planner from recipes list or from a recipe page. A new feature could allow user to click in the planner and be able to search for a recipe and add it to the day and daytime that was clicked.
+
+* Shopping list
+
+  Another page could be added that would include a shopping list view. A user could add ingredients from selected recipe to the list, as well as type their own items.
+
+* Recipe import
+
+  This feature would make it possible to import recipes from popular recipe websites, like AllRecipes, so that the user doesn't have to copy and paste if they want to save a recipe that is already on one of these websites. 
+
+## Database
+
+MongoDB was used to store data for this application. As there are no complex relationships between different entities, a non-relational database seemed to be suitable choice for data storage.
+
+### Collections
+
+There are two collections created for the project: user and recipes.
+
+#### Users
+
+| Key           | Data type     |
+| ------------- |:-------------:|
+| first_name    | String        |
+| last_name     | String        |
+| password      | String(hashed)|
+
+#### Recipes
+
+| Key           | Data type     |
+| ------------- |:-------------:|
+| name          | String        |
+| ingredients   | Array         |
+| servings      | String        |
+| instructions  | Array         |
+| tags          | Array         |
+| image         | String        |
+| owner         | String        |
+| dates         | Array         |
+
 
 ## Technologies Used
 
+* Python
 * HTML
 * CSS
 * jQuery
-* [Bootstrap](https://getbootstrap.com/) - used for the responsive design, collapsable navbar, modals and collapsed text
+* [Flask](https://flask.palletsprojects.com/en/1.1.x/) - to handle http requests and render pages
+* [Flask-login](https://flask-login.readthedocs.io/en/latest/) - to provide login functionality
+* [WTForms](https://wtforms.readthedocs.io/en/2.3.x/) - for forms validation and rendering
+* [MongoDB](https://www.mongodb.com/) - used to store and retrieve data
+* [Flask-PyMongo](https://flask-pymongo.readthedocs.io/en/latest/) - PyMongo provides a way for Python to work with MongoDB and Flask-Pymongo makes it easier to use PyMongo within Flask framework
+* [PassLib](https://passlib.readthedocs.io/en/stable/lib/passlib.hash.html) - used to hash and compare hashed passwords
+* [Materialize](http://archives.materializecss.com/0.100.2/) - used for styling based on Matrial Design 
 * [Visual Studio Code](https://code.visualstudio.com/) - an IDE used to write the code
 * [Git](https://git-scm.com/) - used for version control
-* [Font Awesome](https://fontawesome.com/) - all the icons on the website 
+
 
 
 ## Testing
 
 ### Automated testing
 
-* [W3 HTML validator](https://validator.w3.org/) was used on both html files. There was an error pointing to the same id's in the form in the contact section and the form in the modal. The id's' names in the modal have been changed. Another error was an illegal character ("|") in the link to Google Fonts (the link was generated from there). To fix this I removed the link from the head and added @import in the CSS file. Since there are four html files and one CSS file this is a better solution. 
+* [W3 HTML validator](https://validator.w3.org/) was used on all the html files. There were some errors displayed but it seems they all were connected to th usage of the templating language, which the validator does not seem to recognise. There was one misplaced closing tag in home.html and one h5 tag that was supposed to be a closing tag but it was an opening tag - these two were fixed. 
 
 * [W3 CSS validator](https://jigsaw.w3.org/css-validator/) was used to check the CSS file. No errors were found. 
 
@@ -222,28 +270,172 @@ All the features were added to enhance the UX and make the website easy to use a
 
 #### Features testing
 
-* All the navigation links take a user to the assigned section.
-* When the logo is clicked the page scrolls to the top.
-* When Polish flag is clicked, a Polish version is displayed. When British flag is clicked, an English version is displayed.
-* Book now button opens a modal with a contact form. When the sumit button is pressed on an empty form an error message appears. Similarly if any of the fields is empty (all are rquired) or when email address doesn't have a proper format (no @). The form in the Contact section behaves simiarly. When it is sumitted correctly, the modal closes.  
-* The reviews link opens in a new tab and takes a user to a Google page containing the reviews.
-* When the arrow-down icon is clicked on the homepage it takes a user to the further part of the section (similarly in What to Expect section).
-* More about button on the cards takes a user to What to Expect section where they can read more about the test
-* The phone link/icon when touched on mobile or tablet dials the number. On desktop it is possible to open it using several applications (e.g. Skype -  dependant on the individual user settings).
-* When download icons are clicked/touched a file is being downloaded.
-* When arrows in the pricing sections are clicked they expand and reveal more details about the price category.
-* When the email address/icon is clicked/touched a new email message opens (or suggested apps to open it with - dependant on the individual user settings)
-* When the contact form in the 'Contact' section is completed and submitted correctly a success page appears. This was not implemented with the modal because it would defeat the whole purpose of the modal for UX.
-* When Facebook icon clicked/touched a new tab opens with the company's Facebook page.
+* Fixed navbar
 
+  - All the links in the navbar work properly and take a user where it was intended
+  - The navbar is collapsed on mobile devices and the side bar shows when the hamburger menu is clicked
+  - When scrolling down the navbar is visible for user all the time
+  
+
+* Pages with 'login required'
+
+  - When Planner or Recipes are clicked on the navbar and a user is not logged in, they are redirected to the login page, and after successful login, back to the selected page
+
+  - When an existing address is typed or pasted (e.g. for a particular recipe) while user is not logged in, they are also redirected to login page and then back to the selected page
+
+* User-specific content
+
+  - On Recipes page only recipes that belong the logged in user are displayed
+  - On Home page only recipes planned for the particular day by the logged in user are displayed
+  - If a user tries to use a url of another user's recipe, it will not be displayed
+  - On Planner page a user can only see their recipes scheduled  
+
+#### Home page - no login
+
+
+* 'Register' and 'Login' links
+
+  - The links work properly and take user to Register and Login pages respectively 
+
+#### Register and Login forms
+
+* Link to sign in in register form and link to register in sign in form
+
+  - Both links work properly and take user where they are intended to 
+
+* Field validation
+
+  - If required fields are not filled in and user attempts to submt form, the form is not submitted and an error message is displayed informing what user should do
+
+  - If, for whatever reason, the email address is not valid, an error message appears and the form is not submitted
+
+  - If passwords do not match in registration form, an error message appears and the form is not submitted
+
+  - If a user tries to register with an email address that has already been used to register, a message informing about it appears and the for is not submitted
+
+  - If register form validates properly, an account is created and user is able to login with given email address and password
+
+  - If in login form user enters an email address and a password that are not a part of the same user docuement, a message informing that the password or username are wrong appears
+
+  - If there password matched the email address, user is logged in and is redirected to the home page or a page they tried to access before login
+
+
+* Automatic login
+
+  - After successful registration a user is automatically logged in and taken to the home page
+
+#### Home page - logged in user
+
+* Today recipes
+
+  - Recipes scheduled for current day are displayed
+  - If a user schedules a new recipe fot the current day and goes back to home page, it is displayed in addition to other, earlier scheduled recipes, if any
+
+* Additional actions when nothing is scheduled
+
+  - Links are displayed when nothing is scheduled only
+  - Links work and take user where they are intended to
+   
+
+#### Planner
+
+* Week view
+
+  - Planner shows a view of the current week, with current day as first day
+  - Planner displayed as table for desktop and as a schedule, one day under another on mobile view
+
+* Scheduled recipes
+  
+  - If any recipes were scheduled by user, they appear under correct day and daytime in the planner
+  - When recipe name is cliced in the planner, user is take to that recipe page
+  - When x icon is clicked next to the scheduled recipe, the recipe is removed from the schedule
+
+* Next and Previous arrows
+
+  - When 'next' arrow clicked, the planner view changes to the next seven days from current view
+  - When 'previous' arrow clicked, the planner view changes to the previous seven days from current view
+
+* 'Current week' button
+
+ - When 'Current week' button clicked, the planner view goes back to the current week, regardless what view was displayed previously
+
+* 'Custom date' field
+
+  - When clicked a datepicker appears
+  - When 'Custom date' selected, the view changes to the week with the selected date as the first day
+
+* Link to Recipes
+
+  - The link works and takes user to the recipes view
+
+#### Recipes page
+
+* Add new recipe button
+
+  - The button work and takes a user to 'add recipe' form
+
+* Search by name
+
+  - The search returns all the recipes that incude searched string
+  - The search is case insensitive and ignores trailing spaces
+  - If there are no results matching the searched string, a message informing about it is displayed
+  - If a search string cosists of other characters than spaces or letters, an error message is displayed
+  - If search button is cliked woithout any input, a user is prompted that the field cannot be empty and the form is not submitted
+
+
+* Search by tag
+
+  - All the user's tag are displayed as select options in the drop down, and ordered alphabetically
+  - When tag is selected from the drop down, all the recipes that include it as a tag are displayed in a list
+    
+
+* 'Back to all recipes' button
+
+  - The button is only visible when a search was performed 
+  - When clicked, all the recipes are displayed correctly in a list
+
+* Recipes collection
+
+  - All the recipes are displayed correctly for the user
+
+* 'Add to planner' button
+
+  - Modal is triggered when the button is clicked
+  - If 'schedule' is clicked and either date or datetime (or both) are not selected, the form is not submitted and the user is informed why
+  - When correctly added, a message is displayed that this was added
+  - After addition, the recipe is immediately visible in the planner under chosen date and daytime
+
+* 'Edit' button
+
+  - The button works correctly and takes user to the edit page
+
+* 'Delete' button
+
+  - When clicked, a modal asking for confirmation is triggered
+  - When 'Close' clicked within modal, the modal disappears and recipe remains visible
+  - When 'Confirm' clicked within modal, the modal disappears and recipe is deleted from database, so it does not display on recipe page, it is also deleted from planner if it was scheduled
+  - If a user tries to view the recipe using its link, a 404 page will be displayed
+
+#### Add recipe page and Edit recipe page
+
+* Field validation
+
+ - If name is not provided the form won't submit
+ - If there are tag entered but there is no semicolon, the form won't submit and a message will display asking user to make sure they used semicolons to separate their tags
+ - If a file is not in png or jpg format, the form is not submitted and an error message appears
+ - When the above requirements are satisfied, the form validates succesfully and is submited, user is redirected to the Recipes page and a message appears that the recipe was added
+
+
+
+* Image upload
+
+   - If a file is not uploaded, a filename is saved as default.png so that a default image would be added when the recipe is displayed 
 
 #### Browser support
 
-* The website was tested and works properly on: Chrome v77, Chrome v77 on Android, Opera v63
-* On Firefox there was an issue with the flipcards on desktop - the cover of the card would still be visible when flipped. This was solved using a solution from [Stack Overflow](https://stackoverflow.com/questions/9604982/backface-visibility-not-working-properly-in-firefox-works-in-safari). After this fix the flipcards work properly on Firefox v69
-* On Edge there was an issue with the background-blend-mode which resulted in pictures on the flipcards not being 'dimmed' and text not being readable. To fix this I decided not to display the background pictures on the cards on Edge and I used the idea from the [fastcodefix](https://www.fastcodefix.com/fix-for-internet-explorer-and-edge-css-layout-problems/) website to do that. After this fix flipcard work properly on Microsoft Edge v44, but the images are not displayed. 
-* On IE the flipcards didn't work properly at all so I decided to keep them static as they are on tablet and mobile. To do this I applied the solution I found on [Stack Overflow](https://stackoverflow.com/questions/48412244/apply-css-to-all-browsers-except-ie-using-media-query/48422293). After this fix the cards work properly on Internet Explorer v11, although they are not animated in the desktop view, they also do not have background images in any view. 
-* The flipcards do not work properly on Safari and Chrome on Mac - the content doesn't show when the card is flipped. Although I tried to fix this bug I could not find a good solution. As I work in Windows environment I did not have proper resources to investigate this further.
+* The website was tested and works properly on: Chrome v77, Chrome v77 on Android, Opera v63, Firefox and Edge
+* There was an issue on IE11 - all the elements that used JavaScript or jQuery did not work (e.g. modal would not be triggered, drop down didn't show options, collapsed navbar would not show etc.). In the console there was a syntax error in one of the functions. It used arrow functions so I changed it to regular functions, however another error came up: "Object doesn't support property or method 'forEach'". I googled it and found a solution on [GitHub](https://github.com/miguelcobain/ember-paper/issues/1058), where people were reporting issues. I used a polyfill that adds forEach to the node list and the issue was resolved. The application works properly on IE11 now.
+* There is a small issue on Safari - the date picker in the modal need to be scrolled because in appeard to be in the modal not on top of it, like it is in other browsers. This problem occured in Chrome while developing but was solverd by setting 'transform: none !important;' for the modal. However, this doesn't seem to have effect in Safari. Unfortunately, I did not have possibility to investigate further as I do not own a device with Safari on it. The issue does not prevent a user to fully utilise the app, but it creats a slightly worse user experience of scheduling a recipe. 
 
 #### Responsive design
 
