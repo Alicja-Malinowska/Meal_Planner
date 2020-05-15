@@ -259,7 +259,7 @@ There are two collections created for the project: user and recipes.
 
 ### Automated testing
 
-* [W3 HTML validator](https://validator.w3.org/) was used on all the html files. There were some errors displayed but it seems they all were connected to th usage of the templating language, which the validator does not seem to recognise. There was one misplaced closing tag in home.html and one h5 tag that was supposed to be a closing tag but it was an opening tag - these two were fixed. 
+* [W3 HTML validator](https://validator.w3.org/) was used on all the html files. There were some errors displayed but it seems they all were connected to the usage of the templating language, which the validator does not seem to recognise. There was one misplaced closing tag in home.html and one h5 tag that was supposed to be a closing tag but it was an opening tag - these two were fixed. 
 
 * [W3 CSS validator](https://jigsaw.w3.org/css-validator/) was used to check the CSS file. No errors were found. 
 
