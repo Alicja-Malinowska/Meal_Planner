@@ -4,75 +4,82 @@
   {% include 'components/flash.html'%}
   {% if current_user.is_authenticated %}
   <div class="row">
-  <h5 class="center-align">Hi {{ current_user.first_name}}!</h5>
-</div>
-<div class="row">
-  <h1 class="center-align card" id="home-header">Today recipes</h1>
-</div>
-<div class="row">
-  <h5 class="center-align">Here is what you're cooking today:</h5>
-</div>
+    <h5 class="center-align">Hi {{ current_user.first_name}}!</h5>
+  </div>
+  <div class="row">
+    <h1 class="center-align card" id="home-header">Today recipes</h1>
+  </div>
+  <div class="row">
+    <h5 class="center-align">Here is what you're cooking today:</h5>
+  </div>
   {% if message %}
   <div class="row center-align">
-  <p  id="message">{{message}}</p>
-</div>
+    <p id="message">{{message}}</p>
+  </div>
   <p class="center-align">Here are some things you might want to do:<p>
 
-<div class="row">
-<ul class="center-align home-actions">
-  <li>
-    <p class="valign-wrapper"><i class="material-icons">star</i><a href="{{ url_for('recipes')}}">See all your recipes</a></p>
-  </li>
-  <li>
-    <p class="valign-wrapper"><i class="material-icons">assignment</i><a href="{{ url_for('planner') }}">See what you have scheduled for other days</a></p>
-  </li>
- <li>
-    <p class="valign-wrapper"><i class="material-icons">add_box</i><a href="{{ url_for('add_recipe')}}">Add a brand new recipe!</a></p>
-  </li>
-  
-</ul>
-</div>
-  {% endif %}
-  <div class="row">
-  {% for recipe in today_recipes %}
-    <div class="col s12 m6 l4">
-      <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">
-      <div class="card home-card">
-        <div class="card-image">
-          <img src="{{ url_for('static', filename = 'images/recipe-images/' + recipe.image)}}" alt='recipe-image'>
+      <div class="row">
+        <ul class="center-align home-actions">
+          <li>
+            <p class="valign-wrapper"><i class="material-icons">star</i><a href="{{ url_for('recipes')}}">See all your
+                recipes</a></p>
+          </li>
+          <li>
+            <p class="valign-wrapper"><i class="material-icons">assignment</i><a href="{{ url_for('planner') }}">See
+                what you have scheduled for other days</a></p>
+          </li>
+          <li>
+            <p class="valign-wrapper"><i class="material-icons">add_box</i><a href="{{ url_for('add_recipe')}}">Add a
+                brand new recipe!</a></p>
+          </li>
+
+        </ul>
+      </div>
+      {% endif %}
+      <div class="row">
+        {% for recipe in today_recipes %}
+        <div class="col s12 m6 l4">
+          <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">
+            <div class="card home-card">
+              <div class="card-image">
+                <img src="{{ url_for('static', filename = 'images/recipe-images/' + recipe.image)}}" alt='recipe-image'>
+              </div>
+              <div class="card-content">
+                <span class="card-title truncate">{{ recipe.name }}</span>
+              </div>
+            </div>
+          </a>
         </div>
-        <div class="card-content">
-          <span class="card-title truncate">{{ recipe.name }}</span>
+
+
+        {% endfor %}
+      </div>
+      {% else %}
+      <div id="no-login">
+        <h1 class="center-align">MealPlanner</h1>
+        <h5 class="center-align">Save and schedule your recipes!</h5>
+        <div class="row">
+          <div class="card col s12 l4">
+            <img class="responsive-img" src="{{ url_for('static', filename = 'images/home.JPG')}}"
+              alt='home screenshot'>
+          </div>
+
+
+          <div class="card col s12 l4">
+            <img class="responsive-img" src="{{ url_for('static', filename = 'images/planner.JPG')}}"
+              alt='planner screenshot'>
+          </div>
+
+
+          <div class="card col s12 l4">
+            <img class="responsive-img" src="{{ url_for('static', filename = 'images/recipes.JPG')}}"
+              alt='recipes screenshot'>
+          </div>
         </div>
+        <h5 class="center-align"><a href="{{ url_for('registration') }}">Register</a> or <a
+            href="{{ url_for('login') }}">Login</a>!</h5>
       </div>
-    </a>
-    </div>
-  
- 
-  {% endfor %}
-</div>
-  {% else %}
-  <div id="no-login">
-    <h1 class="center-align">MealPlanner</h1>
-    <h5 class="center-align">Save and schedule your recipes!</h5>
-    <div class="row">
-      <div class="card col s12 l4">
-        <img class="responsive-img" src="{{ url_for('static', filename = 'images/home.JPG')}}" alt='home screenshot'>
-      </div>
-    
-   
-      <div class="card col s12 l4">
-        <img class="responsive-img" src="{{ url_for('static', filename = 'images/planner.JPG')}}" alt='planner screenshot'>
-      </div>
-    
-   
-      <div class="card col s12 l4">
-        <img class="responsive-img" src="{{ url_for('static', filename = 'images/recipes.JPG')}}" alt='recipes screenshot'>
-      </div>
-    </div>
-    <h5 class="center-align"><a href="{{ url_for('registration') }}">Register</a> or <a href="{{ url_for('login') }}">Login</a>!</h5>
-  </div>
-  {% endif %}
+      {% endif %}
 </div>
 
 

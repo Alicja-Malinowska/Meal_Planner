@@ -6,47 +6,52 @@ if (window.NodeList && !NodeList.prototype.forEach) {
 }
 
 $('.datepicker').pickadate({
-    selectMonths: true, // Creates a dropdown to control month
-    selectYears: 15, // Creates a dropdown of 15 years to control year,
-    today: 'Today',
-    clear: false,
-    close: 'Close',
-    closeOnSelect: true, // Close upon selecting a date,
-    container: undefined, // ex. 'body' will append picker to body
-    format: 'yyyy-mm-dd'
-  });
+  selectMonths: true, // Creates a dropdown to control month
+  selectYears: 15, // Creates a dropdown of 15 years to control year,
+  today: 'Today',
+  clear: false,
+  close: 'Close',
+  closeOnSelect: true, // Close upon selecting a date,
+  container: undefined, // ex. 'body' will append picker to body
+  format: 'yyyy-mm-dd'
+});
 
-$('.datepicker').on('mousedown',function(event){
-    event.preventDefault();
+// a fix that makes datepicker stay visible
+$('.datepicker').on('mousedown', function (event) {
+  event.preventDefault();
 })
 
-// by setting readonly to false 'required' on the html element works
+// by setting readonly to false, 'required' on the html element works
 $(".datepicker").prop('readonly', false);
 
-$( function() {
-    $('#jump_to').change(function(){
-       $('#date_form').submit();
-    });
- });
+// submit the form as soon as date was selected
+$(function () {
+  $('#jump_to').change(function () {
+    $('#date_form').submit();
+  });
+});
 
- $( function() {
-  $('#tag').change(function(){
-     $('#tag-search').submit();
+// submit the form as soon as tag
+$(function () {
+  $('#tag').change(function () {
+    $('#tag-search').submit();
   });
 });
 
 // gets the recipe id to the modal
 $('.modal').modal({
-  ready: function(modal, trigger) {
-      modal.find('input[name="recipe_id"]').val(trigger.data('id'))
+  ready: function (modal, trigger) {
+    modal.find('input[name="recipe_id"]').val(trigger.data('id'))
   }
 });
 
-$('select').material_select();
+// a fix that ensures that when drop-down is open, it doesn't automatically hide
+document.querySelectorAll('.select-wrapper').forEach(function (t) {
+  t.addEventListener('click', function (e) {
+    e.stopPropagation();
+  })
+})
 
-document.querySelectorAll('.select-wrapper').forEach(function(t){
-  t.addEventListener('click', function(e) {
-    e.stopPropagation()
-  })})
+$('select').material_select();
 
 $(".button-collapse").sideNav();

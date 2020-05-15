@@ -4,7 +4,6 @@ from flask_wtf.file import FileField, FileAllowed, FileRequired
 from wtforms_validators import AlphaSpace
 
 
-
 class RegistrationForm(FlaskForm):
     first_name = StringField('First Name',
                              [validators.DataRequired()])
@@ -28,13 +27,16 @@ class LoginForm(FlaskForm):
         validators.DataRequired(), ])
     submit = SubmitField('Submit')
 
+
 class AddRecipe(FlaskForm):
 
     def semicolon_check(form, field):
         if len(field.data) > 0 and not ';' in field.data:
-            raise validators.ValidationError("Make sure that your tags are separated with semicolons!")
+            raise validators.ValidationError(
+                "Make sure that your tags are separated with semicolons!")
 
-    name = StringField('Recipe Name', [validators.DataRequired(), AlphaSpace('The name should only consist of letters and spaces')])
+    name = StringField('Recipe Name', [validators.DataRequired(), AlphaSpace(
+        'The name should only consist of letters and spaces')])
     ingredients = TextAreaField('Ingredients')
     servings = StringField('Servings')
     instructions = TextAreaField('Instructions')
@@ -43,5 +45,7 @@ class AddRecipe(FlaskForm):
         FileAllowed(['jpg', 'png'], 'Images only!')
     ])
 
+
 class SearchName(FlaskForm):
-    name = StringField('Recipe Name', [validators.DataRequired(), AlphaSpace('The name should only consist of letters and spaces')])
+    name = StringField('Recipe Name', [validators.DataRequired(), AlphaSpace(
+        'The name should only consist of letters and spaces')])

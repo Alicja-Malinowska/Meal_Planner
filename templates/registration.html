@@ -3,7 +3,7 @@
 <div class="container">
   <h3>Create your account</h3>
   <p>Already have an account? <a href="{{ url_for('login') }}">Sign in instead</a></p>
-  {% include 'components/flash.html'%} 
+  {% include 'components/flash.html'%}
   <form action="" method="post" class="col s12" role="form">
     {{ form.csrf_token() }}
 
@@ -11,32 +11,32 @@
       <div class="input-field col s12 m6">
         {{ form.first_name(class='validate', placeholder='First name') }}
       </div>
-    
+
       <div class="input-field col s12 m6">
         {{ form.last_name(class='validate', placeholder='Last name') }}
       </div>
     </div>
     <div class="row">
-    <div class="input-field col s12">
-      {{ form.email_address(type='email', class='validate', placeholder='Email Address') }}
-      {% if form.email_address.errors %}
+      <div class="input-field col s12">
+        {{ form.email_address(type='email', class='validate', placeholder='Email Address') }}
+        {% if form.email_address.errors %}
         <ul class="errors">{% for error in form.email_address.errors %}<li>{{ error }}</li>{% endfor %}</ul>
-    {% endif %}
-    </div>
+        {% endif %}
+      </div>
     </div>
     <div class="row">
-    <div class="input-field col s12">
-      {{ form.password(type='password', placeholder='Password') }}
-      {{ form.confirm(type='password', placeholder='Confirm Password') }}
-      {% if form.password.errors %}
+      <div class="input-field col s12">
+        {{ form.password(type='password', placeholder='Password') }}
+        {{ form.confirm(type='password', placeholder='Confirm Password') }}
+        {% if form.password.errors %}
         <ul class="errors">{% for error in form.password.errors %}<li>{{ error }}</li>{% endfor %}</ul>
-    {% endif %}
+        {% endif %}
+      </div>
+
     </div>
-    
-  </div>
     <button type="submit" class="waves-effect waves-light btn">Register</button>
   </form>
-  
-  
+
+
 </div>
 {% endblock %}

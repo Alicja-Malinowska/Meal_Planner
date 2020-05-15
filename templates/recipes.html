@@ -2,76 +2,79 @@
 {% block content %}
 
 <div class="container">
-<h1 class="center-align">Your recipes</h1>
+  <h1 class="center-align">Your recipes</h1>
 
 
-<div class="row">
-  <div class="col s12 center-align">
-<a href="{{ url_for('add_recipe')}}" class="waves-effect waves-light btn ">Add new recipe</a>
-</div>
-</div>
-<div class="row" id="search">
-<div class="col s12 l6 center-align">
-<form action="{{ url_for('search_name')}}" method='post'>
-  {{ form.csrf_token() }}
-  <div class="input-field col s7">
-    {{ form.name (class="validate", placeholder='Name') }}
-    {% if form.name.errors %}
-    <ul class="errors notes">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
-{% endif %}
-  <label for="name">Search by recipe name</label>
-</div>
-<div class="col s5">
-  <button type="submit" class="waves-effect waves-light btn">Search</button>
-</div>
-</form>
-</div>
-<div class="col s12 l6 center-align">
-<form action="{{ url_for('search_tag')}}" id="tag-search">
-  <div class="input-field col s10">
-  <select id="tag" name="tag">
-    <option value="" selected disabled>Choose a tag</option>
-    {% for tag in tags %}
-    {% if not tag=="" %}
-    <option value="{{ tag }}">{{ tag }}</option>
-    {% endif %}
+  <div class="row">
+    <div class="col s12 center-align">
+      <a href="{{ url_for('add_recipe')}}" class="waves-effect waves-light btn ">Add new recipe</a>
+    </div>
+  </div>
+  <div class="row" id="search">
+    <div class="col s12 l6 center-align">
+      <form action="{{ url_for('search_name')}}" method='post'>
+        {{ form.csrf_token() }}
+        <div class="input-field col s7">
+          {{ form.name (class="validate", placeholder='Name') }}
+          {% if form.name.errors %}
+          <ul class="errors notes">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+          {% endif %}
+          <label for="name">Search by recipe name</label>
+        </div>
+        <div class="col s5">
+          <button type="submit" class="waves-effect waves-light btn">Search</button>
+        </div>
+      </form>
+    </div>
+    <div class="col s12 l6 center-align">
+      <form action="{{ url_for('search_tag')}}" id="tag-search">
+        <div class="input-field col s10">
+          <select id="tag" name="tag">
+            <option value="" selected disabled>Choose a tag</option>
+            {% for tag in tags %}
+            {% if not tag=="" %}
+            <option value="{{ tag }}">{{ tag }}</option>
+            {% endif %}
+            {% endfor %}
+
+
+          </select>
+          <label>Search by tag</label>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  {% if searched %}
+  <h5 class="center-align">Search results for {{searched}}: <span class="truncate">{{ tag }}{{ recipe_name }}</span>
+  </h5>
+  {% endif %}
+
+
+  {% include 'components/flash.html'%}
+
+
+  <ul class="collection">
+    {% for recipe in recipes %}
+
+    <li class="collection-item avatar">
+      <img src="{{ url_for('static', filename = 'images/recipe-images/' + recipe.image)}}" alt="recipe image"
+        class="circle responsive-img">
+      <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}" class="truncate"
+        id="recipe-title">{{ recipe.name }}</a>
+      {% include 'components/recipe_actions.html'%}
+
+    </li>
     {% endfor %}
 
-
-  </select>
-  <label>Search by tag</label>
-</div>
-</form>
-</div>
-</div>
-
-{% if searched %}
-<h5 class="center-align">Search results for {{searched}}: <span class="truncate">{{ tag }}{{ recipe_name }}</span></h5>
-{% endif %}
-
-
-{% include 'components/flash.html'%} 
-
-
-<ul class="collection">
-  {% for recipe in recipes %}
-
-  <li class="collection-item avatar">
-    <img src="{{ url_for('static', filename = 'images/recipe-images/' + recipe.image)}}" alt="recipe image" class="circle responsive-img">
-    <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}" class="truncate" id="recipe-title">{{ recipe.name }}</a>
-    {% include 'components/recipe_actions.html'%} 
-
-  </li>
-  {% endfor %}
-
-</ul>
-{% if searched %}
-<div class="center-align">
-<a href="{{ url_for('recipes')}}" class="waves-effect waves-light btn">Back to all recipes</a>
-</div>
-{% endif %}
-{% include 'components/modal.html'%} 
-{% include 'components/del-confirm-modal.html'%}
+  </ul>
+  {% if searched %}
+  <div class="center-align">
+    <a href="{{ url_for('recipes')}}" class="waves-effect waves-light btn">Back to all recipes</a>
+  </div>
+  {% endif %}
+  {% include 'components/modal.html'%}
+  {% include 'components/del-confirm-modal.html'%}
 </div>
 
 {% endblock %}

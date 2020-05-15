@@ -3,7 +3,8 @@
     {% if recipe["date"] == day[0]|string and recipe["daytime"] == time %}
     <div class="scheduled-recipe-line chip row">
         <div class="col s10">
-            <a class="truncate" href="{{url_for('show_recipe', recipe_id=recipe['id'])}}" title='{{ recipe["name"] }}'>{{ recipe["name"] }}</a>
+            <a class="truncate" href="{{url_for('show_recipe', recipe_id=recipe['id'])}}"
+                title='{{ recipe["name"] }}'>{{ recipe["name"] }}</a>
         </div>
         <div class="col s1">
             <a

@@ -142,7 +142,8 @@ tbody th {
 }
 
 #first-day,
-#last-day, #message {
+#last-day,
+#message {
     font-style: italic;
     font-weight: 900;
 
@@ -162,7 +163,8 @@ tbody th {
     font-style: italic;
 }
 
-.collection .collection-item, .recipe-body {
+.collection .collection-item,
+.recipe-body {
     background-color: #fce4ec;
 }
 
@@ -175,6 +177,8 @@ tbody th {
     color: #ffffff;
 }
 
+/*this is set so that date picker when triggered in modal appears on top of and not inside as then it has to be scrolled
+because the modal is shorter than date picker*/
 #modal1 {
     transform: none !important;
 }
@@ -197,10 +201,12 @@ tbody th {
     height: 70%;
     background-color: #f8bbd0;
 }
+
 .home-card .card-content {
     height: 30%
 }
 
+/*this ensures that user-uploaded image always fits in the card and is not stretched or cut*/
 .home-card .card-image img {
     height: 100%;
     margin: auto;
@@ -216,7 +222,7 @@ tbody th {
 .home-actions {
     display: table;
     margin: 0 auto;
-  }
+}
 
 @media only screen and (min-width: 993px) {
 
@@ -235,7 +241,7 @@ tbody th {
 
     .home-actions {
         font-size: 1.7rem;
-      }
+    }
 
     .scheduled-recipes>.chip {
         font-size: .7rem;

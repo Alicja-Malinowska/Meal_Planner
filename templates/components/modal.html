@@ -1,31 +1,30 @@
-<!-- Modal Structure -->
 <div id="modal1" class="modal">
-    <div class="modal-content">
-      <h4>Add to planner</h4>
-      <h5>When would you like to cook this?</h5>
-      <form action="{{url_for('schedule')}}" method='post' name='date_form' id='date_form'>
-        <i class="material-icons prefix">today</i>
-        <input type="hidden" name="recipe_id" value="">
-        <input id="schedule_date" name="schedule_date" type="text" class="datepicker" required>
-        <label for="icon_prefix">Pick date</label>
-        <div class="row">
+  <div class="modal-content">
+    <h4>Add to planner</h4>
+    <h5>When would you like to cook this?</h5>
+    <form action="{{url_for('schedule')}}" method='post' name='date_form' id='date_form'>
+      <i class="material-icons prefix">today</i>
+      <input type="hidden" name="recipe_id" value="">
+      <input id="schedule_date" name="schedule_date" type="text" class="datepicker" required>
+      <label for="icon_prefix">Pick date</label>
+      <div class="row">
         <div class="col s12 l4">
-        <input type="radio" id="morning" name="daytime" value="Morning" required>
-        <label for="morning">Morning</label>
+          <input type="radio" id="morning" name="daytime" value="Morning" required>
+          <label for="morning">Morning</label>
+        </div>
+        <div class="col s12 l4">
+          <input type="radio" id="afternoon" name="daytime" value="Afternoon">
+          <label for="afternoon">Afternoon</label>
+        </div>
+        <div class="col s12 l4">
+          <input type="radio" id="evening" name="daytime" value="Evening">
+          <label for="evening">Evening</label>
+        </div>
       </div>
-      <div class="col s12 l4">
-        <input type="radio" id="afternoon" name="daytime" value="Afternoon">
-        <label for="afternoon">Afternoon</label>
-      </div>
-      <div class="col s12 l4">
-        <input type="radio" id="evening" name="daytime" value="Evening">
-        <label for="evening">Evening</label>
-      </div>
-    </div>
-    <div class="center-align">
+      <div class="center-align">
         <button type="submit" class="waves-effect waves-light btn">Schedule</button>
       </div>
-     
-      </form>
-    </div>
+
+    </form>
   </div>
+</div>

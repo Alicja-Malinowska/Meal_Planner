@@ -1,5 +1,5 @@
 <div class="navbar-fixed">
-<nav class="pink darken-4">
+  <nav class="pink darken-4">
     <div class="nav-wrapper">
       <a href="{{ url_for('home') }}" class="brand-logo"><i class="material-icons">restaurant</i>MealPlanner</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -16,14 +16,13 @@
     </div>
   </nav>
 </div>
-      <ul class="side-nav" id="mobile-demo">
-        {% if current_user.is_authenticated %}
-        <li><a href="{{ url_for('logout') }}">Logout</a></li>
-        {% else %}
-        <li><a href="{{ url_for('registration') }}">Register</a></li>
-        <li><a href="{{ url_for('login') }}">Login</a></li>
-        {% endif %}
-        <li><a href="{{ url_for('planner') }}">Planner</a></li>
-        <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
-      </ul>
-   
+<ul class="side-nav" id="mobile-demo">
+  {% if current_user.is_authenticated %}
+  <li><a href="{{ url_for('logout') }}">Logout</a></li>
+  {% else %}
+  <li><a href="{{ url_for('registration') }}">Register</a></li>
+  <li><a href="{{ url_for('login') }}">Login</a></li>
+  {% endif %}
+  <li><a href="{{ url_for('planner') }}">Planner</a></li>
+  <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
+</ul>

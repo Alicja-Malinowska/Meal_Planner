@@ -12,10 +12,10 @@
         {{ form.name (class="validate", placeholder='Name(only letters and spaces)') }}
         {% if form.name.errors %}
         <ul class="errors notes">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
-    {% endif %}
+        {% endif %}
       </div>
-    
-    
+
+
       <div class="input-field col s12 m6">
         <i class="material-icons prefix">restaurant_menu</i>
         {{ form.servings (class="validate", placeholder='Servings') }}
@@ -28,7 +28,7 @@
         {{ form.ingredients (class="materialize-textarea", placeholder='Ingredients List') }}
       </div>
     </div>
-    
+
     <div class="row">
       <div class="input-field col s12">
         <i class="material-icons prefix">import_contacts</i>
@@ -42,28 +42,29 @@
         {% if form.tags.errors %}
         <ul class="errors notes">{% for error in form.tags.errors %}<li>{{ error }}</li>{% endfor %}</ul>
         {% else %}
-        <p class="errors notes"><strong>Note:</strong> make sure to separate your tags with semicolons<strong>(;)</strong></p>
-    {% endif %}
-        
+        <p class="errors notes"><strong>Note:</strong> make sure to separate your tags with
+          semicolons<strong>(;)</strong></p>
+        {% endif %}
+
       </div>
-    
+
       <div class="input-field file-field col s12 m4">
         <div class="btn">
           <i class="material-icons left button-icon">image</i>
           <span>Image</span>
           {{ form.image}}
         </div>
-       
+
         <div class="file-path-wrapper">
           <input class="file-path validate" type="text">
         </div>
         {% if form.image.errors %}
         <ul class="errors notes">{% for error in form.image.errors %}<li>{{ error }}</li>{% endfor %}</ul>
-    {% endif %}
+        {% endif %}
       </div>
-      
+
     </div>
-    
+
     <button type="submit" class="waves-effect waves-light btn">Add</button>
   </form>
 </div>
