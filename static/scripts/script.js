@@ -48,7 +48,7 @@ $('.modal').modal({
 // a fix that ensures that when drop-down is open, it doesn't automatically hide
 document.querySelectorAll('.select-wrapper').forEach(function (t) {
   t.addEventListener('click', function (e) {
-    e.stopPropagation();
+    e.stopPropagation()
   })
 })
 
