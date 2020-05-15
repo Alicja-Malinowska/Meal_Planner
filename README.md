@@ -51,11 +51,8 @@ The target user group are the people who like to use technological solutions to 
 
 The page navigation is designed to be intuitive and enable a user to perform required actions quickly and easily. The design offers a user multiple places from where they can view their recipes and perform actions connected to them (delete, edit, schedule, add etc). The overall design is meant to be simple and clear without unnecessary distractions. The colors were chosen using [Material Design colour picking tool](https://material.io/design/color/the-color-system.html#tools-for-picking-colors). The primary colour is #880E4F and the rest were chosen from the primary and complemetary palletes as shown below. 
 
-<div align="center">
-    <img src="https://imgur.com/a/KkYcXEG" alt="Colour palletes image"/>
-</div>
-<br>
 
+![colour-pallettes-image](https://imgur.com/a/KkYcXEG)
 
 ### Wireframes/mockups
 
@@ -442,25 +439,10 @@ There are two collections created for the project: user and recipes.
 * The website was tested using Google Chrome Developer Tools to check how it looks like in case of different width and height by choosing 'Responsive' option and resizing the window. Using Chrom Dev Tools, it was also tested how the website looks on: Galaxy S5, Pixel 2, Pixel 2XL, iPhone 5/6/7/8/X, iPad and iPad Pro. In all these views the website is responsive and shows content properly.
 * The website was also tested on the following devices: Samsung Galaxy A3, Asus laptop 15", Dell laptop 13.3", a 24" monitor. On all of this devices the website is responsive and shows content properly. 
 * On mobiles and tablets the navbar collapses into a 'hamburger menu' and can be expanded to reveal the items by clicking/touching it, on desktop it contains the visisble list of all the items
-* The pictures in the 'About' section are situated below/above the text description on mobile, while on bigger screens they are next to it.
-* The cards in the 'Services' section are situated one under another for mobile view, for most of the tablets (medium size screens) they are displayed in rows of two, on bigger screens (bigger tablets and desktops) they show it 2 rows of 3 items. On desktop (very large screens) the cards become flipcards that have the cover with the category name and when hover over they flip and show the content.
-* The subsections in 'What to expect' section are aligned one under another on mobile and on bigger screens they are next to each other.
-* The files for download and their descriptions in the 'For GP surgries/companies' section are one under another on mobile view and to the left there is one big document icon, on bigger screens thy are next o wach other and on the left of each there is a document icon.
-* The map in the 'Contact' section is situated below the address on mobile view and on bigger screens it is on the right side of the address and is also bigger.
-* An additional 'reviews' item on the footer is hidden on the mobile view and appears on bigger screens.
+* The images on the home page before login are displayed in a row on desktop but one under another on mobile devices
+* Today recipes are displayed 3 in a row in desktop view, two in a row on tablets and 1 in a row on mobile phones
+* Planner is displayed as a table on desktop view and as schedule (one day under another) on mobile devices
 
-#### Accessibility
-
-* I downloaded an NVDA screen reader to check the accessibility for peope with impaired vision. As an unexperienced user I was unable to use the exact controls as everyday users do, however I managed to test how the screen reader behaves on the website on the basic level. Based on this I added additional aria-labels (there were some already existing) for the scroll down arrow buttons, expand arrow buttons in the pricing section and number and phone links. This was checked with English speaking reader on the English version. The Polish version was adjusted accordingly based on the changes to the English version. 
-In this section, you need to convince the assessor that you have conducted enough testing to legitimately believe that the site works well. Essentially, in this part you will want to go over all of your user stories from the UX section and ensure that they all work as intended, with the project providing an easy and straightforward way for the users to achieve their goals.
-
-* The contrast between the background colours and the text colours should be sufficient for people with impaired ability to see colours
-
-#### Peer code review
-
-* It was pointed out to me that in the 'Why Us' subsection of Home the last icon reaches outside its container. This was not the case on my devices but after investigating using Chrom Dev Tools I noticed it happens when the height of the device is smaller. The bug was caused by setting the height to 100vh. Changing it to min-height: 100vh solved the problem. 
-* Some reviewers noticed that the navigation bar on mobile mode wouldn't collapse when an item was selected. This wasn't the best user experience as they would have to touch the hamburger menu button again to be able to fully see the site. This was fixed using JavaScript code.
-* It was suggested that I should compress my images for better performance which I did using [this tool](https://tinyjpg.com/).
 
 ### Known bugs/limitations
 
@@ -474,21 +456,19 @@ In this section, you need to convince the assessor that you have conducted enoug
 ## Deployment
 This project was developed using the [Visual Studio Code IDE](https://code.visualstudio.com/), committed to Git and pushed to GitHub. 
 
-To deploy this page to GitHub Pages from its GitHub repository, the following steps were taken:
-
-1. Log into GitHub.
-2. From the list of repositories on the screen, select Alicja-Malinowska/Milestone1.
-3. From the menu items near the top of the page, select Settings.
-4. Scroll down to the GitHub Pages section.
-5. Under Source click the drop-down menu labelled None and select Master Branch
-6. On selecting Master Branch the page is automatically refreshed, the website is now deployed.
-7. Scroll back down to the GitHub Pages section to retrieve the link to the deployed website.
 
 ### How to run this project locally
 
+In order to run this project you will need:
+
+* [Python3](https://www.python.org/download/releases/3.0/) installed
+* [PIP](https://pypi.org/project/pip/) installed
+* [Git](https://git-scm.com/) installed
+* An access to [MongoDB](https://www.mongodb.com/) to store data
+
 To clone this project from GitHub:
 
-1. Follow this link to the Project GitHub repository.
+1. Follow [this link](https://github.com/Alicja-Malinowska/Meal_Planner) to the Project GitHub repository.
 2. Under the repository name, click "Clone or download".
 3. In the Clone with HTTPs section, copy the clone URL for the repository.
 4. In your local IDE open Git Bash.
@@ -496,19 +476,58 @@ To clone this project from GitHub:
 6. Type git clone, and then paste the URL you copied in Step 3.
 
   ```
-  git clone https://github.com/Alicja-Malinowska/Milestone1.git
+  https://github.com/Alicja-Malinowska/Meal_Planner.git
   ```
 7. Press Enter. Your local clone will be created.
 
-More about cloning can be found on this [GitHub Help page](https://help.github.com/en/articles/cloning-a-repository).
+   More about cloning can be found on this [GitHub Help page](https://help.github.com/en/articles/cloning-a-repository).
 
+Next steps:
+
+1. Create a virtual environment so that installations are done only for the project rather than globally. This process will depend on IDE you use. For VS Code intructions can be found on this [Python Enviroments page](https://code.visualstudio.com/docs/python/environments).
+
+2. Use requirements.txt file to install all dependencies.
+
+```
+  pip install -r requirements.txt
+```
+
+3. Create environment variables:
+  * SECRET_KEY - see how to do it in [Flask documentation](https://flask.palletsprojects.com/en/1.1.x/quickstart/)
+  * MONGO_URI to link to your database. It should look like this:
+  
+```
+  mongodb+srv://root:<password>@firstcluster-5gdmy.mongodb.net/test?retryWrites=true&w=majority
+```
+
+4. Make sure that your database is called `meal_planner` and it has two collections `users` and `recipes`.
+
+### Heroku deployment
+
+If you would like to share this app with the world, Heroku platform is one option to do it.
+
+1. Create an account on Heroku and next, create a new app.
+2. Requirements.txt and Procfile files are needed for Heroku deployment, so make sure they exists.
+3. Set config vars in Settings on Heroku. You will need to add there your SECRET_KEY and MONGO_URI. Additionally, add IP with value 0.0.0.0 and PORT with value 500. 
+4. To see deployment options, go to 'Deploy' tab in your project on Heroku.
+5. One of the options is to use [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) - you will need to install it first.
+6. You will need to login into Heroku using terminal
+
+```
+heroku login
+```
+7. After all your changes are added and commited in git deploy your app by pushing it to heroku.
+
+```
+git push heroku master
+```
+8. You can see your app by clicking 'Open app' on Heroku platform.
 
 ## Credits
 
 ### Content
-The text was entirely written by me, both in Polish and English.
 
-Psychotest was a real company that I used to run and it had a website built in WordPress. The website does not exist anymore and I do not have access to it either. I used texts in Polish that I had saved in word files when I had been preparing the content for the website. I changed some content and added some new content. I translated everything to English. The layout of the webiste is different than the WordPress website, although the sections are similar. I no longer have the access to the WordPress page and I do not have any images of the old website, I only rely on my memory of it and I was not attempting to recreate it in terms of layout and design.
+The recipes added in the test account were copied from [Jamie Oliver's website](https://www.jamieoliver.com/recipes/category/course/)
 
 ### Tools used
 
