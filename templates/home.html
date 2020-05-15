@@ -39,14 +39,15 @@
       <a href="{{url_for('show_recipe', recipe_id=recipe._id)}}">
       <div class="card home-card">
         <div class="card-image">
-          <img src="{{ url_for('static', filename = 'images/recipe-images/' + recipe.image)}}">
+          <img src="{{ url_for('static', filename = 'images/recipe-images/' + recipe.image)}}" alt='recipe-image'>
         </div>
         <div class="card-content">
           <span class="card-title truncate">{{ recipe.name }}</span>
         </div>
       </div>
+    </a>
     </div>
-  </a>
+  
  
   {% endfor %}
 </div>
@@ -56,20 +57,20 @@
     <h5 class="center-align">Save and schedule your recipes!</h5>
     <div class="row">
       <div class="card col s12 l4">
-        <img class="responsive-img" src="{{ url_for('static', filename = 'images/home.JPG')}}">
+        <img class="responsive-img" src="{{ url_for('static', filename = 'images/home.JPG')}}" alt='home screenshot'>
       </div>
     
    
       <div class="card col s12 l4">
-        <img class="responsive-img" src="{{ url_for('static', filename = 'images/planner.JPG')}}">
+        <img class="responsive-img" src="{{ url_for('static', filename = 'images/planner.JPG')}}" alt='planner screenshot'>
       </div>
     
    
       <div class="card col s12 l4">
-        <img class="responsive-img" src="{{ url_for('static', filename = 'images/recipes.JPG')}}">
+        <img class="responsive-img" src="{{ url_for('static', filename = 'images/recipes.JPG')}}" alt='recipes screenshot'>
       </div>
     </div>
-    <h5 class="center-align"><a href="{{ url_for('registration') }}">Register</a> or <a href="{{ url_for('login') }}">Login</a>!<h5>
+    <h5 class="center-align"><a href="{{ url_for('registration') }}">Register</a> or <a href="{{ url_for('login') }}">Login</a>!</h5>
   </div>
   {% endif %}
 </div>

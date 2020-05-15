@@ -12,10 +12,14 @@
 </div>
 <div class="row" id="search">
 <div class="col s12 l6 center-align">
-<form action="{{ url_for('search_name')}}">
+<form action="{{ url_for('search_name')}}" method='post'>
+  {{ form.csrf_token() }}
   <div class="input-field col s7">
-  <input type="text" name="recipe-name" id="recipe-name" placeholder="Enter recipe name" required>
-  <label for="recipe-name">Search by recipe name</label>
+    {{ form.name (class="validate", placeholder='Name') }}
+    {% if form.name.errors %}
+    <ul class="errors notes">{% for error in form.name.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+{% endif %}
+  <label for="name">Search by recipe name</label>
 </div>
 <div class="col s5">
   <button type="submit" class="waves-effect waves-light btn">Search</button>

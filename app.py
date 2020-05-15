@@ -4,7 +4,7 @@ from flask_pymongo import PyMongo
 from werkzeug.utils import secure_filename
 from bson.objectid import ObjectId
 from flask_login import LoginManager, UserMixin, login_user, login_required, logout_user, current_user
-from forms import RegistrationForm, LoginForm, AddRecipe
+from forms import RegistrationForm, LoginForm, AddRecipe, SearchName
 from passlib.hash import sha256_crypt
 from models import User
 import datetime
@@ -180,10 +180,11 @@ def jump_to():
 @app.route('/recipes')
 @login_required
 def recipes():
+    form = SearchName()
     recipes = mongo.db.recipes
     all_recipes = recipes.find({'owner': current_user.email})
     tags = get_tags(all_recipes)
-    return render_template('recipes.html', recipes=all_recipes, tags=tags)
+    return render_template('recipes.html', recipes=all_recipes, tags=tags, form=form)
 
 
 
@@ -296,31 +297,36 @@ def del_from_schedule(recipe_id, date, daytime, first_week_day):
     return render_template('planner.html', current_week=current_week, first_week_day=first_week_date, week_recipes=week_recipes)
 
 
-@app.route('/search_name')
+@app.route('/search_name',  methods=['GET','POST'])
 @login_required
 def search_name():
+    form = SearchName()
     recipes = mongo.db.recipes
     all_recipes = recipes.find({'owner': current_user.email})
     tags = get_tags(all_recipes)
-    recipe_name = request.args.get('recipe-name').strip()
-    searched = 'name'
-    if recipes.count_documents({ "name": { '$regex' : recipe_name, '$options': 'i'}, 'owner': current_user.email}) > 0:
-        search_results = recipes.find({ "name": { '$regex' : recipe_name, '$options': 'i'}, 'owner': current_user.email})
-        return render_template('recipes.html', recipes = search_results, tags = tags, searched = searched, recipe_name = recipe_name)
-    else:
-        flash('No results found', "errors")
-        return render_template('recipes.html', recipes = [], tags = tags, searched = searched, recipe_name = recipe_name)
+    if form.validate_on_submit():
+        recipe_name = request.form.get('name').strip()
+        searched = 'name'
+        if recipes.count_documents({ "name": { '$regex' : recipe_name, '$options': 'i'}, 'owner': current_user.email}) > 0:
+            search_results = recipes.find({ "name": { '$regex' : recipe_name, '$options': 'i'}, 'owner': current_user.email})
+            return render_template('recipes.html', recipes = search_results, tags = tags, searched = searched, recipe_name = recipe_name, form=form)
+        else:
+            flash('No results found', "errors")
+            return render_template('recipes.html', recipes = [], tags = tags, searched = searched, recipe_name = recipe_name, form=form)
+    return render_template('recipes.html', recipes=all_recipes, tags=tags, form=form)
 
 @app.route('/search_tag')
 @login_required
 def search_tag():
+    form = SearchName()
     recipes = mongo.db.recipes
     all_recipes = recipes.find({'owner': current_user.email})
     tags = get_tags(all_recipes)
     selected_tag = request.args.get('tag')
     searched = 'tag'
     search_results = recipes.find({ "tags": selected_tag , 'owner': current_user.email})
-    return render_template('recipes.html', recipes = search_results, tags = tags, searched = searched, tag=selected_tag)
+    return render_template('recipes.html', recipes = search_results, tags = tags, searched = searched, tag=selected_tag, form=form)
+    
 
 @app.errorhandler(404)
 def page_not_found(e):

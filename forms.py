@@ -1,6 +1,7 @@
 from wtforms import SubmitField, BooleanField, StringField, PasswordField, IntegerField, TextAreaField, validators
 from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed, FileRequired
+from wtforms_validators import AlphaSpace
 
 
 
@@ -33,7 +34,7 @@ class AddRecipe(FlaskForm):
         if len(field.data) > 0 and not ';' in field.data:
             raise validators.ValidationError("Make sure that your tags are separated with semicolons!")
 
-    name = StringField('Recipe Name', [validators.DataRequired()])
+    name = StringField('Recipe Name', [validators.DataRequired(), AlphaSpace('The name should only consist of letters and spaces')])
     ingredients = TextAreaField('Ingredients')
     servings = StringField('Servings')
     instructions = TextAreaField('Instructions')
@@ -41,3 +42,6 @@ class AddRecipe(FlaskForm):
     image = FileField('Image', validators=[
         FileAllowed(['jpg', 'png'], 'Images only!')
     ])
+
+class SearchName(FlaskForm):
+    name = StringField('Recipe Name', [validators.DataRequired(), AlphaSpace('The name should only consist of letters and spaces')])
