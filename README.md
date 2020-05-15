@@ -52,7 +52,7 @@ The target user group are the people who like to use technological solutions to 
 The page navigation is designed to be intuitive and enable a user to perform required actions quickly and easily. The design offers a user multiple places from where they can view their recipes and perform actions connected to them (delete, edit, schedule, add etc). The overall design is meant to be simple and clear without unnecessary distractions. The colors were chosen using [Material Design colour picking tool](https://material.io/design/color/the-color-system.html#tools-for-picking-colors). The primary colour is #880E4F and the rest were chosen from the primary and complemetary palettes as shown below. 
 
 
-![colour-pallettes-image](https://imgur.com/a/KkYcXEG)
+![colour-pallettes-image](https://i.imgur.com/4VLVjxv.jpg)
 
 ### Wireframes/mockups
 
