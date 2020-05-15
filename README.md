@@ -529,18 +529,12 @@ git push heroku master
 
 The recipes added in the test account were copied from [Jamie Oliver's website](https://www.jamieoliver.com/recipes/category/course/)
 
-### Tools used
-
-* [CSS Gradient](https://cssgradient.io/) - background gradient created using this website
-* [ColorSpace](https://mycolor.space/) - this tool was used to match the colors used on the webiste to the logo
-* [Autoprefixer](https://autoprefixer.github.io/) - used to add prefixes for the code to work on different browsers
-* [Tiny JPG](https://tinyjpg.com/) - used to compress the images to improve performance
 
 ### Media
-* The flag images, truck hero image and cards images come from [Pixabay](https://pixabay.com/)
-* The images from the 'About' section are mine
-* The fonts were imported from [Google Fonts](https://fonts.google.com/)
+* The default recipe image and 404 page image were taken from [Pixabay](https://pixabay.com/)
+* The recipe images for the test account were taken from [Jamie Oliver's website](https://www.jamieoliver.com/recipes/category/course/)
+
 
 ### Acknowledgements
 
-Thanks to my Mentor [Simen Daehlin](https://github.com/Eventyret) for suggesting to make it a one-page scrollable website and for giving me idea to display my contact form as a modal. Thanks to [Anthony O'Brien](https://github.com/auxfuse) for giving me a piece of JavaScript Code to provide better UX with the collapsable navigation bar on mobile devices. 
+Thanks to my Mentor [Simen Daehlin](https://github.com/Eventyret) for giving me an idea how to save images uploaded by users. 
