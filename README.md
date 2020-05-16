@@ -58,9 +58,9 @@ The page navigation is designed to be intuitive and enable a user to perform req
 
 These are the wireframes for some pages:
 
-![planner](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/mockups/planner.png)
-![recipes](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/mockups/recipes.png)
-![recipe view](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/mockups/recipe-view.png)
+![planner](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/wireframes/planner.png)
+![recipes](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/wireframes/recipes.png)
+![recipe view](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/wireframes/recipe-view.png)
 
 All the wireframes can be found in the [wirefreames folder](https://github.com/Alicja-Malinowska/Meal_Planner/tree/master/wireframes).
 
@@ -219,6 +219,7 @@ There are two collections created for the project: user and recipes.
 
 | Key           | Data type     |
 | ------------- |:-------------:|
+| _id           | ObjectId      |
 | first_name    | String        |
 | last_name     | String        |
 | password      | String(hashed)|
@@ -227,15 +228,17 @@ There are two collections created for the project: user and recipes.
 
 | Key           | Data type     |
 | ------------- |:-------------:|
+| _id           | ObjectId      |
 | name          | String        |
-| ingredients   | Array         |
 | servings      | String        |
+| ingredients   | Array         |
 | instructions  | Array         |
 | tags          | Array         |
 | image         | String        |
 | owner         | String        |
 | dates         | Array         |
 
+Please see [schemas folder](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/schemas) for these data models in json format. 
 
 ## Technologies Used
 
