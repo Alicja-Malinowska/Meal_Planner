@@ -54,15 +54,15 @@ The page navigation is designed to be intuitive and enable a user to perform req
 
 ![colour-palettes-image](https://i.imgur.com/4VLVjxv.jpg)
 
-### Wireframes/mockups
+### Wireframes
 
-These are the mockups for some pages:
+These are the wireframes for some pages:
 
 ![planner](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/mockups/planner.png)
 ![recipes](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/mockups/recipes.png)
 ![recipe view](https://github.com/Alicja-Malinowska/Meal_Planner/blob/master/mockups/recipe-view.png)
 
-All the wireframes can be found in the [mockups folder](https://github.com/Alicja-Malinowska/Meal_Planner/tree/master/mockups).
+All the wireframes can be found in the [wirefreames folder](https://github.com/Alicja-Malinowska/Meal_Planner/tree/master/wireframes).
 
 
 ## Features
