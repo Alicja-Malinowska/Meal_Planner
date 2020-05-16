@@ -242,220 +242,35 @@ Please see [schemas folder](https://github.com/Alicja-Malinowska/Meal_Planner/bl
 
 ## Technologies Used
 
-* Python
-* HTML
-* CSS
-* jQuery
-* JavaScript
-* [Flask](https://flask.palletsprojects.com/en/1.1.x/) - to handle http requests and render pages
-* [Flask-login](https://flask-login.readthedocs.io/en/latest/) - to provide login functionality
-* [WTForms](https://wtforms.readthedocs.io/en/2.3.x/) - for forms validation and rendering
-* [MongoDB](https://www.mongodb.com/) - used to store and retrieve data
-* [Flask-PyMongo](https://flask-pymongo.readthedocs.io/en/latest/) - PyMongo provides a way for Python to work with MongoDB and Flask-Pymongo makes it easier to use PyMongo within Flask framework
-* [PassLib](https://passlib.readthedocs.io/en/stable/lib/passlib.hash.html) - used to hash and compare hashed passwords
-* [Materialize](http://archives.materializecss.com/0.100.2/) - used for styling based on Matrial Design 
-* [Visual Studio Code](https://code.visualstudio.com/) - an IDE used to write the code
-* [Git](https://git-scm.com/) - used for version control
+### Languages
 
+  * [Python]https://www.python.org/
+  * HTML
+  * CSS
+  * JavaScript
 
+### Libraries
+
+  * [jQuery](https://jquery.com/)
+  * [Flask](https://flask.palletsprojects.com/en/1.1.x/) - to handle http requests and render pages
+  * [Flask-login](https://flask-login.readthedocs.io/en/latest/) - to provide login functionality
+  * [WTForms](https://wtforms.readthedocs.io/en/2.3.x/) - for forms validation and rendering
+  * [Flask-PyMongo](https://flask-pymongo.readthedocs.io/en/latest/) - PyMongo provides a way for Python to work with MongoDB and Flask-Pymongo makes it easier to use PyMongo within Flask framework
+  * [PassLib](https://passlib.readthedocs.io/en/stable/lib/passlib.hash.html) - used to hash and compare hashed passwords
+  * [Materialize](http://archives.materializecss.com/0.100.2/) - used for styling based on Matrial Design 
+  
+
+### Tools
+  * [Visual Studio Code](https://code.visualstudio.com/) - an IDE used to write the code
+  * [MongoDB](https://www.mongodb.com/) - used to store and retrieve data
+  * [Git](https://git-scm.com/) - used for version control
+  
+
+**Note to assessor**: This project used git branching for development. Although 'no fast forward' (--no-ff) merging was used to make this visible in the history, the branches are still visible on GitHub for easier access. It is best practice, however, to remove merged branches. 
 
 ## Testing
 
-### Automated testing
-
-* [W3 HTML validator](https://validator.w3.org/) was used on all the html files. There were some errors displayed but it seems they all were connected to the usage of the templating language, which the validator does not seem to recognise. There was one misplaced closing tag in home.html and one h5 tag that was supposed to be a closing tag but it was an opening tag - these two were fixed. 
-
-* [W3 CSS validator](https://jigsaw.w3.org/css-validator/) was used to check the CSS file. No errors were found. 
-
-### Manual testing 
-
-#### Features testing
-
-* **Fixed navbar**
-
-  - All the links in the navbar work properly and take a user where it was intended
-  - The navbar is collapsed on mobile devices and the side bar shows when the hamburger menu is clicked
-  - When scrolling down the navbar is visible for user all the time
-  
-
-* **Pages with 'login required'**
-
-  - When Planner or Recipes are clicked on the navbar and a user is not logged in, they are redirected to the login page, and after successful login, back to the selected page
-
-  - When an existing address is typed or pasted (e.g. for a particular recipe) while user is not logged in, they are also redirected to login page and then back to the selected page
-
-* **User-specific content**
-
-  - On Recipes page only recipes that belong the logged in user are displayed
-  - On Home page only recipes planned for the particular day by the logged in user are displayed
-  - If a user tries to use a url of another user's recipe, it will not be displayed
-  - On Planner page a user can only see their recipes scheduled  
-
-##### Home page - no login
-
-
-* **'Register' and 'Login' links**
-
-  - The links work properly and take user to Register and Login pages respectively 
-
-##### Register and Login forms
-
-* **Link to sign in in register form and link to register in sign in form**
-
-  - Both links work properly and take user where they are intended to 
-
-* **Field validation**
-
-  - If required fields are not filled in and user attempts to submt form, the form is not submitted and an error message is displayed informing what user should do
-
-  - If, for whatever reason, the email address is not valid, an error message appears and the form is not submitted
-
-  - If passwords do not match in registration form, an error message appears and the form is not submitted
-
-  - If a user tries to register with an email address that has already been used to register, a message informing about it appears and the for is not submitted
-
-  - If register form validates properly, an account is created and user is able to login with given email address and password
-
-  - If in login form user enters an email address and a password that are not a part of the same user docuement, a message informing that the password or username are wrong appears
-
-  - If there password matched the email address, user is logged in and is redirected to the home page or a page they tried to access before login
-
-
-* **Automatic login**
-
-  - After successful registration a user is automatically logged in and taken to the home page
-
-##### Home page - logged in user
-
-* **Today recipes**
-
-  - Recipes scheduled for current day are displayed
-  - If a user schedules a new recipe fot the current day and goes back to home page, it is displayed in addition to other, earlier scheduled recipes, if any
-
-* **Additional actions when nothing is scheduled**
-
-  - Links are displayed when nothing is scheduled only
-  - Links work and take user where they are intended to
-   
-
-##### Planner
-
-* **Week view**
-
-  - Planner shows a view of the current week, with current day as first day
-  - Planner displayed as table for desktop and as a schedule, one day under another on mobile view
-
-* **Scheduled recipes**
-  
-  - If any recipes were scheduled by user, they appear under correct day and daytime in the planner
-  - When recipe name is cliced in the planner, user is take to that recipe page
-  - When x icon is clicked next to the scheduled recipe, the recipe is removed from the schedule
-
-* **Next and Previous arrows**
-
-  - When 'next' arrow clicked, the planner view changes to the next seven days from current view
-  - When 'previous' arrow clicked, the planner view changes to the previous seven days from current view
-
-* **'Current week' button**
-
- - When 'Current week' button clicked, the planner view goes back to the current week, regardless what view was displayed previously
-
-* **'Custom date' field**
-
-  - When clicked a datepicker appears
-  - When 'Custom date' selected, the view changes to the week with the selected date as the first day
-
-* **Link to Recipes**
-
-  - The link works and takes user to the recipes view
-
-##### Recipes page
-
-* **Add new recipe button**
-
-  - The button work and takes a user to 'add recipe' form
-
-* **Search by name**
-
-  - The search returns all the recipes that incude searched string
-  - The search is case insensitive and ignores trailing spaces
-  - If there are no results matching the searched string, a message informing about it is displayed
-  - If a search string cosists of other characters than spaces or letters, an error message is displayed
-  - If search button is cliked woithout any input, a user is prompted that the field cannot be empty and the form is not submitted
-
-
-* **Search by tag**
-
-  - All the user's tag are displayed as select options in the drop down, and ordered alphabetically
-  - When tag is selected from the drop down, all the recipes that include it as a tag are displayed in a list
-    
-
-* **'Back to all recipes' button**
-
-  - The button is only visible when a search was performed 
-  - When clicked, all the recipes are displayed correctly in a list
-
-* **Recipes collection**
-
-  - All the recipes are displayed correctly for the user
-
-* **'Add to planner' button**
-
-  - Modal is triggered when the button is clicked
-  - If 'schedule' is clicked and either date or datetime (or both) are not selected, the form is not submitted and the user is informed why
-  - When correctly added, a message is displayed that this was added
-  - After addition, the recipe is immediately visible in the planner under chosen date and daytime
-
-* **'Edit' button**
-
-  - The button works correctly and takes user to the edit page
-
-* **'Delete' button**
-
-  - When clicked, a modal asking for confirmation is triggered
-  - When 'Close' clicked within modal, the modal disappears and recipe remains visible
-  - When 'Confirm' clicked within modal, the modal disappears and recipe is deleted from database, so it does not display on recipe page, it is also deleted from planner if it was scheduled
-  - If a user tries to view the recipe using its link, a 404 page will be displayed
-
-##### Add recipe page and Edit recipe page
-
-* **Field validation**
-
- - If name is not provided the form won't submit
- - If there are tag entered but there is no semicolon, the form won't submit and a message will display asking user to make sure they used semicolons to separate their tags
- - If a file is not in png or jpg format, the form is not submitted and an error message appears
- - When the above requirements are satisfied, the form validates succesfully and is submited, user is redirected to the Recipes page and a message appears that the recipe was added
-
-
-
-* **Image upload**
-
-   - If a file is not uploaded, a filename is saved as default.png so that a default image would be added when the recipe is displayed 
-
-#### Browser support
-
-* The website was tested and works properly on: Chrome v77, Chrome v77 on Android, Opera v63, Firefox and Edge
-* There was an issue on IE11 - all the elements that used JavaScript or jQuery did not work (e.g. modal would not be triggered, drop down didn't show options, collapsed navbar would not show etc.). In the console there was a syntax error in one of the functions. It used arrow functions so I changed it to regular functions, however another error came up: "Object doesn't support property or method 'forEach'". I googled it and found a solution on [GitHub](https://github.com/miguelcobain/ember-paper/issues/1058), where people were reporting issues. I used a polyfill that adds forEach to the node list and the issue was resolved. The application works properly on IE11 now.
-* There is a small issue on Safari - the date picker in the modal need to be scrolled because in appeard to be in the modal not on top of it, like it is in other browsers. This problem occured in Chrome while developing but was solverd by setting 'transform: none !important;' for the modal. However, this doesn't seem to have effect in Safari. Unfortunately, I did not have possibility to investigate further as I do not own a device with Safari on it. The issue does not prevent a user to fully utilise the app, but it creats a slightly worse user experience of scheduling a recipe. 
-
-#### Responsive design
-
-* The website was tested using Google Chrome Developer Tools to check how it looks like in case of different width and height by choosing 'Responsive' option and resizing the window. Using Chrom Dev Tools, it was also tested how the website looks on: Galaxy S5, Pixel 2, Pixel 2XL, iPhone 5/6/7/8/X, iPad and iPad Pro. In all these views the website is responsive and shows content properly.
-* The website was also tested on the following devices: Samsung Galaxy A3, Asus laptop 15", Dell laptop 13.3", a 24" monitor. On all of this devices the website is responsive and shows content properly. 
-* On mobiles and tablets the navbar collapses into a 'hamburger menu' and can be expanded to reveal the items by clicking/touching it, on desktop it contains the visisble list of all the items
-* The images on the home page before login are displayed in a row on desktop but one under another on mobile devices
-* Today recipes are displayed 3 in a row in desktop view, two in a row on tablets and 1 in a row on mobile phones
-* Planner is displayed as a table on desktop view and as schedule (one day under another) on mobile devices
-
-
-### Known bugs/limitations
-
-* **Image upload**
-
-  Image upload is an ectra feature in this project, as it is beyond the scope of the module. However, adding images enhances user experience and therefore is fairly important functionality in this application. Ideally, the images would be saved externally, using another server, however for the scope of this project the solution of saving them in a folder within the project itself seemed sufficient. The biggest issue is that there is no size limit when uploading the image, which can cause an overload and break the app. To fix this, I tried to use Flask's MAX_CONTENT_LENGTH builtin configuration value, however this causd another issue. Whenevr a file was above the set limit, the application would crash and the connection was reset, and should return 403 error. However, writing an 403 error handler didn't work and the app would crash anyway. This seems to be a [known issue](https://github.com/pallets/flask/issues/2188?fbclid=IwAR3yls9p6gEIZcY-cF-RzQm4xmIYQ3OrvloA7asQYrdDRmWgPSMHkM2CTyg) and it is said that when deployed, that should no longer be a problem. However, after deploying it to Heroku, the issue persisted. The issue might occur because of the way modern browsers interact with Werkzeug WGSI. In search of solution for this problem I found [this code snipped](https://www.cocept.io/blog/development/flask-file-upload-connection-reset/?fbclid=IwAR1SSM7KVOc12CqCUpsKq4LwKkeLLDhBBG_p2yYwU5k5JPLPqI69uOV3xyA), however it also did not solve the problem. As this seems to be a quite complex issue, I decided not to investigate further, due to time constraints and not having enough experience with such issues. 
-
-  Another issue is that saved images are not deleted when the recipe is deleted or the image is changed while editing the recipe. As mentioned before, image upload is beyond scope of the project, and therefore I decided to focus on the core functionalities more. However, it is worth noticing that this would become a problem if the project would scale up and would be user by many people. 
-
+Please see the separate [testing.md document](https://github.com/Alicja-Malinowska/Meal_Planner/tree/master/testing.md)
 
 ## Deployment
 This project was developed using the [Visual Studio Code IDE](https://code.visualstudio.com/), committed to Git and pushed to GitHub. 
