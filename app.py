@@ -32,7 +32,6 @@ DATE_INST = datetime.date(datetime.MINYEAR, 1, 1)
 TODAY = DATE_INST.today()
 
 
-
 def get_week_recipes(current_week):
     '''makes a call to the database to find all the recipes scheduled in a given week
     takes current_week as an argument, which should be return from get_week function'''
@@ -55,6 +54,19 @@ def get_week_recipes(current_week):
     return week_recipes_data
 
 
+@app.route('/')
+def home():
+    ''' renders home view, gets scheduled recipes from database for logged in user'''
+    recipes = mongo.db.recipes
+    today = TODAY.strftime("%Y-%m-%d")
+    today_recipes = []
+    message = ""
+    if current_user.is_authenticated:
+        today_recipes = recipes.find({'dates': {'$elemMatch': {'$elemMatch': {
+                                     '$in': [today]}}}, 'owner': current_user.email})
+        if recipes.count_documents({'dates': {'$elemMatch': {'$elemMatch': {'$in': [today]}}}, 'owner': current_user.email}) == 0:
+            message = "You have nothing scheduled today."
+    return render_template('pages/home.html', today_recipes=today_recipes, message=message, title="home")
 
 @app.route('/registration', methods=['GET', 'POST'])
 def registration():
@@ -66,7 +78,7 @@ def registration():
         if users.count_documents({"email_address": profile["email_address"]}) > 0:
             flash(
                 "An account has already been registered for this email address", "errors")
-            return render_template('pages/registration.html', form=form)
+            return render_template('pages/registration.html', form=form, title="register")
         else:
             profile["confirm"] = sha256_crypt.hash(profile["confirm"])
             profile["password"] = sha256_crypt.hash(profile["password"])
@@ -76,7 +88,7 @@ def registration():
             flash("All done! You're registered!", "success")
             return redirect(url_for('home'))
 
-    return render_template('pages/registration.html', form=form)
+    return render_template('pages/registration.html', form=form, title="register")
 
 
 @app.route('/login', methods=['GET', 'POST'])
@@ -104,27 +116,13 @@ def logout():
     return redirect(url_for('home'))
 
 
-@app.route('/')
-def home():
-    ''' renders home view, gets scheduled recipes from database for logged in user'''
-    recipes = mongo.db.recipes
-    today = TODAY.strftime("%Y-%m-%d")
-    today_recipes = []
-    message = ""
-    if current_user.is_authenticated:
-        today_recipes = recipes.find({'dates': {'$elemMatch': {'$elemMatch': {
-                                     '$in': [today]}}}, 'owner': current_user.email})
-        if recipes.count_documents({'dates': {'$elemMatch': {'$elemMatch': {'$in': [today]}}}, 'owner': current_user.email}) == 0:
-            message = "You have nothing scheduled today."
-    return render_template('pages/home.html', today_recipes=today_recipes, message=message)
-
 
 @app.route('/planner')
 @login_required
 def planner():
     current_week = get_week(TODAY)
     week_recipes = get_week_recipes(current_week)
-    return render_template('pages/planner.html', current_week=current_week, first_week_day=TODAY, week_recipes=week_recipes)
+    return render_template('pages/planner.html', current_week=current_week, first_week_day=TODAY, week_recipes=week_recipes, title="planner")
 
 
 @app.route('/planner/next', methods=['GET', 'POST'])
@@ -138,7 +136,7 @@ def next():
     current_week = get_week(date_obj + datetime.timedelta(weeks=1))
     first_week_day = str(current_week[0][0])
     week_recipes = get_week_recipes(current_week)
-    return render_template('pages/planner.html', current_week=current_week, first_week_day=first_week_day, week_recipes=week_recipes)
+    return render_template('pages/planner.html', current_week=current_week, first_week_day=first_week_day, week_recipes=week_recipes, title="planner")
 
 
 @app.route('/planner/previous', methods=['GET', 'POST'])
@@ -152,7 +150,7 @@ def previous():
     current_week = get_week(date_obj - datetime.timedelta(weeks=1))
     first_week_day = str(current_week[0][0])
     week_recipes = get_week_recipes(current_week)
-    return render_template('pages/planner.html', current_week=current_week, first_week_day=first_week_day, week_recipes=week_recipes)
+    return render_template('pages/planner.html', current_week=current_week, first_week_day=first_week_day, week_recipes=week_recipes, title="planner")
 
 
 @app.route('/planner/jump_to')
@@ -165,7 +163,7 @@ def jump_to():
         int(date_list[0]), int(date_list[1]), int(date_list[2]))
     current_week = get_week(first_week_date)
     week_recipes = get_week_recipes(current_week)
-    return render_template('pages/planner.html', current_week=current_week, first_week_day=first_week_date, week_recipes=week_recipes)
+    return render_template('pages/planner.html', current_week=current_week, first_week_day=first_week_date, week_recipes=week_recipes, title="planner")
 
 
 @app.route('/recipes')
@@ -176,7 +174,7 @@ def recipes():
     recipes = mongo.db.recipes
     all_recipes = recipes.find({'owner': current_user.email})
     tags = get_tags(all_recipes)
-    return render_template('pages/recipes.html', recipes=all_recipes, tags=tags, form=form)
+    return render_template('pages/recipes.html', recipes=all_recipes, tags=tags, form=form, title="recipes")
 
 
 @app.route('/recipes/add', methods=['POST', 'GET'])
@@ -213,7 +211,7 @@ def add_recipe():
         recipes.insert_one(new_recipe)
         flash('Recipe added!', 'success')
         return redirect(url_for('recipes'))
-    return render_template('pages/add-recipe.html', form=form)
+    return render_template('pages/add-recipe.html', form=form, title="add recipe")
 
 
 @app.route('/show_recipe/<recipe_id>')
@@ -227,7 +225,7 @@ def show_recipe(recipe_id):
             {'_id': ObjectId(recipe_id), 'owner': current_user.email})
     else:
         return abort(404)
-    return render_template('pages/selected-recipe.html', this_recipe=recipe)
+    return render_template('pages/selected-recipe.html', this_recipe=recipe, title="recipe")
 
 
 @app.route('/recipes/delete', methods=['POST'])
@@ -275,7 +273,7 @@ def edit_recipe(recipe_id):
         })
         flash('Changes saved!', 'success')
         return redirect(url_for('recipes'))
-    return render_template('pages/edit-recipe.html', the_recipe=the_recipe, form=form)
+    return render_template('pages/edit-recipe.html', the_recipe=the_recipe, form=form, title="edit recipe")
 
 
 @app.route('/schedule', methods=['POST'])
@@ -304,7 +302,7 @@ def del_from_schedule(recipe_id, date, daytime, first_week_day):
         int(date_list[0]), int(date_list[1]), int(date_list[2]))
     current_week = get_week(first_week_date)
     week_recipes = get_week_recipes(current_week)
-    return render_template('pages/planner.html', current_week=current_week, first_week_day=first_week_date, week_recipes=week_recipes)
+    return render_template('pages/planner.html', current_week=current_week, first_week_day=first_week_date, week_recipes=week_recipes, title="planner")
 
 
 @app.route('/search_name',  methods=['GET', 'POST'])
@@ -321,11 +319,11 @@ def search_name():
         if recipes.count_documents({"name": {'$regex': recipe_name, '$options': 'i'}, 'owner': current_user.email}) > 0:
             search_results = recipes.find(
                 {"name": {'$regex': recipe_name, '$options': 'i'}, 'owner': current_user.email})
-            return render_template('pages/recipes.html', recipes=search_results, tags=tags, searched=searched, recipe_name=recipe_name, form=form)
+            return render_template('pages/recipes.html', recipes=search_results, tags=tags, searched=searched, recipe_name=recipe_name, form=form, title="recipes")
         else:
             flash('No results found', "errors")
-            return render_template('pages/recipes.html', recipes=[], tags=tags, searched=searched, recipe_name=recipe_name, form=form)
-    return render_template('pages/recipes.html', recipes=all_recipes, tags=tags, form=form)
+            return render_template('pages/recipes.html', recipes=[], tags=tags, searched=searched, recipe_name=recipe_name, form=form, title="recipes")
+    return render_template('pages/recipes.html', recipes=all_recipes, tags=tags, form=form, title="recipes")
 
 
 @app.route('/search_tag')
@@ -340,12 +338,12 @@ def search_tag():
     searched = 'tag'
     search_results = recipes.find(
         {"tags": selected_tag, 'owner': current_user.email})
-    return render_template('pages/recipes.html', recipes=search_results, tags=tags, searched=searched, tag=selected_tag, form=form)
+    return render_template('pages/recipes.html', recipes=search_results, tags=tags, searched=searched, tag=selected_tag, form=form, title="recipes")
 
 
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('pages/404.html'), 404
+    return render_template('pages/404.html', title="Error"), 404
 
 
 # view to be loaded if user is not logged in and login is required to access a page
