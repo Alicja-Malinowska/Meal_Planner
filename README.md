@@ -290,7 +290,7 @@ To clone this project from GitHub:
 1. Follow [this link](https://github.com/Alicja-Malinowska/Meal_Planner) to the Project GitHub repository.
 2. Under the repository name, click "Clone or download".
 3. In the Clone with HTTPs section, copy the clone URL for the repository.
-4. In your local IDE open Git Bash.
+4. In your local IDE open terminal.
 5. Change the current working directory to the location where you want the cloned directory to be made.
 6. Type git clone, and then paste the URL you copied in Step 3.
 
@@ -326,7 +326,12 @@ Next steps:
 If you would like to share this app with the world, Heroku platform is one option to do it.
 
 1. Create an account on Heroku and next, create a new app.
-2. Requirements.txt and Procfile files are needed for Heroku deployment, so make sure they exists.
+2. Requirements.txt and Procfile files are needed for Heroku deployment, and they are included in the project files. If you installed any additional dependencies make sure to update the requirements.txt file:
+
+```
+pip freeze > requirements.txt
+```
+
 3. Set config vars in Settings on Heroku. You will need to add there your SECRET_KEY and MONGO_URI. Additionally, add IP with value 0.0.0.0 and PORT with value 500. 
 4. To see deployment options, go to 'Deploy' tab in your project on Heroku.
 5. One of the options is to use [Heroku CLI](https://devcenter.heroku.com/articles/heroku-cli) - you will need to install it first.
