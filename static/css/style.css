@@ -2,19 +2,6 @@ h1 {
     font-size: 2.5rem;
 }
 
-nav .brand-logo {
-    font-size: 4vw;
-    padding: 0 10px;
-}
-
-#planner {
-    width: 90%;
-    margin: auto;
-    height: 60vh;
-    table-layout: fixed;
-    margin-bottom: 1.5rem;
-}
-
 td {
     border: solid .5px #d0d0d0;
 }
@@ -32,6 +19,20 @@ thead th {
 tbody th {
     border-bottom: solid .5px #d0d0d0;
 }
+
+nav .brand-logo {
+    font-size: 4vw;
+    padding: 0 10px;
+}
+
+#planner {
+    width: 90%;
+    margin: auto;
+    height: 60vh;
+    table-layout: fixed;
+    margin-bottom: 1.5rem;
+}
+
 
 .scheduled-recipes>.chip {
     background-color: #ffffff;
