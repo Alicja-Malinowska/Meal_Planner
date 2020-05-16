@@ -1,0 +1,12 @@
+[{
+    "_id": "<ObjectId>",
+    "name": "<string>",
+    "servings": "<string>",
+    "ingredients": "<array>",
+    "instructions": "<array>",
+    "tags": "<array>",
+    "image": "<string>",
+    "owner": "<string>",
+    "dates": "<array>"
+    
+}]
