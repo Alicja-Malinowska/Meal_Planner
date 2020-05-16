@@ -15,7 +15,8 @@ from urllib.parse import urlparse, urljoin
 app = Flask(__name__)
 
 MONGODB_URI = os.getenv("MONGO_URI").replace('"', '')
-app.secret_key = os.getenv("SECRET_KEY")
+#app.secret_key = os.getenv("SECRET_KEY")
+app.secret_key = b'K/\x81\xc6\xa0R%k[mSm\xfe\xc6\x8a\xa7'
 app.config["MONGO_URI"] = MONGODB_URI
 
 
@@ -396,6 +397,7 @@ def load_user(email):
         return None
     return User(user['email_address'], user['first_name'])
 
+deb = True
 
 app.run(host=os.getenv("IP", "0.0.0.0"),
-        port=int(os.getenv("PORT", "5000")))
+        port=int(os.getenv("PORT", "5000")), debug=deb)
